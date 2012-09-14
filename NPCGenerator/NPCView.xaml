@@ -16,6 +16,7 @@
         
         <ListBox Name="GeneratedNames_ListBox" SelectionChanged="NamesSelectionChanged" HorizontalAlignment="Left" Height="198" Margin="782,16,0,0" VerticalAlignment="Top" Width="234"/>
         <Button Name="Generate_Button" Content="Generate" HorizontalAlignment="Left" Margin="10,193,0,0" VerticalAlignment="Top" Width="75" Click="Generate_Button_Click"/>
+        <Button Name="Save_NPC_Button" Content="Save" HorizontalAlignment="Left" Margin="10,220,0,0" VerticalAlignment="Top" Width="75" Click="Save_NPC_Button_Click"/>
 
 
     </Grid>

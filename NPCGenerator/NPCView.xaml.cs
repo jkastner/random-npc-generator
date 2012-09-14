@@ -68,5 +68,10 @@ namespace NPCGenerator
                 _npcViewModel.CurNPC.Traits[0]  = new TraitLabelValue("Name", GeneratedNames_ListBox.SelectedItem.ToString());
         }
 
+        private void Save_NPC_Button_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show(_npcViewModel.CurNPC.ToString());
+        }
+
     }
 }

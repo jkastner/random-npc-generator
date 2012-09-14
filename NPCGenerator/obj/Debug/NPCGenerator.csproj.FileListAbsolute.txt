@@ -11,3 +11,16 @@ c:\users\kastner\documents\visual studio 2012\Projects\NPCGenerator\NPCGenerator
 c:\users\kastner\documents\visual studio 2012\Projects\NPCGenerator\NPCGenerator\obj\Debug\NPCGenerator.pdb
 c:\users\kastner\documents\visual studio 2012\Projects\NPCGenerator\NPCGenerator\obj\Debug\NPCView.baml
 c:\users\kastner\documents\visual studio 2012\Projects\NPCGenerator\NPCGenerator\obj\Debug\NPCView.g.cs
+C:\Users\johnathan\Documents\Visual Studio 2012\Projects\CharGen\NPCGenerator\bin\Debug\NPCGenerator.exe.config
+C:\Users\johnathan\Documents\Visual Studio 2012\Projects\CharGen\NPCGenerator\obj\Debug\NPCGenerator.exe
+C:\Users\johnathan\Documents\Visual Studio 2012\Projects\CharGen\NPCGenerator\obj\Debug\NPCGenerator.pdb
+C:\Users\johnathan\Documents\Visual Studio 2012\Projects\CharGen\NPCGenerator\bin\Debug\NPCGenerator.exe
+C:\Users\johnathan\Documents\Visual Studio 2012\Projects\CharGen\NPCGenerator\bin\Debug\NPCGenerator.pdb
+C:\Users\johnathan\Documents\Visual Studio 2012\Projects\CharGen\NPCGenerator\obj\Debug\NPCGenerator.csprojResolveAssemblyReference.cache
+C:\Users\johnathan\Documents\Visual Studio 2012\Projects\CharGen\NPCGenerator\obj\Debug\NPCView.baml
+C:\Users\johnathan\Documents\Visual Studio 2012\Projects\CharGen\NPCGenerator\obj\Debug\NPCView.g.cs
+C:\Users\johnathan\Documents\Visual Studio 2012\Projects\CharGen\NPCGenerator\obj\Debug\App.g.cs
+C:\Users\johnathan\Documents\Visual Studio 2012\Projects\CharGen\NPCGenerator\obj\Debug\NPCGenerator_MarkupCompile.cache
+C:\Users\johnathan\Documents\Visual Studio 2012\Projects\CharGen\NPCGenerator\obj\Debug\NPCGenerator.g.resources
+C:\Users\johnathan\Documents\Visual Studio 2012\Projects\CharGen\NPCGenerator\obj\Debug\NPCGenerator.Properties.Resources.resources
+C:\Users\johnathan\Documents\Visual Studio 2012\Projects\CharGen\NPCGenerator\obj\Debug\NPCGenerator.csproj.GenerateResource.Cache
