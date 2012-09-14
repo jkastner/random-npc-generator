@@ -1,0 +1,5 @@
+None	20
+Low	40
+Medium	8
+High	5
+Very High	2

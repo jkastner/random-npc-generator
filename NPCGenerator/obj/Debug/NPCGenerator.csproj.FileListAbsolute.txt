@@ -1,0 +1,13 @@
+c:\users\kastner\documents\visual studio 2012\Projects\NPCGenerator\NPCGenerator\bin\Debug\NPCGenerator.exe.config
+c:\users\kastner\documents\visual studio 2012\Projects\NPCGenerator\NPCGenerator\obj\Debug\NPCGenerator.csprojResolveAssemblyReference.cache
+c:\users\kastner\documents\visual studio 2012\Projects\NPCGenerator\NPCGenerator\obj\Debug\App.g.cs
+c:\users\kastner\documents\visual studio 2012\Projects\NPCGenerator\NPCGenerator\obj\Debug\NPCGenerator_MarkupCompile.cache
+c:\users\kastner\documents\visual studio 2012\Projects\NPCGenerator\NPCGenerator\obj\Debug\NPCGenerator.g.resources
+c:\users\kastner\documents\visual studio 2012\Projects\NPCGenerator\NPCGenerator\obj\Debug\NPCGenerator.Properties.Resources.resources
+c:\users\kastner\documents\visual studio 2012\Projects\NPCGenerator\NPCGenerator\obj\Debug\NPCGenerator.csproj.GenerateResource.Cache
+c:\users\kastner\documents\visual studio 2012\Projects\NPCGenerator\NPCGenerator\bin\Debug\NPCGenerator.exe
+c:\users\kastner\documents\visual studio 2012\Projects\NPCGenerator\NPCGenerator\bin\Debug\NPCGenerator.pdb
+c:\users\kastner\documents\visual studio 2012\Projects\NPCGenerator\NPCGenerator\obj\Debug\NPCGenerator.exe
+c:\users\kastner\documents\visual studio 2012\Projects\NPCGenerator\NPCGenerator\obj\Debug\NPCGenerator.pdb
+c:\users\kastner\documents\visual studio 2012\Projects\NPCGenerator\NPCGenerator\obj\Debug\NPCView.baml
+c:\users\kastner\documents\visual studio 2012\Projects\NPCGenerator\NPCGenerator\obj\Debug\NPCView.g.cs

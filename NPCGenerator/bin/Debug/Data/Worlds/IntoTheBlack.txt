@@ -1,0 +1,23 @@
+Random Name Distribution:
+English	150
+Chinese	50
+Indian	30
+Random	15
+
+Trait Files:
+Adjective.txt
+Affiliation.txt
+Age.txt
+Derangements.txt
+Location.txt
+Morality - Strange Aeons.txt
+Rank (Status).txt
+Status.txt
+Vice.txt
+Virtue.txt
+Age.txt
+
+
+Output File:
+
+Output Order:

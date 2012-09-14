@@ -1,0 +1,9 @@
+Human	80
+Elf	8
+Lizardfolk	8
+Dwarf	1
+Orc	2
+Spellwarped	20
+Dragon Blooded	1
+Spirit Touched	5
+Spirit Creature	1

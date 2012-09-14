@@ -1,0 +1,44 @@
+No Arcana	39
+Virtue - Adaptable - Cancel effects of Surprise on self.	1
+Virtue - Altruistic - Reroll a failed test you attempted for helping someone else. Only once per test.	1
+Virtue - Comforting - Cancel effects of one level of Fear on party until end of Scene.	1
+Virtue - Commanding - Gain a Fear Rating of 1 for one Scene.	1
+Virtue - Courageous - Reflect the effects of Fear back from yourself to one of your opponents.	1
+Virtue - Creative - Get a hint/idea from the GM. Intended for beginner players.	1
+Virtue - Exemplary - Allow the rest of your group to use one of your Knack Ranks in a shared activity.	1
+Virtue - Focused - Transfer one Rank from one Trait to another for duration of Scene. Once per Scene.	1
+Virtue - Fortunate - Reroll any failed test whose TN is 20 or less. Once per test.	1
+Virtue - Friendly - Gain a Connection at some point within Scene. (Cost 2 Drama Dice)	1
+Virtue - Insightful - Determine which Arcana another Hero or NPC possesses.	1
+Virtue - Inspirational - 1 kept die to any other Hero’s action.	1
+Virtue - Intuitive - Get a hint/information from the GM. (Activation is 1 XP. Activated only by GM. Get 2 XP per adventure)	1
+Virtue - Passionate - Double the number of kept dice for any one Action when saving life of loved one or friend.	1
+Virtue - Perceptive - Automatically succeed any Perception check	1
+Virtue - Perspicacious - Predict what a Villain or Henchmen’s next Action will be.	1
+Virtue - Propitious - Lucky escape from current Scene. Affects whole party. Permanently reduces Drama by one.	1
+Virtue - Self-controlled - Cause any use of Repartee system against you to automatically fail.	1
+Virtue - Uncanny - Receive warning just before the next time your GM springs an awful surprise on you.	1
+Virtue - Victorious - Automatically score a Dramatic Wound. Use after hitting, but prior to Damage roll.	1
+Virtue - Willful - Prevent NPC’s from using Drama dice when they are facing use in combat until end of Scene.	1
+Virtue - Worldly - You have one Rank in any Knack you do not have a Rank in until end of Scene.	1
+Hubris - Ambitious - You chase after power even if it’s risky.	1
+Hubris - Arrogant - You show contempt or disdain for someone else.	1
+Hubris - Cowardly - You avoid or escape from doing something dangerous.	1
+Hubris - Envious - You covet something belonging to someone else and should attempt to get it.	1
+Hubris - Greedy - You t ry to get as much money as possible when divvying up loot, getting a bribe, etc.	1
+Hubris - Hedonistic - You relax your guard and have a good time.	1
+Hubris - Hot-headed - You fly off the handle and lose your temper.	1
+Hubris - Inattentive - You fail a Perception check, or get a –2 dice penalty to a Surprise check.	1
+Hubris - Indecisive - Discard an Action die from Initiative Pool during a time-sensitive moment.	1
+Hubris - Judgmental - You jump to conclusions and form an unsubstantiated opinion of someone you’ve just met.	1
+Hubris - Lecherous - You give in to temptation.	1
+Hubris - Loyal - You go back for a fallen comrade, or avoid leaving their side in the first place.	1
+Hubris - Misfortunate - Reroll a successful test whose TN was 25 or higher. Cannot be used more than once per test.	1
+Hubris - Overconfident - You don’t have any doubts about your capabilities.	1
+Hubris - Overzealous - You strongly defend one or your opinions, no matter how inappropriate the time and place.	1
+Hubris - Proud - You refuse an offer of aid.	1
+Hubris - Rash - You investigate something unusual even if it looks dangerous.	1
+Hubris - Reckless - You ignore any nagging feelings of worry or hesitation when confronted with danger.	1
+Hubris - Righteous - You don’t have any doubts about the moral justifiability of your actions.	1
+Hubris - Star-crossed - You are shot with Cupid’s arrow…again.	1
+Hubris - Stubborn - You are prevented from changing your mind.	1

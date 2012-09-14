@@ -1,0 +1,34 @@
+Random Name Distribution:
+English	350
+English	5
+Spanish	15
+English	60
+Random	5
+Japanese	15
+Random	5
+Native American	60
+Hawaiian	1
+
+
+
+Trait Files:
+Adjective.txt
+Affiliation.txt
+Age.txt
+Dark Affiliation.txt
+Derangements.txt
+Location.txt
+Morality - Strange Aeons.txt
+Rank (Status).txt
+Status.txt
+Vice.txt
+Virtue.txt
+
+
+
+Output File:
+Strange Aeons Created.txt
+
+
+Output Order:
+Affiliation	Player Name	Gender	Location	Age	Ethnicity	Status	Rank (Status)	Title	Full Flavor Text	Area of Influence	Favors	GM Only info	Adjective	Secret Affiliation	Rank – Secret Stasuses	Morality	Vice	Virtue	Derangements	Flaws
