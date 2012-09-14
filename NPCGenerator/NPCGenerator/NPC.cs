@@ -9,7 +9,7 @@ namespace NPCGenerator
 {
     class NPC
     {
-        private ObservableCollection<DataPair> _traits = new ObservableCollection<DataPair>();
+        private ObservableCollection<TraitLabelValue> _traits = new ObservableCollection<TraitLabelValue>();
 
         public NPC():
             this("Placeholder")
@@ -28,7 +28,7 @@ namespace NPCGenerator
             AddTrait(p1, p2);
         }
 
-        public ObservableCollection<DataPair> Traits
+        public ObservableCollection<TraitLabelValue> Traits
         {
             get { return _traits; }
             set { _traits = value; }
@@ -41,7 +41,7 @@ namespace NPCGenerator
 
         public void AddTrait(String label, String value)
         {
-            Traits.Add(new DataPair(label, value));
+            Traits.Add(new TraitLabelValue(label, value));
         }
 
     }

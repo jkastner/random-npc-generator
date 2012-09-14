@@ -6,15 +6,18 @@ using System.Threading.Tasks;
 
 namespace NPCGenerator
 {
-    class DataPair
+    /// <summary>
+    /// Semi-tuple. Tuple values are readonly in the data grid.
+    /// </summary>
+    class TraitLabelValue
     {
         private String _label;
+
         public String Label
         {
             get { return _label; }
             set { _label = value; }
         }
-
         private String _value;
 
         public String Value
@@ -23,24 +26,10 @@ namespace NPCGenerator
             set { _value = value; }
         }
 
-        public DataPair(string label, string value)
+        public TraitLabelValue(string label, string value)
         {
             this.Label = label;
             this.Value = value;
-        }
-        public override string ToString()
-        {
-            return Label + " - " + Value;
-        }
-
-        public override bool Equals(object obj)
-        {
-            DataPair other = obj as DataPair;
-            if(other==null)
-                return false;
-            if (other.Label.Equals(this.Label) && other.Value.Equals(this.Value))
-                return true;
-            return false;
         }
     }
 }

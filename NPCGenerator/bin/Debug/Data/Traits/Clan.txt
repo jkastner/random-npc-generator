@@ -1,5 +1,5 @@
-Julii
-Ventrue
+Julii		Humanity,20
+Ventrue		Derangements,20
 Daeva
 Gangrel
 Mekhet

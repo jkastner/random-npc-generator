@@ -38,17 +38,12 @@ namespace NPCGenerator
                 PossibleNameEthnicities_ListBox.ItemsSource = _npcViewModel.NameEthnicities;
                 PossibleNameEthnicities_ListBox.SelectedIndex = 0;
                 GeneratedNames_ListBox.ItemsSource = _npcViewModel.GeneratedRandomNames;
-                NPC cur = NPCList_ListBox.SelectedItem as NPC;
+                Produced_Traits_TempBox.ItemsSource = _npcViewModel.tempTraits;
             }
             catch (Exception e)
             {
-                MessageBox.Show("Error - "+e.Message);
+                MessageBox.Show("Error - " + e.Message);
             }
-        }
-
-        private void Button_Click_1(object sender, RoutedEventArgs e)
-        {
-            MessageBox.Show(_npcViewModel.CurNPC.Traits[1].Value);
         }
 
         void NPCList_SelectionChanged(object sender, SelectionChangedEventArgs args)
@@ -62,8 +57,15 @@ namespace NPCGenerator
             ComboBoxItem typeItem = (ComboBoxItem)Gender.SelectedItem;
             String gender = typeItem.Content.ToString();
             String ethnicity = PossibleNameEthnicities_ListBox.SelectedItem.ToString();
-            _npcViewModel.GenerateNPC(gender, ethnicity); 
+            SingleNPC_DataGrid.ItemsSource = _npcViewModel.GenerateNPC(gender, ethnicity).Traits; 
 
+        }
+
+        private void NamesSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            //New to trigger the datagrid to change.
+            if(GeneratedNames_ListBox.SelectedItem!=null)
+                _npcViewModel.CurNPC.Traits[0]  = new TraitLabelValue("Name", GeneratedNames_ListBox.SelectedItem.ToString());
         }
 
     }

@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace NPCGenerator
 {
@@ -21,6 +23,8 @@ namespace NPCGenerator
 
         string _firstNameFile = @"Data\Names\All First Names.txt";
         string _lastNameFile = @"Data\Names\All Last Names.txt";
+        string _worldDir =  @"Data\Worlds";
+        string _traitDir = @"Data\Traits";
         string _error = "";
 
 
@@ -50,18 +54,114 @@ namespace NPCGenerator
         
         public NPCViewModel()
         {
-            NPC bob = new NPC("Bob");
-            NPC sam = new NPC("Sam");
-            NPC terri = new NPC("Terri");
-            
-            bob.AddTrait("Age", "21");
-            sam.AddTrait("Age", "22");
-            terri.AddTrait("Age", "23");
-            NPCs.Add(bob);
-            NPCs.Add(sam);
-            NPCs.Add(terri);
+            ProcessTraitFiles();
+            ProcessWorldFiles();
             ReadNameFile();
         }
+
+        private void ProcessTraitFiles()
+        {
+            List<FileInfo> AllTraitFiles = GatherFiles(new DirectoryInfo(_traitDir)).ToList();
+            ReadTraitFiles(AllTraitFiles);
+
+        }
+
+        public ObservableCollection<String> tempTraits = new ObservableCollection<string>();
+
+
+        private Dictionary<String, BroadTrait> _allTraits = new Dictionary<string, BroadTrait>();
+        private void ReadTraitFiles(List<FileInfo> AllTraitFiles)
+        {
+            foreach (FileInfo curFile in AllTraitFiles)
+            {
+                String traitName = curFile.Name.Split('.')[0].Trim();
+                BroadTrait newTrait = new BroadTrait(traitName);
+                _allTraits.Add(traitName, newTrait);
+                ReadTraitFile(newTrait, curFile);
+            }
+        }
+
+        private void ReadTraitFile(BroadTrait newTrait, FileInfo curFile)
+        {
+            string[] lines = System.IO.File.ReadAllLines(curFile.FullName);
+            int maxTraitWeight = 0;
+            Dictionary<String, int> linkedValues = new Dictionary<string, int>();
+            foreach (String theLine in lines)
+            {
+                String line = theLine.Trim();
+                //Skip blank lines
+                if(String.IsNullOrWhiteSpace(line))
+                {
+                    continue;
+                }
+                //# is comment mark
+                if (line[0].Equals('#'))
+                    continue;
+
+                string[] splitLine = line.Split('\t');
+                int traitWeight, currentTableWeight;
+                String traitValue = splitLine[0];
+                //Is a trait and weight
+                if (splitLine.Length >= 2)
+                {
+                    if(String.IsNullOrWhiteSpace(splitLine[1]))
+                        traitWeight = 1;
+                    else
+                        traitWeight = Int32.Parse(splitLine[1]);
+                }
+                //Just trait
+                else
+                    traitWeight = 1;
+                currentTableWeight = traitWeight + maxTraitWeight;
+                maxTraitWeight += traitWeight;
+
+                //Trait has a linked trait
+                if (splitLine.Length >= 3)
+                {
+                    //Ventrue   1
+                    for (int curAffectedIndex = 2; curAffectedIndex < splitLine.Length; curAffectedIndex++)
+                    {
+                        if(String.IsNullOrWhiteSpace(splitLine[curAffectedIndex]))
+                            continue;
+                        //Ventrue		Derangements,20 Status,10
+                        String [] curLinked = splitLine[curAffectedIndex].Split(',');
+                        linkedValues.Add(curLinked[0].Trim(), Int32.Parse(curLinked[1]));
+                    }
+                }
+                newTrait.AddValue(traitValue, currentTableWeight, linkedValues);
+            }
+            newTrait.MaxWeight = maxTraitWeight;
+        }
+        void ProcessWorldFiles()
+        {
+            List<FileInfo> AllWorldFiles = GatherFiles(new DirectoryInfo(_worldDir)).ToList();
+            ReadWorldFiles(AllWorldFiles);
+        }
+
+        private IEnumerable<FileInfo> GatherFiles(DirectoryInfo directoryInfo)
+        {
+            System.IO.FileInfo[] files = null;
+            System.IO.DirectoryInfo[] subDirs = null;
+            files = directoryInfo.GetFiles("*.*");
+            if (files != null)
+            {
+                foreach (System.IO.FileInfo fi in files)
+                {
+                    yield return fi;
+                }
+                subDirs = directoryInfo.GetDirectories();
+                foreach (System.IO.DirectoryInfo dirInfo in subDirs)
+                {
+                    GatherFiles(dirInfo);
+                }
+            }
+        }
+
+        private void ReadWorldFiles(List<FileInfo> AllWorldFiles)
+        {
+
+        }
+
 
         private void ReadNameFile()
         {
@@ -113,22 +213,43 @@ namespace NPCGenerator
 
 
 
-        internal void GenerateNPC(string gender, string ethnicity)
+        internal NPC GenerateNPC(string gender, string ethnicity)
         {
             _error = "";
             GeneratedRandomNames.Clear();
-            
+            MakeRandomNames(ref gender, ref ethnicity);
             NameList matchingList = _names[ethnicity];
             if (!matchingList.FirstNames.ContainsKey(gender))
             {
                 _error = "No gender match for ethnicity - " + ethnicity;
-                return;
+                return _curNPC;
             }
-            MakeRandomNames(gender, ethnicity);
-
+            NPC newNPC = new NPC();
+            PopulateRandomTraits(newNPC);
+            _curNPC = newNPC;
+            return newNPC;
         }
 
-        private void MakeRandomNames(string gender, string ethnicity)
+        private void PopulateRandomTraits(NPC newNPC)
+        {
+            tempTraits.Clear();
+            foreach (KeyValuePair<String, BroadTrait> curPair in _allTraits)
+            {
+                String traitLabel = curPair.Key;
+                int rolled = RandomValue(1,curPair.Value.MaxWeight+1);
+                curPair.Value.TraitValues.Sort();
+                foreach (SingleTraitValue curSingleTrait in curPair.Value.TraitValues)
+                {
+                    if (rolled <= curSingleTrait.TraitWeight)
+                    {
+                        newNPC.AddTrait(traitLabel, curSingleTrait.TraitValue);
+                        break;
+                    }
+                }
+            }
+        }
+
+        private void MakeRandomNames(ref string gender, ref string ethnicity)
         {
             FixRandom(ref gender, ref ethnicity);
             List<String> possibleFirstNames = new List<String>(_names[ethnicity].FirstNames[gender]);
