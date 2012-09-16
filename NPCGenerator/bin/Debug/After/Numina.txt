@@ -1,0 +1,255 @@
+Abduct (R) - drag human into shadow. 1
+Magic 162
+Magic 163
+Magic 164
+Magic 165
+Magic 166
+Magic 167
+Magic 168
+Magic 169
+Magic 170
+Magic 171
+Magic 172
+Magic 173
+Magnetic Control 174
+Magic 161
+Matter-Eater 175
+Mental Duplication 177
+Microwave Control 178
+Mimic Trait 179
+Mind Control 180
+Mind Reading 181
+Mind Shield 182
+Mind Switch 183
+Mirror Image 184
+Morph 185
+Move Object 186
+Mutation 187
+Nauseate 188
+Nemesis 189
+Mental Blast 176
+Nullify (Effect) 190
+Features 129
+Ignite 143
+Fire Control 130
+Flight 131
+Force Constructs 132
+Force Field 133
+Friction Control 134
+Gadgets 135
+Gestalt 136
+Grafting 137
+Gravity Control 138
+Growth 139
+Healing 140
+Hellfire Control 141
+Hypnosis 142
+Magic 159
+Magic 158
+Immortality 145
+Immovable 146
+Immunity 147
+Immutable 148
+Insubstantial 149
+Invisibility 150
+Kinetic Control 151
+Leaping 152
+Life Control 153
+Light Control 154
+Luck Control 155
+Machine Animation 156
+Magic 157
+Illusion 144
+Magic 160
+Object Mimicry 191
+Obscure 192
+Strike 226
+Stun 227
+Suffocate 228
+Summon (Minion) 229
+Super-Movement 230
+Super-Senses 231
+Super-Speed 232
+Super-Strength 233
+Super-Ventriloquism 234
+Suspended Animation 235
+Swimming 236
+Telekinesis 237
+Telelocation 238
+Spirit Control 225
+Pain 193
+Thermal Control 241
+Time Control 242
+Time Stop 243
+Transfer 244
+Transform 245
+Transmit 246
+Transmutation 247
+Trip 248
+Troubleseeker 249
+Universal Translator 250
+Vibration Control 251
+Ward 252
+Water Control 253
+Teleport 240
+Telepathy 239
+Spinning 224
+Quickness 207
+Paralyze 194
+Petrification 195
+Pheromones 196
+Plant Control 197
+Plant Mimicry 198
+Plasma Control 199
+Possession 200
+Power Control 201
+Power Reserve 202
+Power Resistance 203
+Prehensile Hair 204
+Probability Control 205
+Protection 206
+Speed 223
+Spatial Control 222
+Reflection Field 209
+Reflex Memory 210
+Regeneration 211
+Sensory Link 212
+Sensory Shield 213
+Shape Matter 214
+Shapeshift 215
+Shield 216
+Shrinking 217
+Silence 218
+Sleep 219
+Snare 220
+Sonic Control 221
+Radiation Control 208
+Weapon Summoning 254
+Fatigue 128
+Howl - flee in terror for turns = successes 32
+Left-Handed Spanner - breaks a machine 34
+Living Fetter 35
+Manipulate Element Shape the element under its purview. 36
+Materialize - successes = hours of stay 37
+Material Vision 38
+Mechanical Possession - control a fetter. 39
+Morphic Form - change size or locomotion (fly, swim) 40
+Mortal Mask - pretend to be a person 41
+Omen Trance - see an event 24 hours to 1 week 42
+Pathfinder - quick route, even to secret locations. Contested. 43
+Plague of the Dead - zombie horde 44
+Possession (R) 45
+Rapture (R) - pleasure so strong it can derrange. 46
+Innocuous - -2 to notice the spirit 33
+Reaching - use Numina through the Gauntlet 47
+Regenerate - auto-regen 1 bashing or lethal per turn. 49
+Savant - adds three dice to another numina 50
+Seek - find an event within 2 miles, +1 essence for *10 51
+Sleep Eater - become tired 52
+Soul Harvest - eat a soul in a supernatural or mortal 53
+Soul Snatch - eat a soul in a living mortal 54
+Spirit Venom - after hit, spend essence to damage + drain vitae/energy. 55
+Spiritual Vision - can see real world 56
+Stalwart - defense = resistance. 57
+Swarm Form 58
+Telekinesis (R) 59
+Telepathy 60
+Thieve - take a physical object 61
+Rebirth - cannibalize two to un-age one 48
+Threshold - create gateway into the shadow and back. 62
+Transmogrify Victim - change form of possessed victim, set traits to spirit traits. 63
+Discorporation - can lose body and manifest elsewhere 15
+Ban of Power - Add new ban, get more power. 2
+Blast 3
+Camouflage 4
+Chain of Death - Jump from a corpse to another corpse 5
+Chorus - speak to spirit choir in power-per-mile radius. 6
+Claim (R) - permanent possession. 7
+Clasp - damaging grapple 8
+Commune (R) - info about region in 500' + 100' / success 9
+Concealment - fog concealment 10
+Corpse Ride - wear a corpse 11
+Damnation�s Path Must spend vice to get willpower 12
+Dement (R) - derranged for days = success. 13
+Desiccation - damages and can take vitae 14
+Hibernate - wait in shadow to preserve essence 31
+Heal - 1 success = bash, 2 = lethal, 2 + 1 essence = agg. Disease & poison. 30
+Elemental Immunity - nearly immune to all but the most serious 17
+Emotional Aura (R) 18
+Ensnare 19
+Fearstruck 20
+Fetter - tie self to physical object. When destroyed, return to spirit world. 21
+Final Strike - reflexive attack 22
+Firestarter - fires per rank 23
+Freeze (R) - bashing 24
+Gauntlet Breach - stay in real world, 1 essence / rank / hour. 25
+Ghost-Eater 26
+Greater Influence - increase influence by 1 dot (not rank 1). No more dots or kinds than rank. 27
+Hallucinations - 1 sense per success 28
+Harrow - cause emotion for 1 turn per success 29
+Drain - can steal willpower (may lose it to the victim) 16
+Exorcism 127
+Evolutionary Shift 126
+Unfetter 64
+Create Object 98
+Damage 99
+Darkness Control 100
+Datalink 101
+Dazzle 102
+Death Touch 103
+Deflect 104
+Density 105
+Device 106
+Dimensional Contr 107
+Dimensional Pocke 108
+Disease 109
+Disintegration 110
+Cosmic Energy Con 97
+Wilds Sense - track spirit and loci over distance 65
+Dream Control 113
+Dream Travel 114
+Duplication 115
+Earth Control 116
+Elasticity 117
+Electrical Control 118
+Elongation 119
+Emotion Control 120
+Empowerment 121
+Energy Aura 122
+Enhanced (Trait) 123
+Environmental Contr 124
+ESP 125
+Drain (Trait) 112
+Displacement 111
+Corrosion 96
+Astral Form 79
+Absorption 66
+Acid 67
+Adaptation 68
+Additional Limbs 69
+Adrenal Surge 70
+Age Shift 71
+Air Control 72
+Alternate Form 73
+Anatomic Separation 74
+Animal Control 75
+Animal Mimicry 76
+Animate Objects 77
+Array 78
+Container 95
+Confuse 94
+Blending 81
+Blur 82
+Boost (Trait) 83
+Bouncing 84
+Burrowing 85
+Chi 86
+Clairaudience 87
+Clairvoyance 88
+Cold Control 89
+Color Control 90
+Communication 91
+Comprehend 92
+Concealment 93
+Blast 80
+Weather Control 255

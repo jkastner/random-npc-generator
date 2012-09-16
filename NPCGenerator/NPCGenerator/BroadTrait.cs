@@ -45,5 +45,6 @@ namespace NPCGenerator
             TraitValues.Add(tv);
         }
 
+
     }
 }

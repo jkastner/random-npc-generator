@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace NPCGenerator
 {
-    class SingleTraitValue : IComparable
+    class SingleTraitValue
     {
         private String _traitValue;
 
@@ -45,18 +45,5 @@ namespace NPCGenerator
             }
         }
 
-
-
-        #region IComparable Members
-
-        public int CompareTo(object obj)
-        {
-            SingleTraitValue other = obj as SingleTraitValue;
-            if(this.TraitWeight>other.TraitWeight)
-                return 1;
-            return 0;
-        }
-
-        #endregion
     }
 }

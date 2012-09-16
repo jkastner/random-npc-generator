@@ -1,0 +1,7 @@
+Envy 1
+Gluttony 2
+Greed 3
+Lust 4
+Pride 5
+Sloth 6
+Wrath 7

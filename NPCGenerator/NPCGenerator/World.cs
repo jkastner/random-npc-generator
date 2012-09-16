@@ -8,6 +8,13 @@ namespace NPCGenerator
 {
     class World
     {
+        private string worldName;
+
+        public World(string worldName)
+        {
+            // TODO: Complete member initialization
+            this.worldName = worldName;
+        }
          
     }
 }

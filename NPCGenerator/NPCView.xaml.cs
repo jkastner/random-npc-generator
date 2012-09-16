@@ -38,7 +38,8 @@ namespace NPCGenerator
                 PossibleNameEthnicities_ListBox.ItemsSource = _npcViewModel.NameEthnicities;
                 PossibleNameEthnicities_ListBox.SelectedIndex = 0;
                 GeneratedNames_ListBox.ItemsSource = _npcViewModel.GeneratedRandomNames;
-                Produced_Traits_TempBox.ItemsSource = _npcViewModel.tempTraits;
+                World.ItemsSource = _npcViewModel.WorldNames;
+                World.SelectedIndex = 0;
             }
             catch (Exception e)
             {

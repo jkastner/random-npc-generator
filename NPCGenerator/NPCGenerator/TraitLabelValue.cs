@@ -16,7 +16,7 @@ namespace NPCGenerator
         public String Label
         {
             get { return _label; }
-            set { _label = value; }
+            private set { _label = value; }
         }
         private String _value;
 

@@ -1,0 +1,6 @@
+Julii 1
+Ventrue 2
+Daeva 3
+Gangrel 4
+Mekhet 5
+Nosferatu 6
