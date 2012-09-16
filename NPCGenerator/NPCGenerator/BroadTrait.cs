@@ -18,9 +18,9 @@ namespace NPCGenerator
         /// 
         /// </summary>
 
-        private List <SingleTraitValue>  _traitValues = new List<SingleTraitValue>();
+        private List <ValueWeight>  _traitValues = new List<ValueWeight>();
 
-        public List <SingleTraitValue>  TraitValues
+        public List <ValueWeight>  TraitValues
         {
             get { return _traitValues; }
             set { _traitValues = value; }
@@ -41,7 +41,7 @@ namespace NPCGenerator
 
         internal void AddValue(string traitValue, int traitWeight, Dictionary<string, int> linkedValues)
         {
-            SingleTraitValue tv = new SingleTraitValue(traitValue, traitWeight, linkedValues);
+            ValueWeight tv = new ValueWeight(traitValue, traitWeight, linkedValues);
             TraitValues.Add(tv);
         }
 

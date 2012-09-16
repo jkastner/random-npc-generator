@@ -39,6 +39,7 @@ namespace NPCGenerator
                 PossibleNameEthnicities_ListBox.SelectedIndex = 0;
                 GeneratedNames_ListBox.ItemsSource = _npcViewModel.GeneratedRandomNames;
                 World.ItemsSource = _npcViewModel.WorldNames;
+                Gender.ItemsSource = _npcViewModel.Genders;
                 World.SelectedIndex = 0;
             }
             catch (Exception e)
@@ -55,10 +56,8 @@ namespace NPCGenerator
 
         private void Generate_Button_Click(object sender, RoutedEventArgs e)
         {
-            ComboBoxItem typeItem = (ComboBoxItem)Gender.SelectedItem;
-            String gender = typeItem.Content.ToString();
             String ethnicity = PossibleNameEthnicities_ListBox.SelectedItem.ToString();
-            SingleNPC_DataGrid.ItemsSource = _npcViewModel.GenerateNPC(gender, ethnicity).Traits; 
+            SingleNPC_DataGrid.ItemsSource = _npcViewModel.GenerateNPC(Gender.SelectedItem.ToString(), ethnicity, World.SelectedItem.ToString()).Traits; 
 
         }
 

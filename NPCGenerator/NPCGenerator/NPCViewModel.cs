@@ -41,6 +41,13 @@ namespace NPCGenerator
             get { return _nameEthnicities; }
             set { _nameEthnicities = value; }
         }
+        private ObservableCollection<String> _genders = new ObservableCollection<String>();
+        public ObservableCollection<String> Genders
+        {
+            get { return _genders; }
+            set { _genders = value; }
+        }
+        
 
         //Latin -  Male and Female  - Latin --> Bobicus, Tedimaximus
 
@@ -54,9 +61,9 @@ namespace NPCGenerator
         
         public NPCViewModel()
         {
+            ReadNameFile();
             ProcessTraitFiles();
             ProcessWorldFiles();
-            ReadNameFile();
         }
 
         private void ProcessTraitFiles()
@@ -164,14 +171,96 @@ namespace NPCGenerator
                 String worldName = curFile.Name.Split('.')[0].Trim();
                 World newWorld = new World(worldName);
                 WorldNames.Add(worldName);
-                _allWorlds.Add(worldName, newWorld);
                 ReadWorldFile(worldName, curFile);
             }
         }
 
+
+        const String RandomNameDistribution = "Random Name Distribution:";
+        const String TraitFiles = "Trait Files:";
+        const String OutputFile = "Output File:";
+        const String OutputOrder = "Output Order:";
+        enum ReadingType { None, TraitFiles, RandomNameDistribution, OutputFile, OutputOrder };
         private void ReadWorldFile(string worldName, FileInfo curFile)
         {
+            string[] lines = System.IO.File.ReadAllLines(curFile.FullName);
+            ReadingType curReading = ReadingType.None;
+            World curWorld = new World(worldName);
+            int maxNameWeight = 0;
+            for (int curIndex = 0; curIndex < lines.Length; curIndex++)
+            {
+                String line = lines[curIndex].Trim();
+                //Skip blank lines
+                if (String.IsNullOrWhiteSpace(line))
+                    continue;
+                //# is comment mark
+                if (line[0].Equals('#'))
+                    continue;
+                switch (line)
+                {
+                    case TraitFiles:
+                        curReading = ReadingType.TraitFiles;
+                        continue;
+                    case RandomNameDistribution:
+                        curReading = ReadingType.RandomNameDistribution;
+                        continue;
+                    case OutputFile:
+                        curReading = ReadingType.OutputFile;
+                        continue;
+                    case OutputOrder:
+                        curReading = ReadingType.OutputOrder;
+                        continue;
+                }
+                switch (curReading)
+                {
+                    case ReadingType.RandomNameDistribution:
+                        string[] splitLine = line.Split('\t');
+                        int curNameWeight, currentTableWeight;
 
+
+                        if (splitLine.Length == 1)
+                        {
+                            maxNameWeight++;
+                            curNameWeight = 1;
+                        }
+                        else
+                        {
+                            curNameWeight = Int32.Parse(splitLine[1]);
+                        }
+                        currentTableWeight = curNameWeight + maxNameWeight;
+                        curWorld.AddNameWeight(splitLine[0], currentTableWeight);
+                        maxNameWeight += curNameWeight;
+                        break;
+                    case ReadingType.OutputFile:
+                        curWorld.OutputFile = line;
+                        break;
+                    case ReadingType.OutputOrder:
+                        curWorld.OutputOrder = line.Split('t').ToList();
+                        break;
+                    case ReadingType.TraitFiles:
+                        curWorld.AddTrait(line);
+                        break;
+                }
+            }
+            curWorld.MaxNameWeight = maxNameWeight;
+            if (String.IsNullOrWhiteSpace(curWorld.OutputFile))
+            {
+                curWorld.OutputFile = worldName + "_Created.txt";
+            }
+            if (curWorld.NameWeightDistribution.Count == 0)
+            {
+                foreach (String cur in NameEthnicities)
+                    curWorld.AddNameWeight(cur, 1);
+                curWorld.MaxNameWeight = NameEthnicities.Count;
+            }
+            if (curWorld.AssociatedTraits.Count == 0)
+            {
+                foreach (KeyValuePair<String, BroadTrait> curPair in _allTraits)
+                {
+                    curWorld.AddTrait(curPair.Key);
+                }
+            }
+            _allWorlds.Add(worldName, curWorld);
         }
 
 
@@ -183,13 +272,13 @@ namespace NPCGenerator
             
             
             string[] names = System.IO.File.ReadAllLines(_firstNameFile);
-            AddToDictionary(names);
+            ReadNamesToDictionary(names);
             names = System.IO.File.ReadAllLines(_lastNameFile);
-            AddToDictionary(names);
+            ReadNamesToDictionary(names);
             
         }
 
-        private void AddToDictionary(string[] readNames)
+        private void ReadNamesToDictionary(string[] readNames)
         {
             foreach (String curLine in readNames)
             {
@@ -206,11 +295,17 @@ namespace NPCGenerator
                     name = lineInfo[0];
                     gender = lineInfo[1];
                     String[] genderTypes = gender.Split(' ');
-                    foreach (String curGender in genderTypes)
+                    for(int curGenderIndex =0;curGenderIndex < genderTypes.Length;curGenderIndex++)
                     {
+                        String curGender = genderTypes[curGenderIndex].Trim();
+                        if (String.IsNullOrWhiteSpace(curGender))
+                            continue;
+                        if(!Genders.Contains(curGender))
+                            Genders.Add(curGender);
                         if(curGender.Trim().Length>0)
                             _names[ethnicity].AddFirstName(name, curGender.Trim());
                     }
+                    
                 }
                 else//length is 2, Last Name
                 {
@@ -225,11 +320,11 @@ namespace NPCGenerator
 
 
 
-        internal NPC GenerateNPC(string gender, string ethnicity)
+        internal NPC GenerateNPC(string gender, string ethnicity, String worldName)
         {
             _error = "";
             GeneratedRandomNames.Clear();
-            MakeRandomNames(ref gender, ref ethnicity);
+            MakeRandomNames(ref gender, ref ethnicity, worldName);
             NameList matchingList = _names[ethnicity];
             if (!matchingList.FirstNames.ContainsKey(gender))
             {
@@ -248,7 +343,7 @@ namespace NPCGenerator
             {
                 String traitLabel = curPair.Key;
                 int rolled = RandomValue(1,curPair.Value.MaxWeight+1);
-                foreach (SingleTraitValue curSingleTrait in curPair.Value.TraitValues)
+                foreach (ValueWeight curSingleTrait in curPair.Value.TraitValues)
                 {
                     if (rolled <= curSingleTrait.TraitWeight)
                     {
@@ -259,9 +354,9 @@ namespace NPCGenerator
             }
         }
 
-        private void MakeRandomNames(ref string gender, ref string ethnicity)
+        private void MakeRandomNames(ref string gender, ref string ethnicity, string curWorld)
         {
-            FixRandom(ref gender, ref ethnicity);
+            FixRandom(ref gender, ref ethnicity, curWorld);
             List<String> possibleFirstNames = new List<String>(_names[ethnicity].FirstNames[gender]);
             List<String> possibleLastNames = new List<String>(_names[ethnicity].LastNames);
             while (GeneratedRandomNames.Count < 10 && possibleFirstNames.Count > 0)
@@ -275,24 +370,42 @@ namespace NPCGenerator
             }
         }
 
-        private void FixRandom(ref string gender, ref string ethnicity)
+        private void FixRandom(ref string gender, ref string ethnicity, string worldID)
         {
             if (gender.Equals("Random"))
             {
-                if (RandomValue(1, 2) == 1)
-                    gender = "Male";
-                else
-                    gender = "Female";
+                int randomGender = RandomValue(1, Genders.Count);
+                gender = Genders[randomGender];
             }
-
-
+            if(ethnicity.Equals("Random"))
+            {
+                bool nameFound = false;
+                while (!nameFound)
+                {
+                    int randomNameNumber = RandomValue(0, _names.Count);
+                    ethnicity = NameEthnicities[randomNameNumber];
+                    if (_names[ethnicity].FirstNames[gender].Count > 0)
+                        nameFound = true;
+                }
+            }
+            if (ethnicity.Equals("Weighted Random"))
+            {
+                World curWorld = _allWorlds[worldID];
+                int rolled = RandomValue(1, curWorld.MaxNameWeight);
+                foreach (ValueWeight curName in curWorld.NameWeightDistribution)
+                {
+                    if (rolled <= curName.TraitWeight)
+                    {
+                        ethnicity = curName.TraitValue;
+                        break;
+                    }
+                }
+            }
         }
+
         /// <summary>
         /// Produces a number min and max. Min = 0, max = 100, could produce 0..14..99.
         /// </summary>
-        /// <param name="min"></param>
-        /// <param name="max"></param>
-        /// <returns></returns>
         private int RandomValue(int min, int max)
         {
             return _random.Next(min, max);

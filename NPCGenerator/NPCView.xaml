@@ -6,13 +6,8 @@
         <ListBox Name="NPCList_ListBox"  SelectionChanged="NPCList_SelectionChanged" HorizontalAlignment="Left" Height="177" Margin="10,10,0,0" VerticalAlignment="Top" Width="497"/>
         <DataGrid Name="SingleNPC_DataGrid" CanUserSortColumns="False" HorizontalAlignment="Left" Margin="10,300,0,0" VerticalAlignment="Top" Width="497" Height="187"/>
         <ListBox Name="PossibleNameEthnicities_ListBox"  HorizontalAlignment="Left" Height="331" Margin="526,215,0,0" VerticalAlignment="Top" Width="230" RenderTransformOrigin="0.055,0.463"/>
-        <ComboBox x:Name="World" Margin="10,226,860,301"></ComboBox>
-            <ComboBox x:Name="Gender" Margin="161,192,709,335">
-            <ComboBoxItem Content="Random" />
-            <ComboBoxItem Content="Male" />
-            <ComboBoxItem Content="Female" />
-        </ComboBox>
-        
+        <ComboBox x:Name="World" Margin="161,247,709,280"></ComboBox>
+        <ComboBox x:Name="Gender" Margin="161,192,709,335"></ComboBox>
         <ListBox Name="GeneratedNames_ListBox" SelectionChanged="NamesSelectionChanged" HorizontalAlignment="Left" Height="198" Margin="782,16,0,0" VerticalAlignment="Top" Width="234"/>
         <Button Name="Generate_Button" Content="Generate" HorizontalAlignment="Left" Margin="10,193,0,0" VerticalAlignment="Top" Width="75" Click="Generate_Button_Click"/>
         <Button Name="Save_NPC_Button" Content="Save" HorizontalAlignment="Left" Margin="10,220,0,0" VerticalAlignment="Top" Width="75" Click="Save_NPC_Button_Click"/>

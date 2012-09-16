@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace NPCGenerator
 {
-    class SingleTraitValue
+    class ValueWeight
     {
         private String _traitValue;
 
@@ -19,13 +19,15 @@ namespace NPCGenerator
         private Dictionary<String, int> _linkedValues = new Dictionary<String, int>();
         
         private int _traitWeight;
+        private string NameEthnicity;
+        private int NameFrequency;
         public int TraitWeight
         {
             get { return _traitWeight; }
             set { _traitWeight = value; }
         }
 
-        public SingleTraitValue(string traitValue, int traitWeight, Dictionary<string, int> linkedValues)
+        public ValueWeight(string traitValue, int traitWeight, Dictionary<string, int> linkedValues)
         {
             // TODO: Complete member initialization
             this.TraitValue = traitValue;
@@ -33,12 +35,16 @@ namespace NPCGenerator
             this.LinkedValues = linkedValues;
         }
 
+        public ValueWeight(string NameEthnicity, int NameFrequency): 
+            this(NameEthnicity, NameFrequency, new Dictionary<string, int>())
+        {
+        }
+
         public Dictionary<String, int> LinkedValues
         {
             get
             {
-                return _linkedValues;
-            }
+                return _linkedValues;            }
             set
             {
                 _linkedValues = value;
