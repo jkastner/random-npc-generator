@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -9,7 +10,7 @@ using System.Windows;
 
 namespace NPCGenerator
 {
-    class NPCViewModel
+    class NPCViewModel :INotifyPropertyChanged
     {
         private NPC _curNPC;
         private static Random _random = new Random();
@@ -26,7 +27,24 @@ namespace NPCGenerator
         string _worldDir =  @"Data\Worlds";
         string _traitDir = @"Data\Traits";
         string _error = "";
-        public String CurrentEthnicity = "yaaay";
+        private String _currentEthnicityAndGender;
+
+        public String CurrentEthnicityAndGender
+        {
+            get { return _currentEthnicityAndGender; }
+            set 
+            { 
+                _currentEthnicityAndGender = value;
+                OnPropertyChanged("CurrentEthnicityAndGender");
+            }
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+        private void OnPropertyChanged(string propertyName)
+        {
+            if (PropertyChanged != null)
+                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+        }
 
 
         ObservableCollection<NPC> _npcs = new ObservableCollection<NPC>();
@@ -175,6 +193,7 @@ namespace NPCGenerator
                 ReadWorldFile(worldName, curFile);
             }
         }
+
 
 
         const String RandomNameDistribution = "Random Name Distribution:";
@@ -355,7 +374,7 @@ namespace NPCGenerator
             ethnicity = FixRandomEthnicity(gender, ethnicity, worldName);
             if (MakeRandomNames(gender, ethnicity, worldName))
             {
-                CurrentEthnicity = ethnicity;
+                CurrentEthnicityAndGender = gender+"--"+ethnicity;
                 NameList matchingList = _names[ethnicity];
                 if (!matchingList.FirstNames.ContainsKey(gender))
                 {
@@ -364,6 +383,7 @@ namespace NPCGenerator
                 }
                 PopulateRandomTraits(newNPC, worldName);
                 newNPC.SetValueForLabel("Gender", gender);
+                newNPC.SetValueForLabel("Note", ethnicity);
                 _curNPC = newNPC;
             }
             newNPC.WorldName = worldName;

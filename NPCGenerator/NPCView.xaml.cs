@@ -33,14 +33,13 @@ namespace NPCGenerator
             {
                 Gender.SelectedIndex = 0;
                 _npcViewModel = new NPCViewModel();
-                this.DataContext = _npcViewModel;
+                DataContext = _npcViewModel;
                 NPCList_ListBox.ItemsSource = _npcViewModel.NPCs;
                 PossibleNameEthnicities_ListBox.ItemsSource = _npcViewModel.NameEthnicities;
                 PossibleNameEthnicities_ListBox.SelectedIndex = 0;
                 GeneratedNames_ListBox.ItemsSource = _npcViewModel.GeneratedRandomNames;
                 World.ItemsSource = _npcViewModel.WorldNames;
                 Gender.ItemsSource = _npcViewModel.Genders;
-                CurEthnicity_Label.DataContext = _npcViewModel; 
                 World.SelectedIndex = 0;
             }
             catch (Exception e)
@@ -86,6 +85,12 @@ namespace NPCGenerator
                 _npcViewModel.GenerateNPC(Gender.SelectedItem.ToString(), ethnicity, World.SelectedItem.ToString()); 
             }
         }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            DataContext = _npcViewModel;
+        }
+
 
     }
 }
