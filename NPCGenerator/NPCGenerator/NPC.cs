@@ -20,6 +20,8 @@ namespace NPCGenerator
         public NPC(string p1)
         {
             AddTrait("Name", p1);
+            AddTrait("Note", "");
+            AddTrait("Gender", "");
         }
 
         public NPC(string p1, string p2)
@@ -64,6 +66,18 @@ namespace NPCGenerator
                     return curTrait.Value;
             }
             return "";
+        }
+        internal bool SetValueForLabel(string traitLabel, string newValue)
+        {
+            foreach (TraitLabelValue curTrait in _traits)
+            {
+                if (curTrait.Label.Equals(traitLabel))
+                {
+                    curTrait.Value = newValue;
+                    return true;
+                }
+            }
+            return false;
         }
     }
 }

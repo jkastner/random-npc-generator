@@ -363,6 +363,7 @@ namespace NPCGenerator
                     return _curNPC;
                 }
                 PopulateRandomTraits(newNPC, worldName);
+                newNPC.SetValueForLabel("Gender", gender);
                 _curNPC = newNPC;
             }
             newNPC.WorldName = worldName;

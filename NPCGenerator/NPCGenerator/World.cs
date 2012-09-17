@@ -36,7 +36,8 @@ namespace NPCGenerator
         }
 
 
-        public List<string> OutputOrder { get; set; }
+        private List<string> _outputOrder = new List<string>();
+        public List<string> OutputOrder { get { return _outputOrder; } set { _outputOrder = value; } }
 
         internal void AddTrait(string line)
         {
