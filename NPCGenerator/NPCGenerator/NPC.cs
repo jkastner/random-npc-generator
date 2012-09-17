@@ -44,7 +44,26 @@ namespace NPCGenerator
             Traits.Add(new TraitLabelValue(label, value));
         }
 
+        private String _worldName;
+
+        public String WorldName
+        {
+            get { return _worldName; }
+            set { _worldName = value; }
+        }
+        
 
 
+        public bool Saved { get; set; }
+
+        internal string GetValueForLabel(string traitLabel)
+        {
+            foreach (TraitLabelValue curTrait in _traits)
+            {
+                if (curTrait.Label.Equals(traitLabel))
+                    return curTrait.Value;
+            }
+            return "";
+        }
     }
 }

@@ -65,13 +65,17 @@ namespace NPCGenerator
         private void NamesSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             //New to trigger the datagrid to change.
-            if(GeneratedNames_ListBox.SelectedItem!=null)
-                _npcViewModel.CurNPC.Traits[0]  = new TraitLabelValue("Name", GeneratedNames_ListBox.SelectedItem.ToString());
+            if (GeneratedNames_ListBox.SelectedItem != null)
+            {
+                if(!_npcViewModel.CurNPC.Saved)
+                    _npcViewModel.CurNPC.Traits[0] = new TraitLabelValue("Name", GeneratedNames_ListBox.SelectedItem.ToString());
+            }
         }
 
         private void Save_NPC_Button_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show(_npcViewModel.CurNPC.ToString());
+            _npcViewModel.SaveCurrentNPC();
+            
         }
 
         private void test100_Click(object sender, RoutedEventArgs e)

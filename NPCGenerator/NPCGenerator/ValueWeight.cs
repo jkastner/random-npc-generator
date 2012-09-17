@@ -19,8 +19,6 @@ namespace NPCGenerator
         private Dictionary<String, int> _linkedValues = new Dictionary<String, int>();
         
         private int _traitWeight;
-        private string NameEthnicity;
-        private int NameFrequency;
         public int TraitWeight
         {
             get { return _traitWeight; }

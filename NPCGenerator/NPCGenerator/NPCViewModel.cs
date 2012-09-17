@@ -236,7 +236,7 @@ namespace NPCGenerator
                         curWorld.OutputFile = line;
                         break;
                     case ReadingType.OutputOrder:
-                        curWorld.OutputOrder = line.Split('t').ToList();
+                        curWorld.OutputOrder = line.Split('\t').ToList();
                         break;
                     case ReadingType.TraitFiles:
                         String traitWithoutExtension = line.Split('.')[0].Trim();
@@ -262,6 +262,12 @@ namespace NPCGenerator
                     curWorld.AddTrait(curPair.Key);
                 }
             }
+            if (curWorld.OutputOrder.Count == 0)
+            {
+                curWorld.OutputOrder.Add("Name");
+                curWorld.OutputOrder.Add("Gender");
+                curWorld.OutputOrder.Add("Note");
+            }
             _allWorlds.Add(worldName, curWorld);
         }
 
@@ -277,6 +283,7 @@ namespace NPCGenerator
             ReadNamesToDictionary(names);
             names = System.IO.File.ReadAllLines(_lastNameFile);
             ReadNamesToDictionary(names);
+            Genders.Insert(0, "Random");
             
         }
 
@@ -357,8 +364,8 @@ namespace NPCGenerator
                 }
                 PopulateRandomTraits(newNPC, worldName);
                 _curNPC = newNPC;
-                return newNPC;
             }
+            newNPC.WorldName = worldName;
             return newNPC;
         }
 
@@ -459,6 +466,20 @@ namespace NPCGenerator
         {
             get { return _worldNames; }
             set { _worldNames = value; }
+        }
+
+        internal void SaveCurrentNPC()
+        {
+            CurNPC.Saved = true;
+            NPCs.Add(CurNPC);
+            ObservableCollection<TraitLabelValue> finalNPCTraits = new ObservableCollection<TraitLabelValue>();
+            World NPCWorld = _allWorlds[CurNPC.WorldName];
+            for (int curIndex = 0; curIndex < NPCWorld.OutputOrder.Count; curIndex++)
+            {
+                String curTraitLabel = NPCWorld.OutputOrder[curIndex];
+                finalNPCTraits.Add(new TraitLabelValue(curTraitLabel, CurNPC.GetValueForLabel(curTraitLabel)));
+            }
+            CurNPC.Traits = finalNPCTraits;
         }
     }
 }
