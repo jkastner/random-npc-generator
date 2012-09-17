@@ -284,8 +284,8 @@ namespace NPCGenerator
             if (curWorld.OutputOrder.Count == 0)
             {
                 curWorld.OutputOrder.Add("Name");
-                curWorld.OutputOrder.Add("Gender");
                 curWorld.OutputOrder.Add("Note");
+                curWorld.OutputOrder.Add("Gender");
             }
             _allWorlds.Add(worldName, curWorld);
         }
@@ -383,7 +383,6 @@ namespace NPCGenerator
                 }
                 PopulateRandomTraits(newNPC, worldName);
                 newNPC.SetValueForLabel("Gender", gender);
-                newNPC.SetValueForLabel("Note", ethnicity);
                 _curNPC = newNPC;
             }
             newNPC.WorldName = worldName;
@@ -409,6 +408,7 @@ namespace NPCGenerator
                     }
                 }
             }
+            
         }
 
         private bool MakeRandomNames(string gender, string ethnicity, string curWorld)
@@ -495,10 +495,28 @@ namespace NPCGenerator
             NPCs.Add(CurNPC);
             ObservableCollection<TraitLabelValue> finalNPCTraits = new ObservableCollection<TraitLabelValue>();
             World NPCWorld = _allWorlds[CurNPC.WorldName];
+            //Add in order
             for (int curIndex = 0; curIndex < NPCWorld.OutputOrder.Count; curIndex++)
             {
                 String curTraitLabel = NPCWorld.OutputOrder[curIndex];
                 finalNPCTraits.Add(new TraitLabelValue(curTraitLabel, CurNPC.GetValueForLabel(curTraitLabel)));
+            }
+            //Add extra on the end.
+            foreach (TraitLabelValue curTrait in CurNPC.Traits)
+            {
+                bool alreadyPresent = false;
+                foreach (TraitLabelValue curCheck in finalNPCTraits)
+                {
+                    if(curCheck.Label.Equals(curTrait.Label))
+                    {
+                        alreadyPresent = true;
+                        break;
+                    }
+                }
+                if (!alreadyPresent)
+                {
+                    finalNPCTraits.Add(curTrait);
+                }
             }
             CurNPC.Traits = finalNPCTraits;
         }

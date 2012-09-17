@@ -6,7 +6,7 @@
         >
     <Grid>
         <ListBox Name="NPCList_ListBox"  SelectionChanged="NPCList_SelectionChanged" HorizontalAlignment="Left" Height="177" Margin="10,10,0,0" VerticalAlignment="Top" Width="497"/>
-        <DataGrid Name="SingleNPC_DataGrid" CanUserSortColumns="False" HorizontalAlignment="Left" Margin="10,300,0,0" VerticalAlignment="Top" Width="497" Height="187"/>
+        <DataGrid Name="SingleNPC_DataGrid" CanUserSortColumns="False" HorizontalAlignment="Left"   HeadersVisibility="None" Margin="10,300,0,0" VerticalAlignment="Top" Width="497" Height="187"/>
         <ListBox Name="PossibleNameEthnicities_ListBox"  HorizontalAlignment="Left" Height="331" Margin="526,215,0,0" VerticalAlignment="Top" Width="230" RenderTransformOrigin="0.055,0.463"/>
         <ComboBox x:Name="World" Margin="161,247,709,280"></ComboBox>
         <ComboBox x:Name="Gender" Margin="161,192,709,335"></ComboBox>
