@@ -400,17 +400,16 @@ namespace NPCGenerator
 
         private string FixRandomEthnicity(string gender, string ethnicity, string worldID)
         {
+            String foundEthnicity = ethnicity;
             if (ethnicity.Equals("Random"))
             {
-                while (true)
+                bool foundName = false;
                 {
                     int randomNameNumber = RandomValue(0, _names.Count);
-                    ethnicity = NameEthnicities[randomNameNumber];
-                    if (_names[ethnicity].FirstNames.ContainsKey(gender))
-                        return ethnicity;
+                    foundEthnicity = NameEthnicities[randomNameNumber];
                 }
             }
-            if (ethnicity.Equals("Weighted Random"))
+            if (foundEthnicity.Equals("Weighted Random"))
             {
                 World curWorld = _allWorlds[worldID];
                 int rolled = RandomValue(0, curWorld.MaxNameWeight);
@@ -418,13 +417,18 @@ namespace NPCGenerator
                 {
                     if (rolled <= curName.TraitWeight)
                     {
-                        return curName.TraitValue;
+                        foundEthnicity = curName.TraitValue;
+                        break;
                     }
                 }
             }
-            if (ethnicity.Equals("Random") || ethnicity.Equals("Weighted Random"))
+            if (foundEthnicity.Equals("Random") || foundEthnicity.Equals("Weighted Random"))
                 return FixRandomEthnicity(gender, ethnicity, worldID);
-            return ethnicity;
+            //If the user just wanted a random name but none matching was found, roll again.
+            if ((ethnicity.Equals("Random") || ethnicity.Equals("Weighted Random"))&&
+                (!_names[foundEthnicity].FirstNames.ContainsKey(gender)))
+                    return FixRandomEthnicity(gender, ethnicity, worldID);
+            return foundEthnicity;
         }
 
         private string FixRandomGender(string gender)

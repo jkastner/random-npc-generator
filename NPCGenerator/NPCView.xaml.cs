@@ -74,5 +74,14 @@ namespace NPCGenerator
             MessageBox.Show(_npcViewModel.CurNPC.ToString());
         }
 
+        private void test100_Click(object sender, RoutedEventArgs e)
+        {
+            for (int x = 0; x < 10000; x++)
+            {
+                String ethnicity = PossibleNameEthnicities_ListBox.SelectedItem.ToString();
+                _npcViewModel.GenerateNPC(Gender.SelectedItem.ToString(), ethnicity, World.SelectedItem.ToString()); 
+            }
+        }
+
     }
 }

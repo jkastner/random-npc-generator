@@ -12,6 +12,7 @@
         <Button Name="Generate_Button" Content="Generate" HorizontalAlignment="Left" Margin="10,193,0,0" VerticalAlignment="Top" Width="75" Click="Generate_Button_Click"/>
         <Button Name="Save_NPC_Button" Content="Save" HorizontalAlignment="Left" Margin="10,220,0,0" VerticalAlignment="Top" Width="75" Click="Save_NPC_Button_Click"/>
         <Label Name ="CurEthnicity_Label" Content="{Binding Path=CurrentEthnicity}" HorizontalAlignment="Left" Height="30" Margin="526,8,0,0" VerticalAlignment="Top" Width="234"/>
+        <Button Name="test100" Content="Button" HorizontalAlignment="Left" Height="43" Margin="406,221,0,0" VerticalAlignment="Top" Width="48" Click="test100_Click"/>
 
 
     </Grid>
