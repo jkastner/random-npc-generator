@@ -40,6 +40,7 @@ namespace NPCGenerator
                 GeneratedNames_ListBox.ItemsSource = _npcViewModel.GeneratedRandomNames;
                 World.ItemsSource = _npcViewModel.WorldNames;
                 Gender.ItemsSource = _npcViewModel.Genders;
+                CurEthnicity_Label.DataContext = _npcViewModel; 
                 World.SelectedIndex = 0;
             }
             catch (Exception e)

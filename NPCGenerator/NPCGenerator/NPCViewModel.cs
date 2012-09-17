@@ -26,6 +26,7 @@ namespace NPCGenerator
         string _worldDir =  @"Data\Worlds";
         string _traitDir = @"Data\Traits";
         string _error = "";
+        public String CurrentEthnicity = "yaaay";
 
 
         ObservableCollection<NPC> _npcs = new ObservableCollection<NPC>();
@@ -249,8 +250,8 @@ namespace NPCGenerator
             }
             if (curWorld.NameWeightDistribution.Count == 0)
             {
-                foreach (String cur in NameEthnicities)
-                    curWorld.AddNameWeight(cur, 1);
+                for(int curIndex = 0;curIndex<NameEthnicities.Count;curIndex++)
+                    curWorld.AddNameWeight(NameEthnicities[curIndex], curIndex+1);
                 curWorld.MaxNameWeight = NameEthnicities.Count;
             }
             if (curWorld.AssociatedTraits.Count == 0)
@@ -283,13 +284,22 @@ namespace NPCGenerator
             foreach (String curLine in readNames)
             {
                 String[] lineInfo = curLine.Split('\t');
-                String name, gender, ethnicity;
-                ethnicity = lineInfo.Last();
-                if(!_names.ContainsKey(ethnicity))
+                String name, gender;
+                List<String> ethnicitiesAssociatedWithThisName = lineInfo.Last().Split(',').ToList();
+                for (int index = ethnicitiesAssociatedWithThisName.Count-1; index >= 0; index--)
                 {
-                    _names.Add(ethnicity, new NameList(ethnicity));
+                    ethnicitiesAssociatedWithThisName[index] = ethnicitiesAssociatedWithThisName[index].Trim();
+                    if (String.IsNullOrWhiteSpace(ethnicitiesAssociatedWithThisName[index]))
+                        ethnicitiesAssociatedWithThisName.RemoveAt(index);
                 }
-                
+
+                foreach (string curEthnicity in ethnicitiesAssociatedWithThisName)
+                {
+                    if (!_names.ContainsKey(curEthnicity))
+                    {
+                        _names.Add(curEthnicity.Trim(), new NameList(curEthnicity));
+                    }
+                }
                 if (lineInfo.Length == 3)
                 {
                     name = lineInfo[0];
@@ -302,18 +312,26 @@ namespace NPCGenerator
                             continue;
                         if(!Genders.Contains(curGender))
                             Genders.Add(curGender);
-                        if(curGender.Trim().Length>0)
-                            _names[ethnicity].AddFirstName(name, curGender.Trim());
+                        foreach (string curEthnicity in ethnicitiesAssociatedWithThisName)
+                        {
+                            _names[curEthnicity].AddFirstName(name, curGender);
+                        }
                     }
                     
                 }
                 else//length is 2, Last Name
                 {
                     name = lineInfo[0];
-                    _names[ethnicity].AddLastName(name);
+                    foreach (string curEthnicity in ethnicitiesAssociatedWithThisName)
+                    {
+                        _names[curEthnicity].AddLastName(name);
+                    }
                 }
-                if(!NameEthnicities.Contains(ethnicity))
-                    NameEthnicities.Add(ethnicity);
+                foreach (string curEthnicity in ethnicitiesAssociatedWithThisName)
+                {
+                    if (!NameEthnicities.Contains(curEthnicity))
+                        NameEthnicities.Add(curEthnicity);
+                }
             }
         }
 
@@ -324,16 +342,22 @@ namespace NPCGenerator
         {
             _error = "";
             GeneratedRandomNames.Clear();
-            MakeRandomNames(ref gender, ref ethnicity, worldName);
-            NameList matchingList = _names[ethnicity];
-            if (!matchingList.FirstNames.ContainsKey(gender))
-            {
-                _error = "No gender match for ethnicity - " + ethnicity;
-                return _curNPC;
-            }
             NPC newNPC = new NPC();
-            PopulateRandomTraits(newNPC);
-            _curNPC = newNPC;
+            gender = FixRandomGender(gender);
+            ethnicity = FixRandomEthnicity(gender, ethnicity, worldName);
+            if (MakeRandomNames(gender, ethnicity, worldName))
+            {
+                CurrentEthnicity = ethnicity;
+                NameList matchingList = _names[ethnicity];
+                if (!matchingList.FirstNames.ContainsKey(gender))
+                {
+                    _error = "No gender match for ethnicity - " + ethnicity;
+                    return _curNPC;
+                }
+                PopulateRandomTraits(newNPC);
+                _curNPC = newNPC;
+                return newNPC;
+            }
             return newNPC;
         }
 
@@ -354,9 +378,12 @@ namespace NPCGenerator
             }
         }
 
-        private void MakeRandomNames(ref string gender, ref string ethnicity, string curWorld)
+        private bool MakeRandomNames(string gender, string ethnicity, string curWorld)
         {
-            FixRandom(ref gender, ref ethnicity, curWorld);
+            if (!_names[ethnicity].FirstNames.ContainsKey(gender))
+            {
+                return false;
+            }
             List<String> possibleFirstNames = new List<String>(_names[ethnicity].FirstNames[gender]);
             List<String> possibleLastNames = new List<String>(_names[ethnicity].LastNames);
             while (GeneratedRandomNames.Count < 10 && possibleFirstNames.Count > 0)
@@ -368,39 +395,46 @@ namespace NPCGenerator
                 GeneratedRandomNames.Add((firstName + " " + lastName).Trim());
                 possibleFirstNames.Remove(firstName);
             }
+            return true;
         }
 
-        private void FixRandom(ref string gender, ref string ethnicity, string worldID)
+        private string FixRandomEthnicity(string gender, string ethnicity, string worldID)
         {
-            if (gender.Equals("Random"))
+            if (ethnicity.Equals("Random"))
             {
-                int randomGender = RandomValue(1, Genders.Count);
-                gender = Genders[randomGender];
-            }
-            if(ethnicity.Equals("Random"))
-            {
-                bool nameFound = false;
-                while (!nameFound)
+                while (true)
                 {
                     int randomNameNumber = RandomValue(0, _names.Count);
                     ethnicity = NameEthnicities[randomNameNumber];
-                    if (_names[ethnicity].FirstNames[gender].Count > 0)
-                        nameFound = true;
+                    if (_names[ethnicity].FirstNames.ContainsKey(gender))
+                        return ethnicity;
                 }
             }
             if (ethnicity.Equals("Weighted Random"))
             {
                 World curWorld = _allWorlds[worldID];
-                int rolled = RandomValue(1, curWorld.MaxNameWeight);
+                int rolled = RandomValue(0, curWorld.MaxNameWeight);
                 foreach (ValueWeight curName in curWorld.NameWeightDistribution)
                 {
                     if (rolled <= curName.TraitWeight)
                     {
-                        ethnicity = curName.TraitValue;
-                        break;
+                        return curName.TraitValue;
                     }
                 }
             }
+            if (ethnicity.Equals("Random") || ethnicity.Equals("Weighted Random"))
+                return FixRandomEthnicity(gender, ethnicity, worldID);
+            return ethnicity;
+        }
+
+        private string FixRandomGender(string gender)
+        {
+            if (gender.Equals("Random"))
+            {
+                int randomGender = RandomValue(1, Genders.Count);
+                return Genders[randomGender];
+            }
+            return gender;
         }
 
         /// <summary>
