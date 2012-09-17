@@ -8,6 +8,17 @@ namespace NPCGenerator
     class BroadTrait
     {
         private String _traitName;
+        public String TraitName
+        {
+            get
+            {
+                return _traitName;
+            }
+            set
+            {
+                _traitName = value;
+            }
+        }
         private int _maxWeight;
         
         /// <summary>

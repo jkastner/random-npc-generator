@@ -239,7 +239,8 @@ namespace NPCGenerator
                         curWorld.OutputOrder = line.Split('t').ToList();
                         break;
                     case ReadingType.TraitFiles:
-                        curWorld.AddTrait(line);
+                        String traitWithoutExtension = line.Split('.')[0].Trim();
+                        curWorld.AddTrait(traitWithoutExtension);
                         break;
                 }
             }
@@ -354,24 +355,28 @@ namespace NPCGenerator
                     _error = "No gender match for ethnicity - " + ethnicity;
                     return _curNPC;
                 }
-                PopulateRandomTraits(newNPC);
+                PopulateRandomTraits(newNPC, worldName);
                 _curNPC = newNPC;
                 return newNPC;
             }
             return newNPC;
         }
 
-        private void PopulateRandomTraits(NPC newNPC)
+        private void PopulateRandomTraits(NPC newNPC, String worldName)
         {
-            foreach (KeyValuePair<String, BroadTrait> curPair in _allTraits)
+            List<BroadTrait> worldTraits = new List<BroadTrait>();
+            foreach (String associatedTrait in _allWorlds[worldName].AssociatedTraits)
             {
-                String traitLabel = curPair.Key;
-                int rolled = RandomValue(1,curPair.Value.MaxWeight+1);
-                foreach (ValueWeight curSingleTrait in curPair.Value.TraitValues)
+                worldTraits.Add(_allTraits[associatedTrait]);
+            }
+            foreach (BroadTrait curTrait in worldTraits)
+            {
+                int rolled = RandomValue(1, curTrait.MaxWeight+1);
+                foreach (ValueWeight curSingleTrait in curTrait.TraitValues)
                 {
                     if (rolled <= curSingleTrait.TraitWeight)
                     {
-                        newNPC.AddTrait(traitLabel, curSingleTrait.TraitValue);
+                        newNPC.AddTrait(curTrait.TraitName, curSingleTrait.TraitValue);
                         break;
                     }
                 }
