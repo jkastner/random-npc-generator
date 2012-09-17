@@ -1,5 +1,0 @@
-Rank 1 100
-Rank 2 150
-Rank 3 160
-Rank 4 165
-Rank 5 167

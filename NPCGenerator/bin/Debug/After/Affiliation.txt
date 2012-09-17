@@ -1,6 +1,0 @@
-City Official 8
-University 28
-Farmer 48
-Merchant 68
-Day Labor 103
-Upper Class 106

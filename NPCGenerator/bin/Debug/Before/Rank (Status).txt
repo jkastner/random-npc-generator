@@ -1,5 +1,0 @@
-None 20
-Low 60
-Medium 68
-High 73
-Very High 75

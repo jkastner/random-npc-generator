@@ -1,7 +1,0 @@
-Charity 1
-Faith 2
-Fortitude 3
-Hope 4
-Justice 5
-Prudence 6
-Temperance 7
