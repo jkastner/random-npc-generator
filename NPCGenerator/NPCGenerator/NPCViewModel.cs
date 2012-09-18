@@ -408,11 +408,11 @@ namespace NPCGenerator
 
         private void RollTrait(BroadTrait curTrait, NPC newNPC, bool chainMod)
         {
-            RollTrait(curTrait, newNPC, 0, chainMod);
+            RollTrait(curTrait, newNPC, 0, chainMod, false);
         }
 
         
-        private void RollTrait(BroadTrait curTrait, NPC newNPC, int modValue, bool chainMod)
+        private void RollTrait(BroadTrait curTrait, NPC newNPC, int modValue, bool chainMod, bool overwriteExisting)
         {
             int rolled = RandomValue(1, curTrait.MaxWeight + 1) + modValue;
             bool traitFound = false;
@@ -428,7 +428,15 @@ namespace NPCGenerator
                             ModifyLinkedTrait(newNPC, curSingleTrait);
                         }
                     }
-                    newNPC.SetValueForLabel(curTrait.TraitName, curSingleTrait.TraitValue);
+                    if (overwriteExisting)
+                        newNPC.SetValueForLabel(curTrait.TraitName, curSingleTrait.TraitValue);
+                    else
+                    {
+                        if(!newNPC.HasValueForLabel(curTrait.TraitName))
+                        {
+                            newNPC.SetValueForLabel(curTrait.TraitName, curSingleTrait.TraitValue);
+                        }
+                    }
                     break;
                 }
             }
@@ -450,7 +458,7 @@ namespace NPCGenerator
                     return;
                 }
                 BroadTrait affectedTrait = _allTraits[targetTrait];
-                RollTrait(affectedTrait, newNPC, valueChange, false);
+                RollTrait(affectedTrait, newNPC, valueChange, false, true);
             }
 
         }
