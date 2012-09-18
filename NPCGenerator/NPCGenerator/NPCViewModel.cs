@@ -296,17 +296,20 @@ namespace NPCGenerator
             NameEthnicities.Add("Weighted Random");
             NameEthnicities.Add("Random");
             NameEthnicities.Add("English");
-            
-            
+
+            List<String> tempEthnicityStorageForSorting = new List<string>();
             string[] names = System.IO.File.ReadAllLines(_firstNameFile);
-            ReadNamesToDictionary(names);
+            ReadNamesToDictionary(names, tempEthnicityStorageForSorting);
             names = System.IO.File.ReadAllLines(_lastNameFile);
-            ReadNamesToDictionary(names);
+            ReadNamesToDictionary(names, tempEthnicityStorageForSorting);
+            tempEthnicityStorageForSorting.Sort();
+            foreach (String curEth in tempEthnicityStorageForSorting)
+                NameEthnicities.Add(curEth);
             Genders.Insert(0, "Random");
             
         }
 
-        private void ReadNamesToDictionary(string[] readNames)
+        private void ReadNamesToDictionary(string[] readNames, List<String> tempEthnicityStorageForSorting)
         {
             foreach (String curLine in readNames)
             {
@@ -356,8 +359,8 @@ namespace NPCGenerator
                 }
                 foreach (string curEthnicity in ethnicitiesAssociatedWithThisName)
                 {
-                    if (!NameEthnicities.Contains(curEthnicity))
-                        NameEthnicities.Add(curEthnicity);
+                    if (!tempEthnicityStorageForSorting.Contains(curEthnicity))
+                        tempEthnicityStorageForSorting.Add(curEthnicity);
                 }
             }
         }
