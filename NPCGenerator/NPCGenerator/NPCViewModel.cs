@@ -111,9 +111,9 @@ namespace NPCGenerator
         {
             string[] lines = System.IO.File.ReadAllLines(curFile.FullName);
             int maxTraitWeight = 0;
-            Dictionary<String, int> linkedValues = new Dictionary<string, int>();
             foreach (String theLine in lines)
             {
+                Dictionary<String, int> linkedValues = new Dictionary<string, int>();
                 String line = theLine.Trim();
                 //Skip blank lines
                 if(String.IsNullOrWhiteSpace(line))
