@@ -395,20 +395,64 @@ namespace NPCGenerator
             foreach (String associatedTrait in _allWorlds[worldName].AssociatedTraits)
             {
                 worldTraits.Add(_allTraits[associatedTrait]);
+                newNPC.AddTrait(associatedTrait, "");
             }
             foreach (BroadTrait curTrait in worldTraits)
             {
-                int rolled = RandomValue(1, curTrait.MaxWeight+1);
-                foreach (ValueWeight curSingleTrait in curTrait.TraitValues)
+                RollTrait(curTrait, newNPC, true);
+
+            }
+
+            
+        }
+
+        private void RollTrait(BroadTrait curTrait, NPC newNPC, bool chainMod)
+        {
+            RollTrait(curTrait, newNPC, 0, chainMod);
+        }
+
+        
+        private void RollTrait(BroadTrait curTrait, NPC newNPC, int modValue, bool chainMod)
+        {
+            int rolled = RandomValue(1, curTrait.MaxWeight + 1) + modValue;
+            bool traitFound = false;
+            foreach (ValueWeight curSingleTrait in curTrait.TraitValues)
+            {
+                if (rolled <= curSingleTrait.TraitWeight)
                 {
-                    if (rolled <= curSingleTrait.TraitWeight)
+                    traitFound = true;
+                    if (curSingleTrait.LinkedValues.Count > 0)
                     {
-                        newNPC.AddTrait(curTrait.TraitName, curSingleTrait.TraitValue);
-                        break;
+                        if (chainMod)
+                        {
+                            ModifyLinkedTrait(newNPC, curSingleTrait);
+                        }
                     }
+                    newNPC.SetValueForLabel(curTrait.TraitName, curSingleTrait.TraitValue);
+                    break;
                 }
             }
-            
+            if (!traitFound)
+            {
+                newNPC.AddTrait(curTrait.TraitName, "No match found.");
+            }
+        }
+
+        private void ModifyLinkedTrait(NPC newNPC, ValueWeight curSingleTrait)
+        {
+            foreach (KeyValuePair<string, int> curPair in curSingleTrait.LinkedValues)
+            {
+                String targetTrait = curPair.Key;
+                int valueChange = curPair.Value;
+                if (!_allTraits.ContainsKey(targetTrait))
+                {
+                    _error = _error + " linked trait " + targetTrait + " not found for base trait result roll " + curSingleTrait.TraitValue;
+                    return;
+                }
+                BroadTrait affectedTrait = _allTraits[targetTrait];
+                RollTrait(affectedTrait, newNPC, valueChange, false);
+            }
+
         }
 
         private bool MakeRandomNames(string gender, string ethnicity, string curWorld)
@@ -483,6 +527,7 @@ namespace NPCGenerator
         }
 
         private ObservableCollection<String> _worldNames = new ObservableCollection<string>();
+        private string _saveDir = "Output";
         public ObservableCollection<String> WorldNames 
         {
             get { return _worldNames; }
@@ -519,6 +564,36 @@ namespace NPCGenerator
                 }
             }
             CurNPC.Traits = finalNPCTraits;
+            WriteOutNPC(CurNPC);
+        }
+
+        internal void WriteOutNPC(NPC CurNPC)
+        {
+            World curWorld = _allWorlds[CurNPC.WorldName];
+            String outFileName = _saveDir + @"\" + curWorld.OutputFile;
+            if (!Directory.Exists(_saveDir))
+            {
+                Directory.CreateDirectory(_saveDir);
+            }
+            StringBuilder outInfo = new StringBuilder();
+            if (!File.Exists(outFileName))
+            {
+                foreach (String curLabel in curWorld.OutputOrder)
+                {
+                    outInfo.Append(curLabel + "\t");
+                }
+                outInfo.Append("\n");
+            }
+            foreach (TraitLabelValue curTrait in CurNPC.Traits)
+            {
+                outInfo.Append(curTrait.Value + "\t");
+            }
+            outInfo.Append("\n");
+            using (StreamWriter outfile = new StreamWriter(outFileName, true))
+            {
+                outfile.Write(outInfo);
+            }
+            
         }
     }
 }

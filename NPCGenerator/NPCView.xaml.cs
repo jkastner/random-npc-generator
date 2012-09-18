@@ -74,6 +74,7 @@ namespace NPCGenerator
         private void Save_NPC_Button_Click(object sender, RoutedEventArgs e)
         {
             _npcViewModel.SaveCurrentNPC();
+            SingleNPC_DataGrid.ItemsSource = _npcViewModel.CurNPC.Traits;
             
         }
 

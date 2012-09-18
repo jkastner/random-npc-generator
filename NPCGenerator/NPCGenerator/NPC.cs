@@ -79,5 +79,10 @@ namespace NPCGenerator
             }
             return false;
         }
+
+        internal bool HasValueForLabel(string traitLabel)
+        {
+            return !String.IsNullOrWhiteSpace(GetValueForLabel(traitLabel));
+        }
     }
 }
