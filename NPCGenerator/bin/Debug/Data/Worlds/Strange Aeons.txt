@@ -31,4 +31,4 @@ Strange Aeons Created.txt
 
 
 Output Order:
-Name	Note	Gender	Affiliation	Player Name	Gender	Location	Age	Ethnicity	Status	Rank (Status)	Title	Full Flavor Text	Area of Influence	Favors	GM Only info	Adjective	Secret Affiliation	Rank – Secret Stasuses	Morality	Vice	Virtue	Derangements	Flaws
+Name	Note	Gender	Affiliation	Player Name	Gender	Location	Age	Ethnicity	Status	Rank (Status)	Title	Full Flavor Text	Area of Influence	Favors	GM Only info	Adjective	Secret Affiliation	Rank – Secret Stasuses	Morality - Strange Aeons	Vice	Virtue	Derangements	Flaws	Dark Affiliation

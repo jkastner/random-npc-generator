@@ -1,0 +1,2 @@
+Name	Note	Gender	Adjective - 1	Adjective - 2	Elements	Emotions	Nouns	Numina	Spirit Rank	Vice	Virtue	
+Placeholder		Female	Cruel	Fair-minded	Grass	Affection	Celery	Spinning	Rank 2	Lust	Justice	

@@ -24,10 +24,10 @@ namespace NPCGenerator
 
         string _firstNameFile = @"Data\Names\All First Names.txt";
         string _lastNameFile = @"Data\Names\All Last Names.txt";
-        string _worldDir =  @"Data\Worlds";
+        string _worldDirectory =  @"Data\Worlds";
         string _traitDir = @"Data\Traits";
         string _error = "";
-        private String _currentEthnicityAndGender;
+        private String _currentEthnicityAndGender = "LabelEthgender";
 
         public String CurrentEthnicityAndGender
         {
@@ -160,7 +160,7 @@ namespace NPCGenerator
         }
         void ProcessWorldFiles()
         {
-            List<FileInfo> AllWorldFiles = GatherFiles(new DirectoryInfo(_worldDir)).ToList();
+            List<FileInfo> AllWorldFiles = GatherFiles(new DirectoryInfo(_worldDirectory)).ToList();
             ReadWorldFiles(AllWorldFiles);
         }
 
@@ -286,6 +286,10 @@ namespace NPCGenerator
                 curWorld.OutputOrder.Add("Name");
                 curWorld.OutputOrder.Add("Note");
                 curWorld.OutputOrder.Add("Gender");
+                foreach (String curTrait in curWorld.AssociatedTraits)
+                {
+                    curWorld.OutputOrder.Add(curTrait);
+                }
             }
             _allWorlds.Add(worldName, curWorld);
         }
@@ -418,12 +422,17 @@ namespace NPCGenerator
         private void RollTrait(BroadTrait curTrait, NPC newNPC, int modValue, bool chainMod, bool overwriteExisting)
         {
             int rolled = RandomValue(1, curTrait.MaxWeight + 1) + modValue;
-            bool traitFound = false;
+            //If off the charts, use the last item on the chart
+            if (rolled > curTrait.MaxWeight)
+            {
+                newNPC.SetValueForLabel(curTrait.TraitName, curTrait.TraitValues.LastOrDefault().TraitValue);
+            }
+            else
+            {
             foreach (ValueWeight curSingleTrait in curTrait.TraitValues)
             {
                 if (rolled <= curSingleTrait.TraitWeight)
                 {
-                    traitFound = true;
                     if (curSingleTrait.LinkedValues.Count > 0)
                     {
                         if (chainMod)
@@ -443,10 +452,7 @@ namespace NPCGenerator
                     break;
                 }
             }
-            if (!traitFound)
-            {
-                newNPC.AddTrait(curTrait.TraitName, "No match found.");
-            }
+        }
         }
 
         private void ModifyLinkedTrait(NPC newNPC, ValueWeight curSingleTrait)
@@ -547,7 +553,6 @@ namespace NPCGenerator
 
         internal void SaveCurrentNPC()
         {
-            CurNPC.Saved = true;
             NPCs.Add(CurNPC);
             ObservableCollection<TraitLabelValue> finalNPCTraits = new ObservableCollection<TraitLabelValue>();
             World NPCWorld = _allWorlds[CurNPC.WorldName];
@@ -605,6 +610,82 @@ namespace NPCGenerator
                 outfile.Write(outInfo);
             }
             
+        }
+        private String _currentWorld;
+
+        public String CurrentWorld
+        {
+            get 
+            {
+                if(String.IsNullOrWhiteSpace(_currentWorld))
+                    return _allWorlds.FirstOrDefault().Key;
+                return _currentWorld; 
+            }
+            set 
+            {
+                _currentWorld = value;
+                OnPropertyChanged("CurrentWorld");
+            }
+        }
+        
+
+        internal void OpenWorldFromPath(string fileName)
+        {
+            fileName = Path.GetFileName(fileName);
+            fileName = fileName.Replace(".txt", "");
+            CurrentWorld = fileName;
+            World matchingWorld = _allWorlds[CurrentWorld];
+            OpenNPCFile(matchingWorld);
+            
+        }
+
+        private void OpenNPCFile(World matchingWorld)
+        {
+            NPCs.Clear();
+            if(!File.Exists(_saveDir+"\\"+matchingWorld.OutputFile))
+                return;
+            string[] lines = System.IO.File.ReadAllLines(_saveDir + "\\" + matchingWorld.OutputFile);
+            //Skip header line
+            List<String> readHeaders = new List<string>();
+            for(int curIndex = 0;curIndex <lines.Length;curIndex++)
+            {
+                String [] brokenLine = lines[curIndex].Split('\t');
+                if (curIndex == 0)
+                {
+                    foreach (String curHeader in brokenLine)
+                    {
+                        readHeaders.Add(curHeader);
+                    }
+                }
+                else
+                {
+                    NPC readNPC = new NPC();
+                    foreach (String curHeader in readHeaders)
+                    {
+                        if(!readNPC.HasTraitWithLabel(curHeader))
+                            readNPC.AddTrait(curHeader, "");
+                    }
+                    for (int curDataIndex = 0; curDataIndex < readHeaders.Count; curDataIndex++)
+                    {
+                        readNPC.SetValueForLabel(readHeaders[curDataIndex], brokenLine[curDataIndex]);
+                    }
+                    NPCs.Add(readNPC);
+                }
+            }
+
+
+        }
+
+        public string WorldDirectory 
+        { 
+            get
+            {
+                return _worldDirectory;
+            }
+            private set
+            {
+                _worldDirectory = value;
+            }
         }
     }
 }

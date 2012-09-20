@@ -56,7 +56,6 @@ namespace NPCGenerator
         
 
 
-        public bool Saved { get; set; }
 
         internal string GetValueForLabel(string traitLabel)
         {
@@ -83,6 +82,18 @@ namespace NPCGenerator
         internal bool HasValueForLabel(string traitLabel)
         {
             return !String.IsNullOrWhiteSpace(GetValueForLabel(traitLabel));
+        }
+
+        internal bool HasTraitWithLabel(string label)
+        {
+            foreach (TraitLabelValue curTrait in _traits)
+            {
+                if (curTrait.Label.Equals(label))
+                {
+                    return true;
+                }
+            }
+            return false;
         }
     }
 }

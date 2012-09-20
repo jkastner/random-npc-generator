@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Microsoft.Win32;
 
 namespace NPCGenerator
 {
@@ -21,6 +23,7 @@ namespace NPCGenerator
     public partial class NPCView : Window
     {
         private NPCViewModel _npcViewModel;
+        internal NewNPCView _newNPCView;
         public NPCView()
         {
             InitializeComponent();
@@ -31,16 +34,11 @@ namespace NPCGenerator
         {
             try
             {
-                Gender.SelectedIndex = 0;
                 _npcViewModel = new NPCViewModel();
                 DataContext = _npcViewModel;
                 NPCList_ListBox.ItemsSource = _npcViewModel.NPCs;
-                PossibleNameEthnicities_ListBox.ItemsSource = _npcViewModel.NameEthnicities;
-                PossibleNameEthnicities_ListBox.SelectedIndex = 0;
-                GeneratedNames_ListBox.ItemsSource = _npcViewModel.GeneratedRandomNames;
-                World.ItemsSource = _npcViewModel.WorldNames;
-                Gender.ItemsSource = _npcViewModel.Genders;
-                World.SelectedIndex = 0;
+
+
             }
             catch (Exception e)
             {
@@ -54,44 +52,56 @@ namespace NPCGenerator
             SingleNPC_DataGrid.ItemsSource = _npcViewModel.CurNPC.Traits;
         }
 
-        private void Generate_Button_Click(object sender, RoutedEventArgs e)
-        {
-            String ethnicity = PossibleNameEthnicities_ListBox.SelectedItem.ToString();
-            SingleNPC_DataGrid.ItemsSource = _npcViewModel.GenerateNPC(Gender.SelectedItem.ToString(), ethnicity, World.SelectedItem.ToString()).Traits; 
 
-        }
+        
 
-        private void NamesSelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            //New to trigger the datagrid to change.
-            if (GeneratedNames_ListBox.SelectedItem != null)
-            {
-                if(!_npcViewModel.CurNPC.Saved)
-                    _npcViewModel.CurNPC.Traits[0] = new TraitLabelValue("Name", GeneratedNames_ListBox.SelectedItem.ToString());
-            }
-        }
 
-        private void Save_NPC_Button_Click(object sender, RoutedEventArgs e)
-        {
-            _npcViewModel.SaveCurrentNPC();
-            SingleNPC_DataGrid.ItemsSource = _npcViewModel.CurNPC.Traits;
-            
-        }
 
-        private void test100_Click(object sender, RoutedEventArgs e)
-        {
-            for (int x = 0; x < 10000; x++)
-            {
-                String ethnicity = PossibleNameEthnicities_ListBox.SelectedItem.ToString();
-                _npcViewModel.GenerateNPC(Gender.SelectedItem.ToString(), ethnicity, World.SelectedItem.ToString());
-                _npcViewModel.SaveCurrentNPC();
-            }
-        }
+
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             DataContext = _npcViewModel;
         }
+
+        private void NewNPC_Button_Click(object sender, RoutedEventArgs e)
+        {
+            _newNPCView = new NewNPCView(_npcViewModel);
+            _newNPCView.ShowDialog();
+            if(_npcViewModel.CurNPC != null)
+                SingleNPC_DataGrid.ItemsSource = _npcViewModel.CurNPC.Traits;
+        }
+
+        private void NPCView_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+
+        }
+
+        private void Open_MenuItem_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void OpenWold_MenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog openFileDialog1 = new OpenFileDialog();
+            openFileDialog1.Filter = "Text Files (.txt)|*.txt";
+            openFileDialog1.FilterIndex = 1;
+            openFileDialog1.Multiselect = false;
+            openFileDialog1.InitialDirectory = Directory.GetCurrentDirectory()+"\\"+_npcViewModel.WorldDirectory;
+            bool? userClickedOK = openFileDialog1.ShowDialog();
+            if (userClickedOK == true)
+            {
+                String fileName = openFileDialog1.FileName;
+                _npcViewModel.OpenWorldFromPath(fileName);
+            }
+        }
+
+        private void Exit_MenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+        }
+
 
 
     }
