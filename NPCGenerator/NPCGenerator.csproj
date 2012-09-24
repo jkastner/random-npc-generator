@@ -86,6 +86,7 @@
     <Compile Include="NewNPCView.xaml.cs">
       <DependentUpon>NewNPCView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="NPCBaseWindow.cs" />
     <Compile Include="NPCGenerator\TraitLabelValue.cs" />
     <Compile Include="NPCGenerator\NameList.cs" />
     <Compile Include="NPCGenerator\BroadTrait.cs" />

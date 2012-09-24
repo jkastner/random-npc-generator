@@ -20,9 +20,8 @@ namespace NPCGenerator
     /// <summary>
     /// Interaction logic for NPCView.xaml
     /// </summary>
-    public partial class NPCView : Window
+    public partial class NPCView : NPCBaseWindow
     {
-        private NPCViewModel _npcViewModel;
         internal NewNPCView _newNPCView;
         public NPCView()
         {
@@ -76,30 +75,9 @@ namespace NPCGenerator
                 SingleNPC_DataGrid.ItemsSource = _npcViewModel.CurNPC.Traits;
         }
 
-        private void NPCView_Closing(object sender, System.ComponentModel.CancelEventArgs e)
-        {
 
-        }
 
-        private void Open_MenuItem_Click(object sender, RoutedEventArgs e)
-        {
 
-        }
-
-        private void OpenWold_MenuItem_Click(object sender, RoutedEventArgs e)
-        {
-            OpenFileDialog openFileDialog1 = new OpenFileDialog();
-            openFileDialog1.Filter = "Text Files (.txt)|*.txt";
-            openFileDialog1.FilterIndex = 1;
-            openFileDialog1.Multiselect = false;
-            openFileDialog1.InitialDirectory = Directory.GetCurrentDirectory()+"\\"+_npcViewModel.WorldDirectory;
-            bool? userClickedOK = openFileDialog1.ShowDialog();
-            if (userClickedOK == true)
-            {
-                String fileName = openFileDialog1.FileName;
-                _npcViewModel.OpenWorldFromPath(fileName);
-            }
-        }
 
         private void Exit_MenuItem_Click(object sender, RoutedEventArgs e)
         {

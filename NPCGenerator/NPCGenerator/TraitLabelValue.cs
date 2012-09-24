@@ -9,7 +9,7 @@ namespace NPCGenerator
     /// <summary>
     /// Semi-tuple. Tuple values are readonly in the data grid.
     /// </summary>
-    class TraitLabelValue
+    public class TraitLabelValue
     {
         private String _label;
 

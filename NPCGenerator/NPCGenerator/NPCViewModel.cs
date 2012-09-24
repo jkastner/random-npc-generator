@@ -10,7 +10,7 @@ using System.Windows;
 
 namespace NPCGenerator
 {
-    class NPCViewModel :INotifyPropertyChanged
+    public class NPCViewModel :INotifyPropertyChanged
     {
         private NPC _curNPC;
         private static Random _random = new Random();

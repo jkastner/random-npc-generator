@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace NPCGenerator
 {
-    class NPC
+    public class NPC
     {
         private ObservableCollection<TraitLabelValue> _traits = new ObservableCollection<TraitLabelValue>();
 

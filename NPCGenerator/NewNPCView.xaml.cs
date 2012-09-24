@@ -18,15 +18,16 @@ namespace NPCGenerator
     /// <summary>
     /// Interaction logic for NewNPCView.xaml
     /// </summary>
-    public partial class NewNPCView : Window
+    public partial class NewNPCView : NPCBaseWindow
     {
-        private NPCViewModel _npcViewModel;
+       
 
         internal NewNPCView(NPCViewModel npcViewModel)
         {
             InitializeComponent();
             this._npcViewModel = npcViewModel;
             SetDataContext();
+
         }
 
         private void SetDataContext()
@@ -38,6 +39,7 @@ namespace NPCGenerator
             Gender.ItemsSource = _npcViewModel.Genders;
             Gender.SelectedIndex = 0;
         }
+
         private void test100_Click(object sender, RoutedEventArgs e)
         {
             for (int x = 0; x < 10000; x++)
@@ -47,6 +49,7 @@ namespace NPCGenerator
                 _npcViewModel.SaveCurrentNPC();
             }
         }
+
 
         private void NamesSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -84,20 +87,7 @@ namespace NPCGenerator
             this.Close();
         }
 
-        private void OpenWold_MenuItem_Click(object sender, RoutedEventArgs e)
-        {
-            OpenFileDialog openFileDialog1 = new OpenFileDialog();
-            openFileDialog1.Filter = "Text Files (.txt)|*.txt";
-            openFileDialog1.FilterIndex = 1;
-            openFileDialog1.Multiselect = false;
-            openFileDialog1.InitialDirectory = Directory.GetCurrentDirectory() + "\\" + _npcViewModel.WorldDirectory;
-            bool? userClickedOK = openFileDialog1.ShowDialog();
-            if (userClickedOK == true)
-            {
-                String fileName = openFileDialog1.FileName;
-                _npcViewModel.OpenWorldFromPath(fileName);
-            }
-        }
+
 
         private void WindowClosedEvent(object sender, System.ComponentModel.CancelEventArgs e)
         {
@@ -114,9 +104,7 @@ namespace NPCGenerator
             if(NewNPC_DataGrid.SelectedCells.Count==2)
             {
                 MessageBox.Show(NewNPC_DataGrid.SelectedIndex.ToString());
-                
             }
-            
         }
 
 
