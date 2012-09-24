@@ -9,20 +9,28 @@ using Microsoft.Win32;
 
 namespace NPCGenerator
 {
-    public class NPCBaseWindow : Window
+    public abstract class NPCBaseWindow : Window
     {
         protected NPCViewModel _npcViewModel;
         public static RoutedCommand OpenWorldCommand = new RoutedCommand();
+        public static RoutedCommand SaveCommand = new RoutedCommand();
         public NPCBaseWindow()
         {
             OpenWorldCommand.InputGestures.Add(new KeyGesture(Key.O, ModifierKeys.Control));
-
+            SaveCommand.InputGestures.Add(new KeyGesture(Key.S, ModifierKeys.Control));
         }
 
         protected void OpenWorldCommandExecuted(object sender, ExecutedRoutedEventArgs e)
         {
             OpenWold_MenuItem_Click(sender, e);
         }
+
+        protected void SaveCommandExecuted(object sender, ExecutedRoutedEventArgs e)
+        {
+            ExecuteSave();
+        }
+
+        protected abstract void ExecuteSave();
 
         protected void OpenWold_MenuItem_Click(object sender, RoutedEventArgs e)
         {

@@ -5,87 +5,37 @@ using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
 
 namespace NPCGenerator
 {
-    public class NPCViewModel :INotifyPropertyChanged
+    public class NPCViewModel : INotifyPropertyChanged
     {
+        private const String RandomNameDistribution = "Random Name Distribution:";
+        private const String TraitFiles = "Trait Files:";
+        private const String OutputFile = "Output File:";
+        private const String OutputOrder = "Output Order:";
+        private static readonly Random _random = new Random();
+        private readonly Dictionary<String, BroadTrait> _allTraits = new Dictionary<string, BroadTrait>();
+        private readonly Dictionary<string, World> _allWorlds = new Dictionary<string, World>();
+        private readonly Dictionary<String, NameList> _names = new Dictionary<string, NameList>();
         private NPC _curNPC;
-        private static Random _random = new Random();
-
-        public NPC CurNPC
-        {
-            get { return _curNPC; }
-            set { _curNPC = value; }
-        }
-        
-
-        string _firstNameFile = @"Data\Names\All First Names.txt";
-        string _lastNameFile = @"Data\Names\All Last Names.txt";
-        string _worldDirectory =  @"Data\Worlds";
-        string _traitDir = @"Data\Traits";
-        string _error = "";
         private String _currentEthnicityAndGender = "LabelEthgender";
-
-        public String CurrentEthnicityAndGender
-        {
-            get { return _currentEthnicityAndGender; }
-            set 
-            { 
-                _currentEthnicityAndGender = value;
-                OnPropertyChanged("CurrentEthnicityAndGender");
-            }
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-        private void OnPropertyChanged(string propertyName)
-        {
-            if (PropertyChanged != null)
-                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-        }
+        private String _currentWorld;
+        private string _error = "";
 
 
-        ObservableCollection<NPC> _npcs = new ObservableCollection<NPC>();
-        public ObservableCollection<NPC> AllNPCs
-        {
-            get{return _npcs;}
-            set{_npcs = value;}
-        }
-        
-        ObservableCollection<NPC> _resultNPCs = new ObservableCollection<NPC>();
-        public ObservableCollection<NPC> ResultNPCs
-        {
-            get { return _resultNPCs; }
-            set { _resultNPCs = value; }
-        }
-
-
-        private ObservableCollection<String> _nameEthnicities = new ObservableCollection<string>();
-        public ObservableCollection<String> NameEthnicities
-        {
-            get { return _nameEthnicities; }
-            set { _nameEthnicities = value; }
-        }
+        private string _firstNameFile = @"Data\Names\All First Names.txt";
         private ObservableCollection<String> _genders = new ObservableCollection<String>();
-        public ObservableCollection<String> Genders
-        {
-            get { return _genders; }
-            set { _genders = value; }
-        }
-        
-
-        //Latin -  Male and Female  - Latin --> Bobicus, Tedimaximus
-
-        private Dictionary<String, NameList> _names = new Dictionary<string, NameList>();
         private ObservableCollection<String> _generatedRandomNames = new ObservableCollection<string>();
-        public ObservableCollection<String> GeneratedRandomNames
-        {
-            get { return _generatedRandomNames; }
-            private set { _generatedRandomNames = value; }
-        }
-        
+        private string _lastNameFile = @"Data\Names\All Last Names.txt";
+        private ObservableCollection<String> _nameEthnicities = new ObservableCollection<string>();
+        private ObservableCollection<NPC> _npcs = new ObservableCollection<NPC>();
+        private ObservableCollection<NPC> _resultNPCs = new ObservableCollection<NPC>();
+        private string _saveDir = "Output";
+        private string _traitDir = @"Data\Traits";
+        private string _worldDirectory = @"Data\Worlds";
+        private ObservableCollection<String> _worldNames = new ObservableCollection<string>();
+
         public NPCViewModel()
         {
             ReadNameFile();
@@ -93,23 +43,108 @@ namespace NPCGenerator
             ProcessWorldFiles();
         }
 
+        public NPC CurNPC
+        {
+            get { return _curNPC; }
+            set { _curNPC = value; }
+        }
+
+        public String CurrentEthnicityAndGender
+        {
+            get { return _currentEthnicityAndGender; }
+            set
+            {
+                _currentEthnicityAndGender = value;
+                OnPropertyChanged("CurrentEthnicityAndGender");
+            }
+        }
+
+        public ObservableCollection<NPC> AllNPCs
+        {
+            get { return _npcs; }
+            set { _npcs = value; }
+        }
+
+        public ObservableCollection<NPC> ResultNPCs
+        {
+            get { return _resultNPCs; }
+            set { _resultNPCs = value; }
+        }
+
+
+        public ObservableCollection<String> NameEthnicities
+        {
+            get { return _nameEthnicities; }
+            set { _nameEthnicities = value; }
+        }
+
+        public ObservableCollection<String> Genders
+        {
+            get { return _genders; }
+            set { _genders = value; }
+        }
+
+
+        //Latin -  Male and Female  - Latin --> Bobicus, Tedimaximus
+
+        public ObservableCollection<String> GeneratedRandomNames
+        {
+            get { return _generatedRandomNames; }
+            private set { _generatedRandomNames = value; }
+        }
+
+        public ObservableCollection<String> WorldNames
+        {
+            get { return _worldNames; }
+            set { _worldNames = value; }
+        }
+
+        public String CurrentWorld
+        {
+            get
+            {
+                if (String.IsNullOrWhiteSpace(_currentWorld))
+                    return _allWorlds.FirstOrDefault().Key;
+                return _currentWorld;
+            }
+            set
+            {
+                _currentWorld = value;
+                OnPropertyChanged("CurrentWorld");
+            }
+        }
+
+        public string WorldDirectory
+        {
+            get { return _worldDirectory; }
+            private set { _worldDirectory = value; }
+        }
+
+        #region INotifyPropertyChanged Members
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        #endregion
+
+        private void OnPropertyChanged(string propertyName)
+        {
+            if (PropertyChanged != null)
+                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+        }
+
         private void ProcessTraitFiles()
         {
             List<FileInfo> AllTraitFiles = GatherFiles(new DirectoryInfo(_traitDir)).ToList();
             ReadTraitFiles(AllTraitFiles);
-
         }
 
 
-
-        private Dictionary<String, BroadTrait> _allTraits = new Dictionary<string, BroadTrait>();
-        private Dictionary<string, World> _allWorlds = new Dictionary<string, World>();
         private void ReadTraitFiles(List<FileInfo> AllTraitFiles)
         {
             foreach (FileInfo curFile in AllTraitFiles)
             {
                 String traitName = curFile.Name.Split('.')[0].Trim();
-                BroadTrait newTrait = new BroadTrait(traitName);
+                var newTrait = new BroadTrait(traitName);
                 _allTraits.Add(traitName, newTrait);
                 ReadTraitFile(newTrait, curFile);
             }
@@ -117,14 +152,14 @@ namespace NPCGenerator
 
         private void ReadTraitFile(BroadTrait newTrait, FileInfo curFile)
         {
-            string[] lines = System.IO.File.ReadAllLines(curFile.FullName);
+            string[] lines = File.ReadAllLines(curFile.FullName);
             int maxTraitWeight = 0;
             foreach (String theLine in lines)
             {
-                Dictionary<String, int> linkedValues = new Dictionary<string, int>();
+                var linkedValues = new Dictionary<string, int>();
                 String line = theLine.Trim();
                 //Skip blank lines
-                if(String.IsNullOrWhiteSpace(line))
+                if (String.IsNullOrWhiteSpace(line))
                 {
                     continue;
                 }
@@ -138,12 +173,12 @@ namespace NPCGenerator
                 //Is a trait and weight
                 if (splitLine.Length >= 2)
                 {
-                    if(String.IsNullOrWhiteSpace(splitLine[1]))
+                    if (String.IsNullOrWhiteSpace(splitLine[1]))
                         traitWeight = 1;
                     else
                         traitWeight = Int32.Parse(splitLine[1]);
                 }
-                //Just trait
+                    //Just trait
                 else
                     traitWeight = 1;
                 currentTableWeight = traitWeight + maxTraitWeight;
@@ -155,10 +190,10 @@ namespace NPCGenerator
                     //Ventrue   1
                     for (int curAffectedIndex = 2; curAffectedIndex < splitLine.Length; curAffectedIndex++)
                     {
-                        if(String.IsNullOrWhiteSpace(splitLine[curAffectedIndex]))
+                        if (String.IsNullOrWhiteSpace(splitLine[curAffectedIndex]))
                             continue;
                         //Ventrue		Derangements,20 Status,10
-                        String [] curLinked = splitLine[curAffectedIndex].Split(',');
+                        String[] curLinked = splitLine[curAffectedIndex].Split(',');
                         linkedValues.Add(curLinked[0].Trim(), Int32.Parse(curLinked[1]));
                     }
                 }
@@ -166,7 +201,8 @@ namespace NPCGenerator
             }
             newTrait.MaxWeight = maxTraitWeight;
         }
-        void ProcessWorldFiles()
+
+        private void ProcessWorldFiles()
         {
             List<FileInfo> AllWorldFiles = GatherFiles(new DirectoryInfo(_worldDirectory)).ToList();
             ReadWorldFiles(AllWorldFiles);
@@ -174,17 +210,17 @@ namespace NPCGenerator
 
         private IEnumerable<FileInfo> GatherFiles(DirectoryInfo directoryInfo)
         {
-            System.IO.FileInfo[] files = null;
-            System.IO.DirectoryInfo[] subDirs = null;
+            FileInfo[] files = null;
+            DirectoryInfo[] subDirs = null;
             files = directoryInfo.GetFiles("*.*");
             if (files != null)
             {
-                foreach (System.IO.FileInfo fi in files)
+                foreach (FileInfo fi in files)
                 {
                     yield return fi;
                 }
                 subDirs = directoryInfo.GetDirectories();
-                foreach (System.IO.DirectoryInfo dirInfo in subDirs)
+                foreach (DirectoryInfo dirInfo in subDirs)
                 {
                     GatherFiles(dirInfo);
                 }
@@ -196,24 +232,18 @@ namespace NPCGenerator
             foreach (FileInfo curFile in AllWorldFiles)
             {
                 String worldName = curFile.Name.Split('.')[0].Trim();
-                World newWorld = new World(worldName);
+                var newWorld = new World(worldName);
                 WorldNames.Add(worldName);
                 ReadWorldFile(worldName, curFile);
             }
         }
 
 
-
-        const String RandomNameDistribution = "Random Name Distribution:";
-        const String TraitFiles = "Trait Files:";
-        const String OutputFile = "Output File:";
-        const String OutputOrder = "Output Order:";
-        enum ReadingType { None, TraitFiles, RandomNameDistribution, OutputFile, OutputOrder };
         private void ReadWorldFile(string worldName, FileInfo curFile)
         {
-            string[] lines = System.IO.File.ReadAllLines(curFile.FullName);
-            ReadingType curReading = ReadingType.None;
-            World curWorld = new World(worldName);
+            string[] lines = File.ReadAllLines(curFile.FullName);
+            var curReading = ReadingType.None;
+            var curWorld = new World(worldName);
             int maxNameWeight = 0;
             for (int curIndex = 0; curIndex < lines.Length; curIndex++)
             {
@@ -278,13 +308,13 @@ namespace NPCGenerator
             }
             if (curWorld.NameWeightDistribution.Count == 0)
             {
-                for(int curIndex = 0;curIndex<NameEthnicities.Count;curIndex++)
-                    curWorld.AddNameWeight(NameEthnicities[curIndex], curIndex+1);
+                for (int curIndex = 0; curIndex < NameEthnicities.Count; curIndex++)
+                    curWorld.AddNameWeight(NameEthnicities[curIndex], curIndex + 1);
                 curWorld.MaxNameWeight = NameEthnicities.Count;
             }
             if (curWorld.AssociatedTraits.Count == 0)
             {
-                foreach (KeyValuePair<String, BroadTrait> curPair in _allTraits)
+                foreach (var curPair in _allTraits)
                 {
                     curWorld.AddTrait(curPair.Key);
                 }
@@ -309,16 +339,15 @@ namespace NPCGenerator
             NameEthnicities.Add("Random");
             NameEthnicities.Add("English");
 
-            List<String> tempEthnicityStorageForSorting = new List<string>();
-            string[] names = System.IO.File.ReadAllLines(_firstNameFile);
+            var tempEthnicityStorageForSorting = new List<string>();
+            string[] names = File.ReadAllLines(_firstNameFile);
             ReadNamesToDictionary(names, tempEthnicityStorageForSorting);
-            names = System.IO.File.ReadAllLines(_lastNameFile);
+            names = File.ReadAllLines(_lastNameFile);
             ReadNamesToDictionary(names, tempEthnicityStorageForSorting);
             tempEthnicityStorageForSorting.Sort();
             foreach (String curEth in tempEthnicityStorageForSorting)
                 NameEthnicities.Add(curEth);
             Genders.Insert(0, "Random");
-            
         }
 
         private void ReadNamesToDictionary(string[] readNames, List<String> tempEthnicityStorageForSorting)
@@ -328,7 +357,7 @@ namespace NPCGenerator
                 String[] lineInfo = curLine.Split('\t');
                 String name, gender;
                 List<String> ethnicitiesAssociatedWithThisName = lineInfo.Last().Split(',').ToList();
-                for (int index = ethnicitiesAssociatedWithThisName.Count-1; index >= 0; index--)
+                for (int index = ethnicitiesAssociatedWithThisName.Count - 1; index >= 0; index--)
                 {
                     ethnicitiesAssociatedWithThisName[index] = ethnicitiesAssociatedWithThisName[index].Trim();
                     if (String.IsNullOrWhiteSpace(ethnicitiesAssociatedWithThisName[index]))
@@ -347,21 +376,20 @@ namespace NPCGenerator
                     name = lineInfo[0];
                     gender = lineInfo[1];
                     String[] genderTypes = gender.Split(' ');
-                    for(int curGenderIndex =0;curGenderIndex < genderTypes.Length;curGenderIndex++)
+                    for (int curGenderIndex = 0; curGenderIndex < genderTypes.Length; curGenderIndex++)
                     {
                         String curGender = genderTypes[curGenderIndex].Trim();
                         if (String.IsNullOrWhiteSpace(curGender))
                             continue;
-                        if(!Genders.Contains(curGender))
+                        if (!Genders.Contains(curGender))
                             Genders.Add(curGender);
                         foreach (string curEthnicity in ethnicitiesAssociatedWithThisName)
                         {
                             _names[curEthnicity].AddFirstName(name, curGender);
                         }
                     }
-                    
                 }
-                else//length is 2, Last Name
+                else //length is 2, Last Name
                 {
                     name = lineInfo[0];
                     foreach (string curEthnicity in ethnicitiesAssociatedWithThisName)
@@ -378,19 +406,17 @@ namespace NPCGenerator
         }
 
 
-
-
         internal NPC GenerateNPC(string gender, string ethnicity, String worldName)
         {
             _error = "";
             GeneratedRandomNames.Clear();
-            NPC newNPC = new NPC();
+            var newNPC = new NPC();
             gender = FixRandomGender(gender);
             ethnicity = FixRandomEthnicity(gender, ethnicity, worldName);
             CurrentEthnicityAndGender = gender + " -- " + ethnicity;
             if (MakeRandomNames(gender, ethnicity, worldName))
             {
-                CurrentEthnicityAndGender = gender+"--"+ethnicity;
+                CurrentEthnicityAndGender = gender + "--" + ethnicity;
                 NameList matchingList = _names[ethnicity];
                 if (!matchingList.FirstNames.ContainsKey(gender))
                 {
@@ -410,7 +436,7 @@ namespace NPCGenerator
 
         private void PopulateRandomTraits(NPC newNPC, String worldName)
         {
-            List<BroadTrait> worldTraits = new List<BroadTrait>();
+            var worldTraits = new List<BroadTrait>();
             foreach (String associatedTrait in _allWorlds[worldName].AssociatedTraits)
             {
                 worldTraits.Add(_allTraits[associatedTrait]);
@@ -419,10 +445,7 @@ namespace NPCGenerator
             foreach (BroadTrait curTrait in worldTraits)
             {
                 RollTrait(curTrait, newNPC, true);
-
             }
-
-            
         }
 
         private void RollTrait(BroadTrait curTrait, NPC newNPC, bool chainMod)
@@ -430,7 +453,7 @@ namespace NPCGenerator
             RollTrait(curTrait, newNPC, 0, chainMod, false);
         }
 
-        
+
         private void RollTrait(BroadTrait curTrait, NPC newNPC, int modValue, bool chainMod, bool overwriteExisting)
         {
             int rolled = RandomValue(1, curTrait.MaxWeight + 1) + modValue;
@@ -441,47 +464,47 @@ namespace NPCGenerator
             }
             else
             {
-            foreach (ValueWeight curSingleTrait in curTrait.TraitValues)
-            {
-                if (rolled <= curSingleTrait.TraitWeight)
+                foreach (ValueWeight curSingleTrait in curTrait.TraitValues)
                 {
-                    if (curSingleTrait.LinkedValues.Count > 0)
+                    if (rolled <= curSingleTrait.TraitWeight)
                     {
-                        if (chainMod)
+                        if (curSingleTrait.LinkedValues.Count > 0)
                         {
-                            ModifyLinkedTrait(newNPC, curSingleTrait);
+                            if (chainMod)
+                            {
+                                ModifyLinkedTrait(newNPC, curSingleTrait);
+                            }
                         }
-                    }
-                    if (overwriteExisting)
-                        newNPC.SetValueForLabel(curTrait.TraitName, curSingleTrait.TraitValue);
-                    else
-                    {
-                        if(!newNPC.HasValueForLabel(curTrait.TraitName))
-                        {
+                        if (overwriteExisting)
                             newNPC.SetValueForLabel(curTrait.TraitName, curSingleTrait.TraitValue);
+                        else
+                        {
+                            if (!newNPC.HasValueForLabel(curTrait.TraitName))
+                            {
+                                newNPC.SetValueForLabel(curTrait.TraitName, curSingleTrait.TraitValue);
+                            }
                         }
+                        break;
                     }
-                    break;
                 }
             }
-        }
         }
 
         private void ModifyLinkedTrait(NPC newNPC, ValueWeight curSingleTrait)
         {
-            foreach (KeyValuePair<string, int> curPair in curSingleTrait.LinkedValues)
+            foreach (var curPair in curSingleTrait.LinkedValues)
             {
                 String targetTrait = curPair.Key;
                 int valueChange = curPair.Value;
                 if (!_allTraits.ContainsKey(targetTrait))
                 {
-                    _error = _error + " linked trait " + targetTrait + " not found for base trait result roll " + curSingleTrait.TraitValue;
+                    _error = _error + " linked trait " + targetTrait + " not found for base trait result roll " +
+                             curSingleTrait.TraitValue;
                     return;
                 }
                 BroadTrait affectedTrait = _allTraits[targetTrait];
                 RollTrait(affectedTrait, newNPC, valueChange, false, true);
             }
-
         }
 
         private bool MakeRandomNames(string gender, string ethnicity, string curWorld)
@@ -490,13 +513,13 @@ namespace NPCGenerator
             {
                 return false;
             }
-            List<String> possibleFirstNames = new List<String>(_names[ethnicity].FirstNames[gender]);
-            List<String> possibleLastNames = new List<String>(_names[ethnicity].LastNames);
+            var possibleFirstNames = new List<String>(_names[ethnicity].FirstNames[gender]);
+            var possibleLastNames = new List<String>(_names[ethnicity].LastNames);
             while (GeneratedRandomNames.Count < 10 && possibleFirstNames.Count > 0)
             {
                 String firstName = possibleFirstNames[RandomValue(0, possibleFirstNames.Count)];
                 String lastName = "";
-                if(possibleLastNames.Count>0)
+                if (possibleLastNames.Count > 0)
                     lastName = possibleLastNames[RandomValue(0, possibleLastNames.Count)];
                 GeneratedRandomNames.Add((firstName + " " + lastName).Trim());
                 possibleFirstNames.Remove(firstName);
@@ -531,9 +554,9 @@ namespace NPCGenerator
             if (foundEthnicity.Equals("Random") || foundEthnicity.Equals("Weighted Random"))
                 return FixRandomEthnicity(gender, ethnicity, worldID);
             //If the user just wanted a random name but none matching was found, roll again.
-            if ((ethnicity.Equals("Random") || ethnicity.Equals("Weighted Random"))&&
+            if ((ethnicity.Equals("Random") || ethnicity.Equals("Weighted Random")) &&
                 (!_names[foundEthnicity].FirstNames.ContainsKey(gender)))
-                    return FixRandomEthnicity(gender, ethnicity, worldID);
+                return FixRandomEthnicity(gender, ethnicity, worldID);
             return foundEthnicity;
         }
 
@@ -555,18 +578,10 @@ namespace NPCGenerator
             return _random.Next(min, max);
         }
 
-        private ObservableCollection<String> _worldNames = new ObservableCollection<string>();
-        private string _saveDir = "Output";
-        public ObservableCollection<String> WorldNames 
-        {
-            get { return _worldNames; }
-            set { _worldNames = value; }
-        }
-
         internal void SaveCurrentNPC()
         {
             AllNPCs.Add(CurNPC);
-            ObservableCollection<TraitLabelValue> finalNPCTraits = new ObservableCollection<TraitLabelValue>();
+            var finalNPCTraits = new ObservableCollection<TraitLabelValue>();
             World NPCWorld = _allWorlds[CurNPC.WorldName];
             //Add in order
             for (int curIndex = 0; curIndex < NPCWorld.OutputOrder.Count; curIndex++)
@@ -580,7 +595,7 @@ namespace NPCGenerator
                 bool alreadyPresent = false;
                 foreach (TraitLabelValue curCheck in finalNPCTraits)
                 {
-                    if(curCheck.Label.Equals(curTrait.Label))
+                    if (curCheck.Label.Equals(curTrait.Label))
                     {
                         alreadyPresent = true;
                         break;
@@ -592,7 +607,6 @@ namespace NPCGenerator
                 }
             }
             CurNPC.Traits = finalNPCTraits;
-            WriteOutNPC(CurNPC);
         }
 
         internal void WriteOutNPC(NPC CurNPC)
@@ -603,7 +617,7 @@ namespace NPCGenerator
             {
                 Directory.CreateDirectory(_saveDir);
             }
-            StringBuilder outInfo = new StringBuilder();
+            var outInfo = new StringBuilder();
             if (!File.Exists(outFileName))
             {
                 foreach (String curLabel in curWorld.OutputOrder)
@@ -617,29 +631,12 @@ namespace NPCGenerator
                 outInfo.Append(curTrait.Value + "\t");
             }
             outInfo.Append("\n");
-            using (StreamWriter outfile = new StreamWriter(outFileName, true))
+            using (var outfile = new StreamWriter(outFileName, true))
             {
                 outfile.Write(outInfo);
             }
-            
         }
-        private String _currentWorld;
 
-        public String CurrentWorld
-        {
-            get 
-            {
-                if(String.IsNullOrWhiteSpace(_currentWorld))
-                    return _allWorlds.FirstOrDefault().Key;
-                return _currentWorld; 
-            }
-            set 
-            {
-                _currentWorld = value;
-                OnPropertyChanged("CurrentWorld");
-            }
-        }
-        
 
         internal void OpenWorldFromPath(string fileName)
         {
@@ -648,21 +645,20 @@ namespace NPCGenerator
             CurrentWorld = fileName;
             World matchingWorld = _allWorlds[CurrentWorld];
             OpenNPCFile(matchingWorld);
-            
         }
 
         private void OpenNPCFile(World matchingWorld)
         {
             AllNPCs.Clear();
             ResultNPCs.Clear();
-            if(!File.Exists(_saveDir+"\\"+matchingWorld.OutputFile))
+            if (!File.Exists(_saveDir + "\\" + matchingWorld.OutputFile))
                 return;
-            string[] lines = System.IO.File.ReadAllLines(_saveDir + "\\" + matchingWorld.OutputFile);
+            string[] lines = File.ReadAllLines(_saveDir + "\\" + matchingWorld.OutputFile);
             //Skip header line
-            List<String> readHeaders = new List<string>();
-            for(int curIndex = 0;curIndex <lines.Length;curIndex++)
+            var readHeaders = new List<string>();
+            for (int curIndex = 0; curIndex < lines.Length; curIndex++)
             {
-                String [] brokenLine = lines[curIndex].Split('\t');
+                String[] brokenLine = lines[curIndex].Split('\t');
                 if (curIndex == 0)
                 {
                     foreach (String curHeader in brokenLine)
@@ -672,34 +668,21 @@ namespace NPCGenerator
                 }
                 else
                 {
-                    NPC readNPC = new NPC();
+                    var readNPC = new NPC();
                     foreach (String curHeader in readHeaders)
                     {
-                        if(!readNPC.HasTraitWithLabel(curHeader))
+                        if (!readNPC.HasTraitWithLabel(curHeader))
                             readNPC.AddTrait(curHeader, "");
                     }
                     for (int curDataIndex = 0; curDataIndex < readHeaders.Count; curDataIndex++)
                     {
                         readNPC.SetValueForLabel(readHeaders[curDataIndex], brokenLine[curDataIndex]);
                     }
+                    readNPC.WorldName = matchingWorld.WorldName;
                     AllNPCs.Add(readNPC);
                 }
             }
             SetResultsToAll();
-
-
-        }
-
-        public string WorldDirectory 
-        { 
-            get
-            {
-                return _worldDirectory;
-            }
-            private set
-            {
-                _worldDirectory = value;
-            }
         }
 
         internal void SearchNPCs(string searchInfo)
@@ -720,7 +703,6 @@ namespace NPCGenerator
                     bool NPCHasCurTerm = false;
                     foreach (TraitLabelValue curTrait in curNPC.Traits)
                     {
-
                         if (curTrait.Value.ToLower().Contains(curTerm))
                         {
                             NPCHasCurTerm = true;
@@ -742,11 +724,34 @@ namespace NPCGenerator
 
         private void SetResultsToAll()
         {
-            if(ResultNPCs.Count!=AllNPCs.Count)
-            foreach (NPC curNPC in AllNPCs)
+            if (ResultNPCs.Count != AllNPCs.Count)
+                foreach (NPC curNPC in AllNPCs)
+                {
+                    ResultNPCs.Add(curNPC);
+                }
+        }
+
+        internal void SaveAllNPCS()
+        {
+            if (File.Exists(_saveDir + @"\" + _allWorlds[CurrentWorld].OutputFile))
+                File.Delete(_saveDir+@"\"+_allWorlds[CurrentWorld].OutputFile);
+            foreach(NPC curNPC in AllNPCs)
             {
-                ResultNPCs.Add(curNPC);
+                WriteOutNPC(curNPC);
             }
         }
+
+        #region Nested type: ReadingType
+
+        private enum ReadingType
+        {
+            None,
+            TraitFiles,
+            RandomNameDistribution,
+            OutputFile,
+            OutputOrder
+        };
+
+        #endregion
     }
 }

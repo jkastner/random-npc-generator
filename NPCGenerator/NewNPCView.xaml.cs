@@ -74,12 +74,7 @@ namespace NPCGenerator
 
         private void Save_Button_Click(object sender, RoutedEventArgs e)
         {
-            if (_npcViewModel != null)
-            {
-                _npcViewModel.SaveCurrentNPC();
-                _wasSaved = true;
-                this.Close();
-            }
+            ExecuteSave();
         }
 
         private void CloseWindow(object sender, RoutedEventArgs e)
@@ -108,7 +103,15 @@ namespace NPCGenerator
         }
 
 
-
+        protected override void ExecuteSave()
+        {
+            if (_npcViewModel != null)
+            {
+                _npcViewModel.SaveCurrentNPC();
+                _wasSaved = true;
+                this.Close();
+            }
+        }
     }
 
 }

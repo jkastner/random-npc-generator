@@ -7,6 +7,7 @@
         >
     <Window.CommandBindings>
         <CommandBinding Command="{x:Static NPCGenerator:NPCBaseWindow.OpenWorldCommand}" Executed="OpenWorldCommandExecuted"/>
+        <CommandBinding Command="{x:Static NPCGenerator:NPCBaseWindow.SaveCommand}" Executed="SaveCommandExecuted"/>
     </Window.CommandBindings>
     <Grid>
         <Grid.RowDefinitions>
@@ -20,7 +21,7 @@
                 <Separator />
                 <MenuItem Header="_Open World..."  Click="OpenWold_MenuItem_Click"/>
                 <Separator />
-                <MenuItem Header="_Save" />
+                <MenuItem Header="_Save" Click="SaveNPCS_MenuItem_Click"/>
                 <Separator />
                 <MenuItem Header="_Exit" Click="Exit_MenuItem_Click"/>
             </MenuItem>

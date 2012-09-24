@@ -100,5 +100,14 @@ namespace NPCGenerator
 
         }
 
+        private void SaveNPCS_MenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            ExecuteSave();
+        }
+
+        protected override void ExecuteSave()
+        {
+            _npcViewModel.SaveAllNPCS();
+        }
     }
 }
