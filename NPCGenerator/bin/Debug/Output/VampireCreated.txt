@@ -61,3 +61,5 @@ Hasdrubal	Ventrue in the Senex	Coordinated, apologetic, slightly afraid.	Ventrue
 Fiorella Breda	Ventrue who went nuts and murdered Alex's mortal family.	Energetic, animated, demanding.	Ventrue	Senex	2	3	180	Straight	Gluttony	Prudence			Female		-444							Narcissism	58						
 Seidel	Seidel - beat the Ventrue into unconsciousness	Graceful	Human			5	50	Bisexual	Sloth	Faith			Male									No derangement	32						
 Orsino	Werewolf - fought the old king	Physical	Nosferatu		1	2	320	Straight	Lust	Justice			Male		-584							No derangement	31						
+Antigonus	newlymade	Male	Handy	Mekhet	Senex	3	2	100	Bisexual	Gluttony	Justice			Male									No derangement	30							
+Avigayil		Female	Gleeful	Julii	Peregrine Collegia	4	4	100	Gay	Envy	Faith			Female									Irrationality	48							

@@ -36,7 +36,8 @@ namespace NPCGenerator
             {
                 _npcViewModel = new NPCViewModel();
                 DataContext = _npcViewModel;
-                NPCList_ListBox.ItemsSource = _npcViewModel.NPCs;
+                NPCList_ListBox.ItemsSource = _npcViewModel.ResultNPCs;
+                _npcViewModel.OpenWorldFromPath(_npcViewModel.WorldNames.FirstOrDefault());
 
 
             }
@@ -49,7 +50,10 @@ namespace NPCGenerator
         void NPCList_SelectionChanged(object sender, SelectionChangedEventArgs args)
         {
             _npcViewModel.CurNPC = NPCList_ListBox.SelectedItem as NPC;
-            SingleNPC_DataGrid.ItemsSource = _npcViewModel.CurNPC.Traits;
+            if (_npcViewModel.CurNPC != null)
+                SingleNPC_DataGrid.ItemsSource = _npcViewModel.CurNPC.Traits;
+            else
+                SingleNPC_DataGrid.SelectedItem = null;
         }
 
 
@@ -103,6 +107,20 @@ namespace NPCGenerator
         }
 
 
+
+
+
+        private void SearchBox_TextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if(_npcViewModel != null)
+                _npcViewModel.SearchNPCs(SearchBox_TextBox.Text);
+        }
+
+        private void SearchBox_GotFocus(object sender, RoutedEventArgs e)
+        {
+            SearchBox_TextBox.SelectAll();
+
+        }
 
     }
 }

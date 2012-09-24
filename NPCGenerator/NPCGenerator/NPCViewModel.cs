@@ -48,11 +48,19 @@ namespace NPCGenerator
 
 
         ObservableCollection<NPC> _npcs = new ObservableCollection<NPC>();
-        public ObservableCollection<NPC> NPCs
+        public ObservableCollection<NPC> AllNPCs
         {
             get{return _npcs;}
             set{_npcs = value;}
         }
+        
+        ObservableCollection<NPC> _resultNPCs = new ObservableCollection<NPC>();
+        public ObservableCollection<NPC> ResultNPCs
+        {
+            get { return _resultNPCs; }
+            set { _resultNPCs = value; }
+        }
+
 
         private ObservableCollection<String> _nameEthnicities = new ObservableCollection<string>();
         public ObservableCollection<String> NameEthnicities
@@ -393,6 +401,8 @@ namespace NPCGenerator
                 _curNPC = newNPC;
             }
             newNPC.WorldName = worldName;
+            ResultNPCs.Add(newNPC);
+            AllNPCs.Add(CurNPC);
             return newNPC;
         }
 
@@ -553,7 +563,7 @@ namespace NPCGenerator
 
         internal void SaveCurrentNPC()
         {
-            NPCs.Add(CurNPC);
+            AllNPCs.Add(CurNPC);
             ObservableCollection<TraitLabelValue> finalNPCTraits = new ObservableCollection<TraitLabelValue>();
             World NPCWorld = _allWorlds[CurNPC.WorldName];
             //Add in order
@@ -641,7 +651,8 @@ namespace NPCGenerator
 
         private void OpenNPCFile(World matchingWorld)
         {
-            NPCs.Clear();
+            AllNPCs.Clear();
+            ResultNPCs.Clear();
             if(!File.Exists(_saveDir+"\\"+matchingWorld.OutputFile))
                 return;
             string[] lines = System.IO.File.ReadAllLines(_saveDir + "\\" + matchingWorld.OutputFile);
@@ -669,9 +680,10 @@ namespace NPCGenerator
                     {
                         readNPC.SetValueForLabel(readHeaders[curDataIndex], brokenLine[curDataIndex]);
                     }
-                    NPCs.Add(readNPC);
+                    AllNPCs.Add(readNPC);
                 }
             }
+            SetResultsToAll();
 
 
         }
@@ -685,6 +697,53 @@ namespace NPCGenerator
             private set
             {
                 _worldDirectory = value;
+            }
+        }
+
+        internal void SearchNPCs(string searchInfo)
+        {
+            if (String.IsNullOrWhiteSpace(searchInfo))
+            {
+                SetResultsToAll();
+                return;
+            }
+            searchInfo = searchInfo.ToLower().Trim();
+            ResultNPCs.Clear();
+            String[] searchTerms = searchInfo.Split(' ');
+            foreach (NPC curNPC in AllNPCs)
+            {
+                bool isValidNPC = true;
+                foreach (String curTerm in searchTerms)
+                {
+                    bool NPCHasCurTerm = false;
+                    foreach (TraitLabelValue curTrait in curNPC.Traits)
+                    {
+
+                        if (curTrait.Value.ToLower().Contains(curTerm))
+                        {
+                            NPCHasCurTerm = true;
+                            break;
+                        }
+                    }
+                    isValidNPC &= NPCHasCurTerm;
+                    if (!isValidNPC)
+                    {
+                        break;
+                    }
+                }
+                if (isValidNPC)
+                {
+                    ResultNPCs.Add(curNPC);
+                }
+            }
+        }
+
+        private void SetResultsToAll()
+        {
+            if(ResultNPCs.Count!=AllNPCs.Count)
+            foreach (NPC curNPC in AllNPCs)
+            {
+                ResultNPCs.Add(curNPC);
             }
         }
     }
