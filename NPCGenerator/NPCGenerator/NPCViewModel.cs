@@ -663,7 +663,8 @@ namespace NPCGenerator
                 {
                     foreach (String curHeader in brokenLine)
                     {
-                        readHeaders.Add(curHeader);
+                        if(!String.IsNullOrEmpty(curHeader))
+                            readHeaders.Add(curHeader);
                     }
                 }
                 else

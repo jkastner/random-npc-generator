@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace NPCGenerator
 {
@@ -11,12 +8,11 @@ namespace NPCGenerator
     {
         private ObservableCollection<TraitLabelValue> _traits = new ObservableCollection<TraitLabelValue>();
 
-        public NPC():
+        public NPC() :
             this("Placeholder")
         {
-
         }
-      
+
         public NPC(string p1)
         {
             AddTrait("Name", p1);
@@ -36,6 +32,8 @@ namespace NPCGenerator
             set { _traits = value; }
         }
 
+        public String WorldName { get; set; }
+
         public override string ToString()
         {
             return Traits.First().ToString();
@@ -45,16 +43,6 @@ namespace NPCGenerator
         {
             Traits.Add(new TraitLabelValue(label, value));
         }
-
-        private String _worldName;
-
-        public String WorldName
-        {
-            get { return _worldName; }
-            set { _worldName = value; }
-        }
-        
-
 
 
         internal string GetValueForLabel(string traitLabel)
@@ -66,6 +54,7 @@ namespace NPCGenerator
             }
             return "";
         }
+
         internal bool SetValueForLabel(string traitLabel, string newValue)
         {
             foreach (TraitLabelValue curTrait in _traits)

@@ -44,7 +44,10 @@ namespace NPCGenerator
             {
                 String fileName = openFileDialog1.FileName;
                 _npcViewModel.OpenWorldFromPath(fileName);
+                OpenNewWorldSuccessful();
             }
         }
+
+        protected abstract void OpenNewWorldSuccessful();
     }
 }

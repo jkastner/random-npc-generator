@@ -1,19 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using Microsoft.Win32;
 
 namespace NPCGenerator
 {
@@ -23,6 +12,7 @@ namespace NPCGenerator
     public partial class NPCView : NPCBaseWindow
     {
         internal NewNPCView _newNPCView;
+
         public NPCView()
         {
             InitializeComponent();
@@ -34,11 +24,8 @@ namespace NPCGenerator
             try
             {
                 _npcViewModel = new NPCViewModel();
-                DataContext = _npcViewModel;
                 NPCList_ListBox.ItemsSource = _npcViewModel.ResultNPCs;
                 _npcViewModel.OpenWorldFromPath(_npcViewModel.WorldNames.FirstOrDefault());
-
-
             }
             catch (Exception e)
             {
@@ -46,7 +33,7 @@ namespace NPCGenerator
             }
         }
 
-        void NPCList_SelectionChanged(object sender, SelectionChangedEventArgs args)
+        private void NPCList_SelectionChanged(object sender, SelectionChangedEventArgs args)
         {
             _npcViewModel.CurNPC = NPCList_ListBox.SelectedItem as NPC;
             if (_npcViewModel.CurNPC != null)
@@ -56,48 +43,32 @@ namespace NPCGenerator
         }
 
 
-        
-
-
-
-
-
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             DataContext = _npcViewModel;
+            //EventManager.RegisterClassHandler(typeof (TextBox), PreviewMouseLeftButtonDownEvent, new MouseButtonEventHandler(SelectivelyHandleMouseButton), true);
+            EventManager.RegisterClassHandler(typeof(TextBox), GotKeyboardFocusEvent, new RoutedEventHandler(SearchBox_GotFocus), true);
         }
 
         private void NewNPC_Button_Click(object sender, RoutedEventArgs e)
         {
             _newNPCView = new NewNPCView(_npcViewModel);
             _newNPCView.ShowDialog();
-            if(_npcViewModel.CurNPC != null)
+            if (_npcViewModel.CurNPC != null)
                 SingleNPC_DataGrid.ItemsSource = _npcViewModel.CurNPC.Traits;
         }
 
 
-
-
-
         private void Exit_MenuItem_Click(object sender, RoutedEventArgs e)
         {
-            this.Close();
+            Close();
         }
-
-
-
 
 
         private void SearchBox_TextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
-            if(_npcViewModel != null)
+            if (_npcViewModel != null)
                 _npcViewModel.SearchNPCs(SearchBox_TextBox.Text);
-        }
-
-        private void SearchBox_GotFocus(object sender, RoutedEventArgs e)
-        {
-            SearchBox_TextBox.SelectAll();
-
         }
 
         private void SaveNPCS_MenuItem_Click(object sender, RoutedEventArgs e)
@@ -108,6 +79,32 @@ namespace NPCGenerator
         protected override void ExecuteSave()
         {
             _npcViewModel.SaveAllNPCS();
+        }
+
+        protected override void OpenNewWorldSuccessful()
+        {
+            SingleNPC_DataGrid.ItemsSource = null;
+        }
+
+
+        private void SelectivelyHandleMouseButton(object sender, MouseButtonEventArgs e)
+        {
+            var textbox = (sender as TextBox);
+            if (textbox != null && !textbox.IsKeyboardFocusWithin)
+            {
+                if (e.OriginalSource.GetType().Name == "TextBoxView")
+                {
+                    e.Handled = true;
+                    textbox.Focus();
+                }
+            }
+        }
+
+
+        private void SearchBox_GotFocus(object sender, RoutedEventArgs e)
+        {
+            var textBox = e.OriginalSource as TextBox;
+            if (textBox != null) textBox.SelectAll();
         }
     }
 }

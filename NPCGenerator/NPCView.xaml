@@ -31,7 +31,7 @@
         <DataGrid Name="SingleNPC_DataGrid" Grid.Row="2" CanUserSortColumns="False" HorizontalAlignment="Stretch"   HeadersVisibility="None" Margin="0,280,0,0" VerticalAlignment="Stretch" MinWidth="144" MinHeight="188"/>
 
         <Button Name ="NewNPC_Button" Grid.Row="2"  Content="New NPC" HorizontalAlignment="Left" Margin="92,230,0,0" VerticalAlignment="Top" Width="76" Click="NewNPC_Button_Click"/>
-        <TextBox Name="SearchBox_TextBox" TextChanged="SearchBox_TextBox_TextChanged" GotFocus="SearchBox_GotFocus" Grid.Row="1" HorizontalAlignment="Left" Height="26" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="576" Margin="0,5,0,0" Grid.RowSpan="2" BorderThickness="3"/>
+        <TextBox Name="SearchBox_TextBox"  GotFocus="SearchBox_GotFocus" PreviewMouseLeftButtonDown="SelectivelyHandleMouseButton" TextChanged="SearchBox_TextBox_TextChanged" Grid.Row="1" HorizontalAlignment="Left" Height="26" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="576" Margin="0,5,0,0" Grid.RowSpan="2" BorderThickness="3"/>
 
 
 

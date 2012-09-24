@@ -112,6 +112,11 @@ namespace NPCGenerator
                 this.Close();
             }
         }
+
+        protected override void OpenNewWorldSuccessful()
+        {
+            NewNPC_DataGrid.ItemsSource = null;
+        }
     }
 
 }
