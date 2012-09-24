@@ -108,5 +108,19 @@ namespace NPCGenerator
 
 
         public bool _wasSaved { get; set; }
+
+        private void NewNPC_DataGrid_TextSelection(object sender, SelectedCellsChangedEventArgs e)
+        {
+            if(NewNPC_DataGrid.SelectedCells.Count==2)
+            {
+                MessageBox.Show(NewNPC_DataGrid.SelectedIndex.ToString());
+                
+            }
+            
+        }
+
+
+
     }
+
 }

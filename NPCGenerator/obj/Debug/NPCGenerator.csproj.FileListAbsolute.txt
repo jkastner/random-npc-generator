@@ -26,3 +26,8 @@ C:\Users\johnathan\Documents\Visual Studio 2012\Projects\CharGen\NPCGenerator\ob
 C:\Users\Kastner\documents\visual studio 2012\Projects\NPCGenerator\NPCGenerator\obj\Debug\NPCGenerator.csprojResolveAssemblyReference.cache
 C:\Users\Kastner\documents\visual studio 2012\Projects\NPCGenerator\NPCGenerator\obj\Debug\NewNPCView.baml
 C:\Users\Kastner\documents\visual studio 2012\Projects\NPCGenerator\NPCGenerator\obj\Debug\NewNPCView.g.cs
+C:\Users\johnathan\Documents\Visual Studio 2012\Projects\CharGen\NPCGenerator\obj\Debug\NewNPCView.baml
+C:\Users\johnathan\Documents\Visual Studio 2012\Projects\CharGen\NPCGenerator\obj\Debug\NewNPCView.g.cs
+C:\Users\johnathan\Documents\Visual Studio 2012\Projects\CharGen\NPCGenerator\bin\Debug\Microsoft.Expression.Drawing.dll
+C:\Users\johnathan\Documents\Visual Studio 2012\Projects\CharGen\NPCGenerator\bin\Debug\Microsoft.Expression.Drawing.xml
+C:\Users\johnathan\Documents\Visual Studio 2012\Projects\CharGen\NPCGenerator\obj\Debug\Simple Styles.baml

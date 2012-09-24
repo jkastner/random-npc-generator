@@ -387,6 +387,7 @@ namespace NPCGenerator
             NPC newNPC = new NPC();
             gender = FixRandomGender(gender);
             ethnicity = FixRandomEthnicity(gender, ethnicity, worldName);
+            CurrentEthnicityAndGender = gender + " -- " + ethnicity;
             if (MakeRandomNames(gender, ethnicity, worldName))
             {
                 CurrentEthnicityAndGender = gender+"--"+ethnicity;
@@ -403,6 +404,7 @@ namespace NPCGenerator
             newNPC.WorldName = worldName;
             ResultNPCs.Add(newNPC);
             AllNPCs.Add(CurNPC);
+
             return newNPC;
         }
 

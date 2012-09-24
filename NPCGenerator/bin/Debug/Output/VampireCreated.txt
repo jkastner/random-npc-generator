@@ -63,3 +63,5 @@ Seidel	Seidel - beat the Ventrue into unconsciousness	Graceful	Human			5	50	Bise
 Orsino	Werewolf - fought the old king	Physical	Nosferatu		1	2	320	Straight	Lust	Justice			Male		-584							No derangement	31						
 Antigonus	newlymade	Male	Handy	Mekhet	Senex	3	2	100	Bisexual	Gluttony	Justice			Male									No derangement	30							
 Avigayil		Female	Gleeful	Julii	Peregrine Collegia	4	4	100	Gay	Envy	Faith			Female									Irrationality	48							
+Raginmund		Male	Fumbling	Nosferatu	Cult of Augurs	4	2	75	Straight	Greed	Fortitude			Male									No derangement	29							
+Roger Walter		Male	Cluttered	Ventrue	Senex	2	5	150	Straight	Envy	Fortitude			Male									Depression	22							
