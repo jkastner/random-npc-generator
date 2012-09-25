@@ -27,6 +27,7 @@ namespace NPCGenerator
             InitializeComponent();
             this._npcViewModel = npcViewModel;
             SetDataContext();
+            GenerateNPC();
 
         }
 
@@ -46,7 +47,7 @@ namespace NPCGenerator
             {
                 String ethnicity = PossibleNameEthnicities_ListBox.SelectedItem.ToString();
                 _npcViewModel.GenerateNPC(Gender.SelectedItem.ToString(), ethnicity, _npcViewModel.CurrentWorld);
-                _npcViewModel.SaveCurrentNPC();
+                _npcViewModel.FinalizeCurrentNPC();
             }
         }
 
@@ -62,9 +63,16 @@ namespace NPCGenerator
 
         private void Generate_Button_Click(object sender, RoutedEventArgs e)
         {
+            GenerateNPC();
+        }
+
+        private void GenerateNPC()
+        {
             String ethnicity = PossibleNameEthnicities_ListBox.SelectedItem.ToString();
             _npcViewModel.GenerateNPC(Gender.SelectedItem.ToString(), ethnicity, _npcViewModel.CurrentWorld);
             NPC_Generated();
+            if (GeneratedNames_ListBox.Items.Count > 0)
+                GeneratedNames_ListBox.SelectedIndex = 0;
         }
 
         private void NPC_Generated()
@@ -98,7 +106,7 @@ namespace NPCGenerator
         {
             if(NewNPC_DataGrid.SelectedCells.Count==2)
             {
-                MessageBox.Show(NewNPC_DataGrid.SelectedIndex.ToString());
+                //Todo - auto select single cell
             }
         }
 
@@ -107,7 +115,7 @@ namespace NPCGenerator
         {
             if (_npcViewModel != null)
             {
-                _npcViewModel.SaveCurrentNPC();
+                _npcViewModel.FinalizeCurrentNPC();
                 _wasSaved = true;
                 this.Close();
             }
@@ -116,6 +124,7 @@ namespace NPCGenerator
         protected override void OpenNewWorldSuccessful()
         {
             NewNPC_DataGrid.ItemsSource = null;
+            GenerateNPC();
         }
     }
 

@@ -428,9 +428,6 @@ namespace NPCGenerator
                 _curNPC = newNPC;
             }
             newNPC.WorldName = worldName;
-            ResultNPCs.Add(newNPC);
-            AllNPCs.Add(CurNPC);
-
             return newNPC;
         }
 
@@ -578,8 +575,9 @@ namespace NPCGenerator
             return _random.Next(min, max);
         }
 
-        internal void SaveCurrentNPC()
+        internal void FinalizeCurrentNPC()
         {
+            ResultNPCs.Add(CurNPC);
             AllNPCs.Add(CurNPC);
             var finalNPCTraits = new ObservableCollection<TraitLabelValue>();
             World NPCWorld = _allWorlds[CurNPC.WorldName];
