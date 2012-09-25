@@ -26,14 +26,14 @@
             </MenuItem>
         </Menu>
 
-        <ListBox Name="PossibleNameEthnicities_ListBox"  HorizontalAlignment="Left" Height="250" Margin="351,53,0,0" VerticalAlignment="Top" Width="194" RenderTransformOrigin="0.055,0.463" Grid.RowSpan="2"/>
+        <ListBox Name="PossibleNameEthnicities_ListBox"  HorizontalAlignment="Left" Height="250" Margin="351,76,0,0" VerticalAlignment="Top" Width="228" RenderTransformOrigin="0.055,0.463" Grid.RowSpan="2"/>
         <ComboBox x:Name="Gender" Margin="104,62,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" MaxDropDownHeight="357" MinWidth="100" RenderTransformOrigin="0.362,0.508" />
-        <ListBox Name="GeneratedNames_ListBox" SelectionChanged="NamesSelectionChanged" HorizontalAlignment="Left" Height="178" Margin="10,143,0,0" VerticalAlignment="Top" Width="234" Grid.RowSpan="2"/>
+        <ListBox Name="GeneratedNames_ListBox" SelectionChanged="NamesSelectionChanged" HorizontalAlignment="Left" Height="178" Margin="10,148,0,0" VerticalAlignment="Top" Width="322" Grid.RowSpan="2"/>
         <Button Name="GenerateBunchaTestSubjects" Content="GenTest" HorizontalAlignment="Left" Height="43" Margin="423,460,0,0" VerticalAlignment="Top" Width="48" Click="test100_Click" Grid.Row="1"/>
         <Button Name="Generate_Button" Content="Generate" HorizontalAlignment="Left" Margin="10,62,0,0" VerticalAlignment="Top" Width="75" Click="Generate_Button_Click" RenderTransformOrigin="0.942,0.478" IsDefault="True"/>
-        <Label Name ="CurEthnicity_Label" Content="{Binding CurrentEthnicityAndGender}" HorizontalAlignment="Left" Height="30" Margin="10,108,0,0" VerticalAlignment="Top" Width="194"/>
+        <Label Name ="CurEthnicity_Label" Content="{Binding GeneratedResultMessage}" HorizontalAlignment="Left" Height="71" Margin="351,0,0,0" VerticalAlignment="Top" Width="228"/>
         <Label Name ="CurWorld_Label" Content="{Binding CurrentWorld}" HorizontalAlignment="Left" Height="30" Margin="10,27,0,0" VerticalAlignment="Top" Width="234" BorderThickness="2" />
-        <DataGrid Name="NewNPC_DataGrid" CanUserSortColumns="False" HorizontalAlignment="Left" SelectedCellsChanged="NewNPC_DataGrid_TextSelection"  HeadersVisibility="None" Margin="10,157,0,0" VerticalAlignment="Top" Width="497" Height="247" Grid.Row="1"/>
+        <DataGrid Name="NewNPC_DataGrid" CanUserSortColumns="False" HorizontalAlignment="Left" SelectedCellsChanged="NewNPC_DataGrid_TextSelection"  HeadersVisibility="None" Margin="10,172,0,0" VerticalAlignment="Top" Width="569" Height="247" Grid.Row="1"/>
         <Button Name="Save_Button" Content="Save" HorizontalAlignment="Left" Margin="257,62,0,0" VerticalAlignment="Top" Width="75" Click="Save_Button_Click"/>
         <Button Name="Cancel_Button" Content="Cancel" HorizontalAlignment="Left" Margin="257,107,0,0" VerticalAlignment="Top" Width="75" Click="CloseWindow" Height="22" IsCancel="True"/>
 

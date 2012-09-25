@@ -19,9 +19,8 @@ namespace NPCGenerator
         private readonly Dictionary<string, World> _allWorlds = new Dictionary<string, World>();
         private readonly Dictionary<String, NameList> _names = new Dictionary<string, NameList>();
         private NPC _curNPC;
-        private String _currentEthnicityAndGender = "LabelEthgender";
+        private String _generatedResultMessage = "";
         private String _currentWorld;
-        private string _error = "";
 
 
         private string _firstNameFile = @"Data\Names\All First Names.txt";
@@ -49,13 +48,13 @@ namespace NPCGenerator
             set { _curNPC = value; }
         }
 
-        public String CurrentEthnicityAndGender
+        public String GeneratedResultMessage
         {
-            get { return _currentEthnicityAndGender; }
+            get { return _generatedResultMessage; }
             set
             {
-                _currentEthnicityAndGender = value;
-                OnPropertyChanged("CurrentEthnicityAndGender");
+                _generatedResultMessage = value;
+                OnPropertyChanged("GeneratedResultMessage");
             }
         }
 
@@ -114,6 +113,7 @@ namespace NPCGenerator
             }
         }
 
+     
         public string WorldDirectory
         {
             get { return _worldDirectory; }
@@ -408,24 +408,23 @@ namespace NPCGenerator
 
         internal NPC GenerateNPC(string gender, string ethnicity, String worldName)
         {
-            _error = "";
+            GeneratedResultMessage = "";
             GeneratedRandomNames.Clear();
             var newNPC = new NPC();
             gender = FixRandomGender(gender);
             ethnicity = FixRandomEthnicity(gender, ethnicity, worldName);
-            CurrentEthnicityAndGender = gender + " -- " + ethnicity;
             if (MakeRandomNames(gender, ethnicity, worldName))
             {
-                CurrentEthnicityAndGender = gender + "--" + ethnicity;
+                GeneratedResultMessage = gender + "--" + ethnicity;
                 NameList matchingList = _names[ethnicity];
-                if (!matchingList.FirstNames.ContainsKey(gender))
-                {
-                    _error = "No gender match for ethnicity - " + ethnicity;
-                    return _curNPC;
-                }
                 PopulateRandomTraits(newNPC, worldName);
                 newNPC.SetValueForLabel("Gender", gender);
                 _curNPC = newNPC;
+            }
+            else
+            {
+                GeneratedResultMessage = "No match for\nGender: "+gender+"\nEthnicity: " + ethnicity;
+                return null;
             }
             newNPC.WorldName = worldName;
             return newNPC;
@@ -495,7 +494,7 @@ namespace NPCGenerator
                 int valueChange = curPair.Value;
                 if (!_allTraits.ContainsKey(targetTrait))
                 {
-                    _error = _error + " linked trait " + targetTrait + " not found for base trait result roll " +
+                    GeneratedResultMessage = GeneratedResultMessage + " linked trait " + targetTrait + " not found for base trait result roll " +
                              curSingleTrait.TraitValue;
                     return;
                 }
