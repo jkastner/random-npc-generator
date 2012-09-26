@@ -25,7 +25,7 @@ namespace NPCGenerator
             {
                 _npcViewModel = new NPCViewModel();
                 NPCList_ListBox.ItemsSource = _npcViewModel.ResultNPCs;
-                _npcViewModel.OpenWorldFromPath(_npcViewModel.WorldNames.FirstOrDefault());
+                OpenWorld(_npcViewModel.WorldNames.FirstOrDefault());
             }
             catch (Exception e)
             {
@@ -105,6 +105,15 @@ namespace NPCGenerator
         {
             var textBox = e.OriginalSource as TextBox;
             if (textBox != null) textBox.SelectAll();
+        }
+
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            System.Windows.Forms.DialogResult result1 = System.Windows.Forms.MessageBox.Show("Save the character file?",
+                   "Save "+_npcViewModel.CurrentWorld,
+                   System.Windows.Forms.MessageBoxButtons.YesNo); 
+            if(result1 == System.Windows.Forms.DialogResult.Yes)
+                ExecuteSave();
         }
     }
 }

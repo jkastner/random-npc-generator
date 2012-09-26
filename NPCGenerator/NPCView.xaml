@@ -4,6 +4,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:NPCGenerator="clr-namespace:NPCGenerator"
     Title="NPCView" Height="800" Width="1062"
         Loaded="Window_Loaded"
+    Closing="Window_Closing"
         >
     <Window.CommandBindings>
         <CommandBinding Command="{x:Static NPCGenerator:NPCBaseWindow.OpenWorldCommand}" Executed="OpenWorldCommandExecuted"/>

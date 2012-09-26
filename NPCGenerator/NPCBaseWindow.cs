@@ -43,9 +43,16 @@ namespace NPCGenerator
             if (userClickedOK == true)
             {
                 String fileName = openFileDialog1.FileName;
-                _npcViewModel.OpenWorldFromPath(fileName);
-                OpenNewWorldSuccessful();
+                OpenWorld(fileName);
+                
             }
+        }
+
+        protected void OpenWorld(string fileName)
+        {
+            _npcViewModel.OpenWorldFromPath(fileName);
+            this.Title = _npcViewModel.CurrentWorld + " -- Character Manager";
+            OpenNewWorldSuccessful();
         }
 
         protected abstract void OpenNewWorldSuccessful();

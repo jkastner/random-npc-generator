@@ -623,9 +623,9 @@ namespace NPCGenerator
                 }
                 outInfo.Append("\n");
             }
-            foreach (TraitLabelValue curTrait in CurNPC.Traits)
+            foreach (String curLabel in curWorld.OutputOrder)
             {
-                outInfo.Append(curTrait.Value + "\t");
+                outInfo.Append(CurNPC.GetValueForLabel(curLabel) + "\t");
             }
             outInfo.Append("\n");
             using (var outfile = new StreamWriter(outFileName, true))
@@ -655,6 +655,8 @@ namespace NPCGenerator
             var readHeaders = new List<string>();
             for (int curIndex = 0; curIndex < lines.Length; curIndex++)
             {
+                if (String.IsNullOrWhiteSpace(lines[curIndex]))
+                    continue;
                 String[] brokenLine = lines[curIndex].Split('\t');
                 if (curIndex == 0)
                 {
@@ -672,7 +674,7 @@ namespace NPCGenerator
                         if (!readNPC.HasTraitWithLabel(curHeader))
                             readNPC.AddTrait(curHeader, "");
                     }
-                    for (int curDataIndex = 0; curDataIndex < readHeaders.Count; curDataIndex++)
+                    for (int curDataIndex = 0; curDataIndex < readHeaders.Count&&curDataIndex<brokenLine.Length; curDataIndex++)
                     {
                         readNPC.SetValueForLabel(readHeaders[curDataIndex], brokenLine[curDataIndex]);
                     }
