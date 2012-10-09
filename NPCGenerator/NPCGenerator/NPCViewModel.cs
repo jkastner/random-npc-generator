@@ -123,6 +123,19 @@ namespace NPCGenerator
         #region INotifyPropertyChanged Members
 
         public event PropertyChangedEventHandler PropertyChanged;
+        private string _errorMessage;
+        public String ErrorMessage
+        {
+            get
+            {
+                return _errorMessage;
+            }
+            set
+            {
+                _errorMessage = value;
+                OnPropertyChanged("ErrorMessage");
+            }
+        }
 
         #endregion
 
@@ -408,25 +421,32 @@ namespace NPCGenerator
 
         internal NPC GenerateNPC(string gender, string ethnicity, String worldName)
         {
-            GeneratedResultMessage = "";
-            GeneratedRandomNames.Clear();
             var newNPC = new NPC();
-            gender = FixRandomGender(gender);
-            ethnicity = FixRandomEthnicity(gender, ethnicity, worldName);
-            if (MakeRandomNames(gender, ethnicity, worldName))
+            try
             {
-                GeneratedResultMessage = gender + "--" + ethnicity;
-                NameList matchingList = _names[ethnicity];
-                PopulateRandomTraits(newNPC, worldName);
-                newNPC.SetValueForLabel("Gender", gender);
-                _curNPC = newNPC;
+                GeneratedResultMessage = "";
+                GeneratedRandomNames.Clear();
+                gender = FixRandomGender(gender);
+                ethnicity = FixRandomEthnicity(gender, ethnicity, worldName);
+                if (MakeRandomNames(gender, ethnicity, worldName))
+                {
+                    GeneratedResultMessage = gender + "--" + ethnicity;
+                    NameList matchingList = _names[ethnicity];
+                    PopulateRandomTraits(newNPC, worldName);
+                    newNPC.SetValueForLabel("Gender", gender);
+                    _curNPC = newNPC;
+                }
+                else
+                {
+                    GeneratedResultMessage = "No match for\nGender: " + gender + "\nEthnicity: " + ethnicity;
+                    return null;
+                }
+                newNPC.WorldName = worldName;
             }
-            else
+            catch (NPCGeneratorExceptions e)
             {
-                GeneratedResultMessage = "No match for\nGender: "+gender+"\nEthnicity: " + ethnicity;
-                return null;
+                ErrorMessage = e.UserMessage;
             }
-            newNPC.WorldName = worldName;
             return newNPC;
         }
 
@@ -435,6 +455,10 @@ namespace NPCGenerator
             var worldTraits = new List<BroadTrait>();
             foreach (String associatedTrait in _allWorlds[worldName].AssociatedTraits)
             {
+                if (!_allTraits.ContainsKey(associatedTrait))
+                {
+                    throw new DataNotFoundException(worldName+" requested trait "+associatedTrait+" but the trait file was not found.");
+                }
                 worldTraits.Add(_allTraits[associatedTrait]);
                 newNPC.AddTrait(associatedTrait, "");
             }

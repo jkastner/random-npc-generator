@@ -26,8 +26,7 @@ namespace NPCGenerator
         {
             InitializeComponent();
             this._npcViewModel = npcViewModel;
-            SetDataContext();
-            GenerateNPC();
+
 
         }
 
@@ -69,10 +68,18 @@ namespace NPCGenerator
         private void GenerateNPC()
         {
             String ethnicity = PossibleNameEthnicities_ListBox.SelectedItem.ToString();
-            _npcViewModel.GenerateNPC(Gender.SelectedItem.ToString(), ethnicity, _npcViewModel.CurrentWorld);
-            NPC_Generated();
-            if (GeneratedNames_ListBox.Items.Count > 0)
-                GeneratedNames_ListBox.SelectedIndex = 0;
+            NPC producedNPC = _npcViewModel.GenerateNPC(Gender.SelectedItem.ToString(), ethnicity, _npcViewModel.CurrentWorld);
+            if (String.IsNullOrWhiteSpace(_npcViewModel.ErrorMessage))
+            {
+                NPC_Generated();
+                if (GeneratedNames_ListBox.Items.Count > 0)
+                    GeneratedNames_ListBox.SelectedIndex = 0;
+            }
+            else
+            {
+                MessageBox.Show("Error occurred during generation - " + _npcViewModel.ErrorMessage);
+                this.Close();
+            }
         }
 
         private void NPC_Generated()
@@ -124,6 +131,12 @@ namespace NPCGenerator
         protected override void OpenNewWorldSuccessful()
         {
             NewNPC_DataGrid.ItemsSource = null;
+            GenerateNPC();
+        }
+
+        private void OnWindowOpen(object sender, RoutedEventArgs e)
+        {
+            SetDataContext();
             GenerateNPC();
         }
     }

@@ -10,10 +10,11 @@ Affiliation.txt
 Age.txt
 Derangements.txt
 Location.txt
-Morality - Strange Aeons.txt
+Morality -  Human Norm.txt
 Rank (Status).txt
 Status.txt
 Vice.txt
+Factions_IntoTheBlack.txt
 Virtue.txt
 Age.txt
 
@@ -21,3 +22,4 @@ Age.txt
 Output File:
 
 Output Order:
+Name	Note	Adjective	Affiliation	Age	Derangements	Factions_IntoTheBlack	Morality -  Human Norm	Rank (Status)	Status	Vice	Virtue	Age
