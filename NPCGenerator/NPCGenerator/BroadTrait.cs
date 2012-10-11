@@ -30,6 +30,7 @@ namespace NPCGenerator
         /// </summary>
 
         private List <ValueWeight>  _traitValues = new List<ValueWeight>();
+        private BroadTrait affectedTrait;
 
         public List <ValueWeight>  TraitValues
         {
@@ -50,10 +51,23 @@ namespace NPCGenerator
             this._traitName = traitName;
         }
 
+        
+
         internal void AddValue(string traitValue, int traitWeight, Dictionary<string, int> linkedValues)
         {
             ValueWeight tv = new ValueWeight(traitValue, traitWeight, linkedValues);
             TraitValues.Add(tv);
+        }
+
+
+        public List<int> OriginalTraitWeights()
+        {
+            List<int> originalValues = new List<int>();
+            foreach (ValueWeight cur in TraitValues)
+            {
+                originalValues.Add(cur.TraitWeight);
+            }
+            return originalValues;
         }
 
 

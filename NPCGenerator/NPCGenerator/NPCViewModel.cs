@@ -422,6 +422,16 @@ namespace NPCGenerator
         internal NPC GenerateNPC(string gender, string ethnicity, String worldName)
         {
             var newNPC = new NPC();
+            Dictionary<String, List<int>> weightBackup = new Dictionary<string, List<int>>();
+            Dictionary<String, int> maxWeightsBackup = new Dictionary<string, int>();
+            //Since the weight of each trait can be altered multiple times during NPC generation, 
+            //they are 'backed up' first.
+            foreach (var cur in _allTraits)
+            {
+                weightBackup.Add(cur.Key, cur.Value.OriginalTraitWeights());
+                maxWeightsBackup.Add(cur.Key, cur.Value.MaxWeight);
+            }
+
             try
             {
                 GeneratedResultMessage = "";
@@ -447,10 +457,23 @@ namespace NPCGenerator
             {
                 ErrorMessage = e.UserMessage;
             }
+            finally
+            {
+                //Restore the original weights and values to each broad trait.
+                foreach (var curOriginalWeight in weightBackup)
+                {
+                    List<int> originalWeights = curOriginalWeight.Value;
+                    _allTraits[curOriginalWeight.Key].MaxWeight = maxWeightsBackup[curOriginalWeight.Key];
+                    for (int curIndex = 0; curIndex < originalWeights.Count; curIndex++)
+                    {
+                        _allTraits[curOriginalWeight.Key].TraitValues[curIndex].TraitWeight = originalWeights[curIndex];
+                    }
+                }
+            }
             return newNPC;
         }
 
-        private void PopulateRandomTraits(NPC newNPC, String worldName)
+         private void PopulateRandomTraits(NPC newNPC, String worldName)
         {
             var worldTraits = new List<BroadTrait>();
             foreach (String associatedTrait in _allWorlds[worldName].AssociatedTraits)
@@ -470,13 +493,13 @@ namespace NPCGenerator
 
         private void RollTrait(BroadTrait curTrait, NPC newNPC, bool chainMod)
         {
-            RollTrait(curTrait, newNPC, 0, chainMod, false);
+            RollTrait(curTrait, newNPC, chainMod, false);
         }
 
 
-        private void RollTrait(BroadTrait curTrait, NPC newNPC, int modValue, bool chainMod, bool overwriteExisting)
+        private void RollTrait(BroadTrait curTrait, NPC newNPC, bool chainMod, bool overwriteExisting)
         {
-            int rolled = RandomValue(1, curTrait.MaxWeight + 1) + modValue;
+            int rolled = RandomValue(1, curTrait.MaxWeight + 1);
             //If off the charts, use the last item on the chart
             if (rolled > curTrait.MaxWeight)
             {
@@ -518,12 +541,20 @@ namespace NPCGenerator
                 int valueChange = curPair.Value;
                 if (!_allTraits.ContainsKey(targetTrait))
                 {
-                    GeneratedResultMessage = GeneratedResultMessage + " linked trait " + targetTrait + " not found for base trait result roll " +
-                             curSingleTrait.TraitValue;
-                    return;
+                   throw new DataNotFoundException("Linked trait " + targetTrait + " not found for base trait result roll " +curSingleTrait.TraitValue);
                 }
                 BroadTrait affectedTrait = _allTraits[targetTrait];
-                RollTrait(affectedTrait, newNPC, valueChange, false, true);
+                //Decrease the affected weight by the mod value.
+                //So if the trait was normally 0-100, with 0 being 'not on fire' and 100 being 'really on fire'
+                //and it was modified by a modvalue of 50 when they rolled 'made of gasoline' under another trait
+                //The 
+                foreach (ValueWeight curTrait in affectedTrait.TraitValues)
+                {
+                    curTrait.TraitWeight -= valueChange;
+                }
+                affectedTrait.MaxWeight -= valueChange;
+                //Roll the affected trait again, modified with the mod weight.
+                RollTrait(affectedTrait, newNPC, false, true);
             }
         }
 

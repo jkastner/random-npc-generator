@@ -33,8 +33,8 @@ namespace NPCGenerator
             this.LinkedValues = linkedValues;
         }
 
-        public ValueWeight(string NameEthnicity, int NameFrequency): 
-            this(NameEthnicity, NameFrequency, new Dictionary<string, int>())
+        public ValueWeight(string traitValue, int traitWeight) :
+            this(traitValue, traitWeight, new Dictionary<string, int>())
         {
         }
 
