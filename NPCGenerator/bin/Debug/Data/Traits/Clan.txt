@@ -1,6 +1,6 @@
-Julii		Humanity,20
-Ventrue		Derangements,20
-Daeva
-Gangrel
-Mekhet
-Nosferatu
+Julii	1	Humanity,20
+Ventrue	1	Derangements,20
+Daeva	1	Derangements,10	Humanity,10
+Gangrel	1	Wing,20
+Mekhet	1	Wing,-20
+Nosferatu	1	Wing,10

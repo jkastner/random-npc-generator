@@ -6,7 +6,6 @@ Random	15
 
 Trait Files:
 Adjective.txt
-Affiliation.txt
 Age.txt
 Derangements.txt
 Location.txt
@@ -22,4 +21,4 @@ Age.txt
 Output File:
 
 Output Order:
-Name	Note	Adjective	Affiliation	Age	Derangements	Factions_IntoTheBlack	Morality -  Human Norm	Rank (Status)	Status	Vice	Virtue	Age
+Name	Note	Adjective	Age	Derangements	Factions_IntoTheBlack	Morality -  Human Norm	Rank (Status)	Status	Vice	Virtue	Age

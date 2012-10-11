@@ -4,7 +4,7 @@
 7	11
 6	30
 5	50
-4	70
-3	30
-2	20
-1	5
+4	70	Derangements,10
+3	30	Derangements,10
+2	20	Derangements,20
+1	5	Derangements,30

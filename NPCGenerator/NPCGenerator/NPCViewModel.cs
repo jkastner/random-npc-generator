@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Windows;
 
 namespace NPCGenerator
 {
@@ -169,50 +170,61 @@ namespace NPCGenerator
             int maxTraitWeight = 0;
             foreach (String theLine in lines)
             {
-                var linkedValues = new Dictionary<string, int>();
-                String line = theLine.Trim();
-                //Skip blank lines
-                if (String.IsNullOrWhiteSpace(line))
+                try
                 {
-                    continue;
-                }
-                //# is comment mark
-                if (line[0].Equals('#'))
-                    continue;
-
-                string[] splitLine = line.Split('\t');
-                int traitWeight, currentTableWeight;
-                String traitValue = splitLine[0];
-                //Is a trait and weight
-                if (splitLine.Length >= 2)
-                {
-                    if (String.IsNullOrWhiteSpace(splitLine[1]))
-                        traitWeight = 1;
-                    else
-                        traitWeight = Int32.Parse(splitLine[1]);
-                }
-                    //Just trait
-                else
-                    traitWeight = 1;
-                currentTableWeight = traitWeight + maxTraitWeight;
-                maxTraitWeight += traitWeight;
-
-                //Trait has a linked trait
-                if (splitLine.Length >= 3)
-                {
-                    //Ventrue   1
-                    for (int curAffectedIndex = 2; curAffectedIndex < splitLine.Length; curAffectedIndex++)
+                    var linkedValues = new Dictionary<string, int>();
+                    String line = theLine.Trim();
+                    //Skip blank lines
+                    if (String.IsNullOrWhiteSpace(line))
                     {
-                        if (String.IsNullOrWhiteSpace(splitLine[curAffectedIndex]))
-                            continue;
-                        //Ventrue		Derangements,20 Status,10
-                        String[] curLinked = splitLine[curAffectedIndex].Split(',');
-                        linkedValues.Add(curLinked[0].Trim(), Int32.Parse(curLinked[1]));
+                        continue;
                     }
+                    //# is comment mark
+                    if (line[0].Equals('#'))
+                        continue;
+
+                    string[] splitLine = line.Split('\t');
+                    int traitWeight, currentTableWeight;
+                    String traitValue = splitLine[0];
+                    //Is a trait and weight
+                    if (splitLine.Length >= 2)
+                    {
+                        if (String.IsNullOrWhiteSpace(splitLine[1]))
+                            traitWeight = 1;
+                        else
+                            traitWeight = Int32.Parse(splitLine[1]);
+                    }
+                    //Just trait
+                    else
+                        traitWeight = 1;
+                    currentTableWeight = traitWeight + maxTraitWeight;
+                    maxTraitWeight += traitWeight;
+
+                    //Trait has a linked trait
+                    if (splitLine.Length >= 3)
+                    {
+                        //Ventrue   1
+                        for (int curAffectedIndex = 2; curAffectedIndex < splitLine.Length; curAffectedIndex++)
+                        {
+                            if (String.IsNullOrWhiteSpace(splitLine[curAffectedIndex]))
+                                continue;
+                            //Ventrue		Derangements,20 Status,10
+                            String[] curLinked = splitLine[curAffectedIndex].Split(',');
+                            linkedValues.Add(curLinked[0].Trim(), Int32.Parse(curLinked[1]));
+                        }
+                    }
+                    newTrait.AddValue(traitValue, currentTableWeight, linkedValues);
+                    newTrait.MaxWeight = maxTraitWeight;
                 }
-                newTrait.AddValue(traitValue, currentTableWeight, linkedValues);
+                catch (Exception e)
+                {
+                    MessageBox.Show("Improper data format - line " + theLine + " in file " + curFile);
+                    //TODO
+                    //I tried to just throw the exception, but it didn't exit, so I wasn't sure what the problem was.
+                    //Hence the forced exit.
+                    System.Environment.Exit(-1);
+                }
             }
-            newTrait.MaxWeight = maxTraitWeight;
         }
 
         private void ProcessWorldFiles()

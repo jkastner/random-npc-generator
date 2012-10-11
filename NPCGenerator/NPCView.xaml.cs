@@ -12,25 +12,17 @@ namespace NPCGenerator
     public partial class NPCView : NPCBaseWindow
     {
         internal NewNPCView _newNPCView;
-
+        bool openedSuccessfully = false;
         public NPCView()
         {
             InitializeComponent();
-            SetData();
         }
 
         private void SetData()
         {
-            try
-            {
-                _npcViewModel = new NPCViewModel();
-                NPCList_ListBox.ItemsSource = _npcViewModel.ResultNPCs;
-                OpenWorld(_npcViewModel.WorldNames.FirstOrDefault());
-            }
-            catch (Exception e)
-            {
-                MessageBox.Show("Error - " + e.Message);
-            }
+            _npcViewModel = new NPCViewModel();
+            NPCList_ListBox.ItemsSource = _npcViewModel.ResultNPCs;
+            OpenWorld(_npcViewModel.WorldNames.FirstOrDefault());
         }
 
         private void NPCList_SelectionChanged(object sender, SelectionChangedEventArgs args)
@@ -45,9 +37,11 @@ namespace NPCGenerator
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
+            SetData();
             DataContext = _npcViewModel;
             //EventManager.RegisterClassHandler(typeof (TextBox), PreviewMouseLeftButtonDownEvent, new MouseButtonEventHandler(SelectivelyHandleMouseButton), true);
             EventManager.RegisterClassHandler(typeof(TextBox), GotKeyboardFocusEvent, new RoutedEventHandler(SearchBox_GotFocus), true);
+            openedSuccessfully = true;
         }
 
         private void NewNPC_Button_Click(object sender, RoutedEventArgs e)
@@ -109,11 +103,14 @@ namespace NPCGenerator
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            System.Windows.Forms.DialogResult result1 = System.Windows.Forms.MessageBox.Show("Save the character file?",
-                   "Save "+_npcViewModel.CurrentWorld,
-                   System.Windows.Forms.MessageBoxButtons.YesNo); 
-            if(result1 == System.Windows.Forms.DialogResult.Yes)
-                ExecuteSave();
+            if (openedSuccessfully)
+            {
+                System.Windows.Forms.DialogResult result1 = System.Windows.Forms.MessageBox.Show("Save the character file?",
+                       "Save " + _npcViewModel.CurrentWorld,
+                       System.Windows.Forms.MessageBoxButtons.YesNo);
+                if (result1 == System.Windows.Forms.DialogResult.Yes)
+                    ExecuteSave();
+            }
         }
     }
 }

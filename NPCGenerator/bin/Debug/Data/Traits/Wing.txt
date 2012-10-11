@@ -1,4 +1,4 @@
-Peregrine Collegia	50
 Senex	50
-Legio Mortuum	50
 Cult of Augurs	50
+Peregrine Collegia	50
+Legio Mortuum	50

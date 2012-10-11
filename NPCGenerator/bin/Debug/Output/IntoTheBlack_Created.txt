@@ -1,0 +1,6 @@
+Name	Note	Adjective	Age	Derangements	Factions_IntoTheBlack	Morality -  Human Norm	Rank (Status)	Status	Vice	Virtue	Age
+Amit 	Sold the ship Phoenix	Futuristic	26	No derangement	Arcita Falls	5	Low	Active	Wrath	Temperance	26
+Ya Kwok	Electronic dealer.	Deceitful	40	No derangement	Arcita Falls	7	Low	Active	Wrath	Charity	40
+Parker Martins	Leader of Greenwater	Polite	67	Vocalization	Arcita Falls	4	High	Active	Pride	Hope	67
+Floretta Rush	Very generous, not very well connected	Aquatic	49	Depression	Arcita Falls	7	None	Active	Sloth	Faith	49
+Jerrod Quigg	Vengeful warlord who loves his warships. Fought the Kalian Protectorate	Bold	24	No derangement	Arcita Falls	7	Medium	Active	Sloth	Hope	24
