@@ -19,6 +19,16 @@ namespace NPCGenerator
         private Dictionary<String, int> _linkedValues = new Dictionary<String, int>();
         
         private int _traitWeight;
+        
+        
+        private Dictionary<string, ValueWeight>  linkedTableEntryEdits;
+        public Dictionary<string, ValueWeight> LinkedTableEntryEdits
+        {
+            get { return linkedTableEntryEdits; }
+            set { linkedTableEntryEdits = value; }
+        }
+        
+        
         public int TraitWeight
         {
             get { return _traitWeight; }
@@ -36,6 +46,15 @@ namespace NPCGenerator
         public ValueWeight(string traitValue, int traitWeight) :
             this(traitValue, traitWeight, new Dictionary<string, int>())
         {
+        }
+
+        public ValueWeight(string traitValue, int traitWeight, Dictionary<string, int> linkedTableEdits, Dictionary<string, ValueWeight> linkedTableEntryEdits)
+        {
+            // TODO: Complete member initialization
+            this.TraitValue = traitValue;
+            this.TraitWeight = traitWeight;
+            this._linkedValues = linkedTableEdits;
+            this.linkedTableEntryEdits = linkedTableEntryEdits;
         }
 
         public Dictionary<String, int> LinkedValues
