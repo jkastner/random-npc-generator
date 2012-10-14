@@ -1,0 +1,3 @@
+Normal	20
+Striking Looks 2	5
+Striking Looks 4	1	Clan,Daeva,1

@@ -1,0 +1,19 @@
+No derangement	358
+Depression	8
+Phobia	8
+Narcissism	8
+Fixation	8
+Suspicion	8
+Inferiority Complex	8
+Vocalization	8
+Irrationality	8
+Avoidance	8
+Melancholia	2
+Hysteria	2
+Megalomania	2
+Obsessive Compulsion	2
+Paranoia	2
+Anxiety	2
+Schizophrenia	2
+Multiple Personality	2
+Fugue	2

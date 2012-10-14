@@ -173,7 +173,7 @@ namespace NPCGenerator
                 try
                 {
                     var linkedTableEdits = new Dictionary<string, int>();
-                    var linkedTableEntryEdits = new Dictionary<string, ValueWeight>();
+                    var linkedTableEntryEdits = new Dictionary<string, List<ValueWeight>>();
                     String line = theLine.Trim();
                     //Skip blank lines
                     if (String.IsNullOrWhiteSpace(line))
@@ -202,6 +202,7 @@ namespace NPCGenerator
                     maxTraitWeight += traitWeight;
 
                     //Trait has a linked trait
+                    //Daeva 10  EvilRating,SuperEvil,50 PrettyRating,SuperPretty,400
                     if (splitLine.Length >= 3)
                     {
                         //Ventrue   1
@@ -218,11 +219,21 @@ namespace NPCGenerator
                                 linkedTableEdits.Add(curLinked[0].Trim(), Int32.Parse(curLinked[1]));
                             }
                             //Modify a specific entry on a table
-                            //Strinking Looks   Clan,Daeva,5
+                            //Strinking Looks   Clan,Daeva,5    Clan,Nosferatu,-5
                             else if (curLinked.Length == 3)
                             {
                                 ValueWeight affectedTableEntry = new ValueWeight(curLinked[1].Trim(), Int32.Parse(curLinked[2]));
-                                linkedTableEntryEdits.Add(curLinked[0].Trim(), affectedTableEntry);
+                                string affectedBroadTrait = curLinked[0].Trim();
+                                if(linkedTableEntryEdits.ContainsKey(affectedBroadTrait))
+                                {
+                                    linkedTableEntryEdits[affectedBroadTrait].Add(affectedTableEntry);
+                                }
+                                else
+                                {
+                                    List<ValueWeight> affectedValues = new List<ValueWeight>();
+                                    affectedValues.Add(affectedTableEntry);
+                                    linkedTableEntryEdits.Add(curLinked[0].Trim(), affectedValues);
+                                }
                             }
                             else
                             {
@@ -569,28 +580,31 @@ namespace NPCGenerator
             foreach (var curPair in curSingleTrait.LinkedTableEntryEdits)
             {
                 String targetTrait = curPair.Key;
-                ValueWeight valueChange = curPair.Value;
+                List<ValueWeight> valuesToChange = curPair.Value;
                 if (!_allTraits.ContainsKey(targetTrait))
                 {
                     throw new DataNotFoundException("Linked trait " + targetTrait + " not found for base trait result roll " + curSingleTrait.TraitValue);
                 }
                 BroadTrait affectedTrait = _allTraits[targetTrait];
                 bool wasFound = false;
-                foreach (ValueWeight curItem in affectedTrait.TraitValues)
+                foreach (ValueWeight curValueWeightChange in valuesToChange)
                 {
-                    if (curItem.TraitValue.Equals(valueChange.TraitValue))
+                    foreach (ValueWeight curItem in affectedTrait.TraitValues)
                     {
-                        curItem.TraitWeight += valueChange.TraitWeight;
-                        affectedTrait.MaxWeight += valueChange.TraitWeight;
-                        wasFound = true;
+                        if (curItem.TraitValue.Equals(curValueWeightChange.TraitValue))
+                        {
+                            curItem.TraitWeight += curValueWeightChange.TraitWeight;
+                            affectedTrait.MaxWeight += curValueWeightChange.TraitWeight;
+                            wasFound = true;
+                        }
                     }
+                    if (!wasFound)
+                    {
+                        throw new DataNotFoundException("Linked table entry - target value " + targetTrait + " was not found on Trait " + affectedTrait.TraitName);
+                    }
+                    //Roll the affected trait again, modified with the mod weight.
+                    RollTrait(affectedTrait, newNPC, false, true);
                 }
-                if (!wasFound)
-                {
-                    throw new DataNotFoundException("Linked table entry - target value "+targetTrait+" was not found on Trait "+affectedTrait.TraitName);
-                }
-                //Roll the affected trait again, modified with the mod weight.
-                RollTrait(affectedTrait, newNPC, false, true);
             }
         }
 

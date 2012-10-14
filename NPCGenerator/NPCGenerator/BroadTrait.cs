@@ -65,7 +65,7 @@ namespace NPCGenerator
 
 
 
-        internal void AddValue(string traitValue, int traitWeight, Dictionary<string, int> linkedTableEdits, Dictionary<string, ValueWeight> linkedTableEntryEdits)
+        internal void AddValue(string traitValue, int traitWeight, Dictionary<string, int> linkedTableEdits, Dictionary<string, List<ValueWeight>> linkedTableEntryEdits)
         {
             ValueWeight tv = new ValueWeight(traitValue, traitWeight, linkedTableEdits, linkedTableEntryEdits);
             TraitValues.Add(tv);

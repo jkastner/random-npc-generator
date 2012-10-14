@@ -1,0 +1,24 @@
+Random Name Distribution:
+English	150
+Chinese	50
+Indian	30
+Random	15
+
+Trait Files:
+Adjective.txt
+Age.txt
+Derangements.txt
+Location.txt
+Morality -  Human Norm.txt
+Rank (Status).txt
+Status.txt
+Vice.txt
+Factions_IntoTheBlack.txt
+Virtue.txt
+Age.txt
+
+
+Output File:
+
+Output Order:
+Name	Note	Adjective	Age	Derangements	Factions_IntoTheBlack	Morality -  Human Norm	Rank (Status)	Status	Vice	Virtue	Age

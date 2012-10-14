@@ -1,0 +1,6 @@
+Julii		Humanity,20
+Ventrue		Derangements,20
+Daeva		Derangements,10	Humanity,10
+Gangrel		Wing,Senex,-10	Wing,Cult of Augurs,-10
+Mekhet		Wing,Legio Mortuum,-10	Wing,Cult of Augurs,10
+Nosferatu		Wing,Senex,-10

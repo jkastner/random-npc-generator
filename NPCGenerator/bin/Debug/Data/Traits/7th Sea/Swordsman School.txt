@@ -1,0 +1,2 @@
+No School	94
+Has school	4
