@@ -1,5 +1,0 @@
-Rank 1	100
-Rank 2	50
-Rank 3	10
-Rank 4	5
-Rank 5	2

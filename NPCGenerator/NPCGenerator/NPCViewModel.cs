@@ -219,10 +219,14 @@ namespace NPCGenerator
                             }
                             //Modify a specific entry on a table
                             //Strinking Looks   Clan,Daeva,5
-                            if (curLinked.Length == 3)
+                            else if (curLinked.Length == 3)
                             {
                                 ValueWeight affectedTableEntry = new ValueWeight(curLinked[1].Trim(), Int32.Parse(curLinked[2]));
-                                linkedTableEntryEdits.Add(curLinked[0].Trim(), affectedTableEntry); 
+                                linkedTableEntryEdits.Add(curLinked[0].Trim(), affectedTableEntry);
+                            }
+                            else
+                            {
+                                throw new DataNotFoundException("Error in line "+line+" of file "+curFile.Name+" - the linked trait must take the format of either 'Trait file affected, value change' or 'Trait file aFfected, trait affected, attribute value changed.");
                             }
                         }
                     }
@@ -512,13 +516,8 @@ namespace NPCGenerator
             }
             foreach (BroadTrait curTrait in worldTraits)
             {
-                RollTrait(curTrait, newNPC, true);
+                RollTrait(curTrait, newNPC, true, true);
             }
-        }
-
-        private void RollTrait(BroadTrait curTrait, NPC newNPC, bool chainMod)
-        {
-            RollTrait(curTrait, newNPC, chainMod, false);
         }
 
 
@@ -723,9 +722,8 @@ namespace NPCGenerator
             CurNPC.Traits = finalNPCTraits;
         }
 
-        internal void WriteOutNPC(NPC CurNPC)
+        internal void WriteOutNPCs(World curWorld, List<NPC> NPCList)
         {
-            World curWorld = _allWorlds[CurNPC.WorldName];
             String outFileName = _saveDir + @"\" + curWorld.OutputFile;
             if (!Directory.Exists(_saveDir))
             {
@@ -740,14 +738,36 @@ namespace NPCGenerator
                 }
                 outInfo.Append("\n");
             }
-            foreach (String curLabel in curWorld.OutputOrder)
+            foreach (NPC curNPC in NPCList)
             {
-                outInfo.Append(CurNPC.GetValueForLabel(curLabel) + "\t");
+                foreach (String curLabel in curWorld.OutputOrder)
+                {
+                    outInfo.Append(curNPC.GetValueForLabel(curLabel) + "\t");
+                }
+                outInfo.Append("\n");
             }
-            outInfo.Append("\n");
             using (var outfile = new StreamWriter(outFileName, true))
             {
                 outfile.Write(outInfo);
+            }
+        }
+
+
+        internal void WriteOutNPCs(IEnumerable<NPC> NPCList)
+        {
+            Dictionary<World, List<NPC>> npcsSortedByWorld = new Dictionary<World, List<NPC>>();
+            foreach (NPC curNPC in NPCList)
+            {
+                World foundWorld = _allWorlds[curNPC.WorldName];
+                if (!npcsSortedByWorld.ContainsKey(foundWorld))
+                {
+                    npcsSortedByWorld.Add(foundWorld, new List<NPC>());
+                }
+                npcsSortedByWorld[foundWorld].Add(curNPC);
+            }
+            foreach (KeyValuePair<World, List<NPC>> curPair in npcsSortedByWorld)
+            {
+                WriteOutNPCs(curPair.Key, curPair.Value);
             }
         }
 
@@ -852,11 +872,10 @@ namespace NPCGenerator
         {
             if (File.Exists(_saveDir + @"\" + _allWorlds[CurrentWorld].OutputFile))
                 File.Delete(_saveDir+@"\"+_allWorlds[CurrentWorld].OutputFile);
-            foreach(NPC curNPC in AllNPCs)
-            {
-                WriteOutNPC(curNPC);
-            }
+            WriteOutNPCs(AllNPCs);
         }
+
+
 
         #region Nested type: ReadingType
 

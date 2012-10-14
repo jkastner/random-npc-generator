@@ -89,7 +89,9 @@ namespace NPCGenerator
 
         private void Save_Button_Click(object sender, RoutedEventArgs e)
         {
+            _wasSaved = true;
             ExecuteSave();
+            Close();
         }
 
         private void CloseWindow(object sender, RoutedEventArgs e)
@@ -101,8 +103,17 @@ namespace NPCGenerator
 
         private void WindowClosedEvent(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            if(!_wasSaved)
-                _npcViewModel.CurNPC = null;
+
+            if (!_wasSaved)
+            {
+                System.Windows.Forms.DialogResult result1 = System.Windows.Forms.MessageBox.Show("Save the current NPC?",
+               "Save " + _npcViewModel.GeneratedRandomNames.FirstOrDefault(),
+               System.Windows.Forms.MessageBoxButtons.YesNo);
+                if (result1 == System.Windows.Forms.DialogResult.Yes)
+                    ExecuteSave();
+                if (!_wasSaved)
+                    _npcViewModel.CurNPC = null;
+            }
         }
 
 
@@ -124,7 +135,6 @@ namespace NPCGenerator
             {
                 _npcViewModel.FinalizeCurrentNPC();
                 _wasSaved = true;
-                this.Close();
             }
         }
 

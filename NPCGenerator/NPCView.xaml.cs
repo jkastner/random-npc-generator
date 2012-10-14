@@ -62,7 +62,13 @@ namespace NPCGenerator
         private void SearchBox_TextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
             if (_npcViewModel != null)
+            {
                 _npcViewModel.SearchNPCs(SearchBox_TextBox.Text);
+                if (NPCList_ListBox.Items.Count > 0)
+                {
+                    NPCList_ListBox.SelectedIndex = 0;
+                }
+            }
         }
 
         private void SaveNPCS_MenuItem_Click(object sender, RoutedEventArgs e)
@@ -73,6 +79,7 @@ namespace NPCGenerator
         protected override void ExecuteSave()
         {
             _npcViewModel.SaveAllNPCS();
+            MessageBox.Show("Save completed.");
         }
 
         protected override void OpenNewWorldSuccessful()

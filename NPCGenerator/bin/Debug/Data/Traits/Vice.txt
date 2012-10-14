@@ -1,7 +1,0 @@
-Envy	1
-Gluttony	1
-Greed	1
-Lust	1
-Pride	1
-Sloth	1
-Wrath	1
