@@ -15,7 +15,7 @@ namespace NPCGenerator
         private const String TraitFiles = "Trait Files:";
         private const String OutputFile = "Output File:";
         private const String OutputOrder = "Output Order:";
-        private static readonly Random _random = new Random();
+        public static readonly Random Randomize = new Random();
         private readonly Dictionary<String, BroadTrait> _allTraits = new Dictionary<string, BroadTrait>();
         private readonly Dictionary<string, World> _allWorlds = new Dictionary<string, World>();
         private readonly Dictionary<String, NameList> _names = new Dictionary<string, NameList>();
@@ -699,9 +699,9 @@ namespace NPCGenerator
         /// <summary>
         /// Produces a number min and max. Min = 0, max = 100, could produce 0..14..99.
         /// </summary>
-        private int RandomValue(int min, int max)
+        internal int RandomValue(int min, int max)
         {
-            return _random.Next(min, max);
+            return Randomize.Next(min, max);
         }
 
         internal void FinalizeCurrentNPC()

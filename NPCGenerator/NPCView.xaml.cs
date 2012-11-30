@@ -119,5 +119,15 @@ namespace NPCGenerator
                     ExecuteSave();
             }
         }
+
+        private void RandomSelection_Button_Click(object sender, RoutedEventArgs e)
+        {
+            if (NPCList_ListBox.Items.Count > 0)
+            {
+                int randomSelection =_npcViewModel.RandomValue(0, NPCList_ListBox.Items.Count);
+                NPCList_ListBox.ScrollIntoView(NPCList_ListBox.Items[randomSelection]);
+                NPCList_ListBox.SelectedIndex = randomSelection;
+            }
+        }
     }
 }

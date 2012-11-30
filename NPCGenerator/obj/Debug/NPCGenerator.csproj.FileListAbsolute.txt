@@ -30,7 +30,6 @@ C:\Users\johnathan\Documents\Visual Studio 2012\Projects\CharGen\NPCGenerator\ob
 C:\Users\johnathan\Documents\Visual Studio 2012\Projects\CharGen\NPCGenerator\obj\Debug\NewNPCView.g.cs
 C:\Users\johnathan\Documents\Visual Studio 2012\Projects\CharGen\NPCGenerator\bin\Debug\Microsoft.Expression.Drawing.dll
 C:\Users\johnathan\Documents\Visual Studio 2012\Projects\CharGen\NPCGenerator\bin\Debug\Microsoft.Expression.Drawing.xml
-C:\Users\johnathan\Documents\Visual Studio 2012\Projects\CharGen\NPCGenerator\obj\Debug\Simple Styles.baml
 C:\Users\johnathan\Documents\Visual Studio 2012\Projects\CharGen\NPCGenerator\obj\Debug\NPCGenerator_MarkupCompile.lref
 C:\Users\johnathan\Documents\Visual Studio 2012\Projects\CharGen\NPCGenerator\obj\Debug\GeneratedInternalTypeHelper.g.cs
 C:\Users\Kastner\Documents\Visual Studio 2012\Projects\NPCGenerator\NPCGenerator\bin\Debug\Microsoft.Expression.Drawing.xml
