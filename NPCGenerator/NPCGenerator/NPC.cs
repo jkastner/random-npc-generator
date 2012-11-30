@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 
@@ -83,6 +84,19 @@ namespace NPCGenerator
                 }
             }
             return false;
+        }
+
+        public ObservableCollection<TraitLabelValue> SortedDisplayTraits
+        {
+            get
+            {
+                List <TraitLabelValue> hasContent = new List<TraitLabelValue>();
+                List <TraitLabelValue> noContent = new List<TraitLabelValue>();
+                hasContent.AddRange(Traits.Where(x=>!String.IsNullOrEmpty(x.Value)));
+                noContent.AddRange(Traits.Where(x => String.IsNullOrEmpty(x.Value)));
+                hasContent.AddRange(noContent);
+                return new ObservableCollection<TraitLabelValue>(hasContent);
+            }
         }
     }
 }

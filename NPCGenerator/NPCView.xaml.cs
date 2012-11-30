@@ -29,7 +29,7 @@ namespace NPCGenerator
         {
             _npcViewModel.CurNPC = NPCList_ListBox.SelectedItem as NPC;
             if (_npcViewModel.CurNPC != null)
-                SingleNPC_DataGrid.ItemsSource = _npcViewModel.CurNPC.Traits;
+                SingleNPC_DataGrid.ItemsSource = _npcViewModel.CurNPC.SortedDisplayTraits;
             else
                 SingleNPC_DataGrid.SelectedItem = null;
         }
