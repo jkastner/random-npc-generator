@@ -148,7 +148,8 @@ namespace NPCGenerator
 
         private void ProcessTraitFiles()
         {
-            List<FileInfo> AllTraitFiles = GatherFiles(new DirectoryInfo(_traitDir)).ToList();
+            List<FileInfo> AllTraitFiles = new List<FileInfo>();
+            GatherFiles(new DirectoryInfo(_traitDir), AllTraitFiles);
             ReadTraitFiles(AllTraitFiles);
         }
 
@@ -257,12 +258,14 @@ namespace NPCGenerator
 
         private void ProcessWorldFiles()
         {
-            List<FileInfo> AllWorldFiles = GatherFiles(new DirectoryInfo(_worldDirectory)).ToList();
+            List<FileInfo> AllWorldFiles = new List<FileInfo>();
+            GatherFiles(new DirectoryInfo(_worldDirectory), AllWorldFiles);
             ReadWorldFiles(AllWorldFiles);
         }
 
-        private IEnumerable<FileInfo> GatherFiles(DirectoryInfo directoryInfo)
+        private void GatherFiles(DirectoryInfo directoryInfo, List<FileInfo> foundFiles )
         {
+
             FileInfo[] files = null;
             DirectoryInfo[] subDirs = null;
             files = directoryInfo.GetFiles("*.*");
@@ -270,12 +273,12 @@ namespace NPCGenerator
             {
                 foreach (FileInfo fi in files)
                 {
-                    yield return fi;
+                    foundFiles.Add(fi);
                 }
                 subDirs = directoryInfo.GetDirectories();
                 foreach (DirectoryInfo dirInfo in subDirs)
                 {
-                    GatherFiles(dirInfo);
+                    GatherFiles(dirInfo, foundFiles);
                 }
             }
         }
