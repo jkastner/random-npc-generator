@@ -9,7 +9,6 @@
         >
     <Window.CommandBindings>
         <CommandBinding Command="{x:Static NPCGenerator:NPCBaseWindow.OpenWorldCommand}" Executed="OpenWorldCommandExecuted"/>
-        <CommandBinding Command="{x:Static NPCGenerator:NPCBaseWindow.SaveCommand}" Executed="SaveCommandExecuted"/>
     </Window.CommandBindings>
     
     <Grid>
