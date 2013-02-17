@@ -12,7 +12,6 @@ namespace NPCGenerator
     public partial class NPCView : NPCBaseWindow
     {
         internal NewNPCView _newNPCView;
-        bool openedSuccessfully = false;
         public NPCView()
         {
             InitializeComponent();
@@ -110,16 +109,10 @@ namespace NPCGenerator
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            if (openedSuccessfully)
-            {
-                System.Windows.Forms.DialogResult result1 = System.Windows.Forms.MessageBox.Show("Save the character file?",
-                       "Save " + _npcViewModel.CurrentWorld,
-                       System.Windows.Forms.MessageBoxButtons.YesNo);
-                if (result1 == System.Windows.Forms.DialogResult.Yes)
-                    ExecuteSave();
-            }
+            PromptToSave();
         }
 
+        
         private void RandomSelection_Button_Click(object sender, RoutedEventArgs e)
         {
             if (NPCList_ListBox.Items.Count > 0)
