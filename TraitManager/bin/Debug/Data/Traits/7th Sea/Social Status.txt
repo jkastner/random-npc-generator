@@ -1,0 +1,4 @@
+Noble	9
+Commoner	50
+Merchant	38
+High Noble	1

@@ -1,0 +1,15 @@
+C:\Users\Kastner\Documents\Visual Studio 2012\Projects\NPCGenerator\TraitManager\obj\Debug\TraitManagerProject.csprojResolveAssemblyReference.cache
+C:\Users\Kastner\Documents\Visual Studio 2012\Projects\NPCGenerator\TraitManager\obj\Debug\TraitManagerWindow.baml
+C:\Users\Kastner\Documents\Visual Studio 2012\Projects\NPCGenerator\TraitManager\obj\Debug\App.g.cs
+C:\Users\Kastner\Documents\Visual Studio 2012\Projects\NPCGenerator\TraitManager\obj\Debug\TraitManagerWindow.g.cs
+C:\Users\Kastner\Documents\Visual Studio 2012\Projects\NPCGenerator\TraitManager\obj\Debug\TraitManager_MarkupCompile.cache
+C:\Users\Kastner\Documents\Visual Studio 2012\Projects\NPCGenerator\TraitManager\obj\Debug\TraitManager.g.resources
+C:\Users\Kastner\Documents\Visual Studio 2012\Projects\NPCGenerator\TraitManager\obj\Debug\TraitManagerProject.csproj.GenerateResource.Cache
+C:\Users\Kastner\Documents\Visual Studio 2012\Projects\NPCGenerator\TraitManager\bin\Debug\TraitManager.exe.config
+C:\Users\Kastner\Documents\Visual Studio 2012\Projects\NPCGenerator\TraitManager\bin\Debug\TraitManager.exe
+C:\Users\Kastner\Documents\Visual Studio 2012\Projects\NPCGenerator\TraitManager\bin\Debug\TraitManager.pdb
+C:\Users\Kastner\Documents\Visual Studio 2012\Projects\NPCGenerator\TraitManager\bin\Debug\NPCGenerator.exe
+C:\Users\Kastner\Documents\Visual Studio 2012\Projects\NPCGenerator\TraitManager\bin\Debug\NPCGenerator.pdb
+C:\Users\Kastner\Documents\Visual Studio 2012\Projects\NPCGenerator\TraitManager\obj\Debug\TraitManager.exe
+C:\Users\Kastner\Documents\Visual Studio 2012\Projects\NPCGenerator\TraitManager\obj\Debug\TraitManager.pdb
+C:\Users\Kastner\Documents\Visual Studio 2012\Projects\NPCGenerator\TraitManager\obj\Debug\TraitManagerProject.Properties.Resources.resources

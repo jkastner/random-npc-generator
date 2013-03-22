@@ -1,0 +1,19 @@
+Random Name Distribution:
+
+Trait Files:
+Adjective - 1.txt
+Adjective - 2.txt
+Elements.txt
+Emotions.txt
+Nouns.txt
+Numina.txt
+Spirit Rank.txt
+Vice.txt
+Virtue.txt
+
+
+Output File:
+Spirits.txt
+
+
+Output Order:

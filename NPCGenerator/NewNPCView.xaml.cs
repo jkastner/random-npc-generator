@@ -40,14 +40,29 @@ namespace NPCGenerator
             Gender.SelectedIndex = 0;
         }
 
-        private void test100_Click(object sender, RoutedEventArgs e)
+        private void Batch_Generate_NPCs(object sender, RoutedEventArgs e)
         {
-            for (int x = 0; x < 10000; x++)
+            String quantity = Generation_Quantity_TestBox.Text;
+            int Num;
+            bool isNum = int.TryParse(quantity, out Num);
+            if (isNum)
             {
-                String ethnicity = PossibleNameEthnicities_ListBox.SelectedItem.ToString();
-                _npcViewModel.GenerateNPC(Gender.SelectedItem.ToString(), ethnicity, _npcViewModel.CurrentWorld);
-                _npcViewModel.FinalizeCurrentNPC();
+                for (int x = 0; x < Num; x++)
+                {
+                    String ethnicity = PossibleNameEthnicities_ListBox.SelectedItem.ToString();
+                    _npcViewModel.GenerateNPC(Gender.SelectedItem.ToString(), ethnicity, _npcViewModel.CurrentWorld);
+                    String name = _npcViewModel.GeneratedRandomNames.FirstOrDefault();
+                    if (name == null)
+                    {
+                        name = "NoName.";
+                    }
+                    _npcViewModel.CurNPC.Traits[0] = new TraitLabelValue("Name", name);
+                    _npcViewModel.FinalizeCurrentNPC();
+                }
             }
+            else
+                MessageBox.Show("Invalid number");
+            
         }
 
 

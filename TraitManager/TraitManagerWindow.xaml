@@ -1,0 +1,52 @@
+﻿<Window x:Class="TraitManagerProject.TraitManagerWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Trait Manager" Height="350" Width="525">
+    <Grid>
+        <DockPanel>
+            <ListBox x:Name="TraitListBox" ItemsSource="{Binding Path=Traits}">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding TheTrait.TraitName}" MinWidth="250">
+                        </TextBlock>
+                    </DataTemplate>    
+                </ListBox.ItemTemplate>
+            </ListBox>
+            <StackPanel>
+                <TextBlock Text="{Binding SelectedItem.TheTrait.TraitName, ElementName=TraitListBox}"></TextBlock>
+                <TextBlock Text="{Binding SelectedItem.TheTrait.MaxWeight, ElementName=TraitListBox}"></TextBlock>
+                <ListBox x:Name="ValueWeightListbox" ItemsSource="{Binding Path=SelectedItem.TheTrait.TraitValues, ElementName=TraitListBox}"
+                         MaxHeight="300"
+                         
+                         >
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <DockPanel>
+                                <TextBlock Text="{Binding TraitValue}">
+                                </TextBlock>
+                                <TextBlock Margin="5,0,0,0" Text="{Binding TraitWeight}">
+                                </TextBlock>
+                            </DockPanel>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+                <ListBox x:Name="ValueWeightListbox" ItemsSource="{Binding Path=SelectedItem.TheTrait.TraitValues, ElementName=ValueWeightListbox}"
+                         MaxHeight="300"
+                         
+                         >
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <DockPanel>
+                                <TextBlock Text="{Binding TraitValue}">
+                                </TextBlock>
+                                <TextBlock Margin="5,0,0,0" Text="{Binding TraitWeight}">
+                                </TextBlock>
+                            </DockPanel>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+
+            </StackPanel>
+        </DockPanel>
+    </Grid>
+</Window>
