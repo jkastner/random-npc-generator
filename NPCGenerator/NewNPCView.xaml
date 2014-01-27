@@ -2,7 +2,7 @@
         x:Class="NPCGenerator.NewNPCView"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:NPCGenerator="clr-namespace:NPCGenerator"
-        Title="NewNPCView" Height="800" Width="1062"
+        Title="NewNPCView" Height="Auto" Width="Auto"
         Closing="WindowClosedEvent" Loaded="OnWindowOpen"
     
     
@@ -10,35 +10,70 @@
     <Window.CommandBindings>
         <CommandBinding Command="{x:Static NPCGenerator:NPCBaseWindow.OpenWorldCommand}" Executed="OpenWorldCommandExecuted"/>
     </Window.CommandBindings>
-    
-    <Grid>
+    <Grid HorizontalAlignment="Stretch">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+            <ColumnDefinition Width="Auto"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="169*"/>
-            <RowDefinition Height="601*"/>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
         </Grid.RowDefinitions>
-        <Menu Grid.RowSpan="2">
-            <MenuItem Header="_File">
-                <Separator />
-                <MenuItem Header="_Open World..."  Click="OpenWold_MenuItem_Click"/>
-                <Separator />
-                <MenuItem Header="_Save" Click="Save_Button_Click" />
-                <Separator />
-                <MenuItem Header="_Exit" Click="CloseWindow"/>
-            </MenuItem>
-        </Menu>
-
-        <ListBox Name="PossibleNameEthnicities_ListBox"  HorizontalAlignment="Left" Height="250" Margin="351,76,0,0" VerticalAlignment="Top" Width="228" RenderTransformOrigin="0.055,0.463" Grid.RowSpan="2"/>
-        <ComboBox x:Name="Gender" Margin="104,62,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" MaxDropDownHeight="357" MinWidth="100" RenderTransformOrigin="0.362,0.508" />
-        <ListBox Name="GeneratedNames_ListBox" SelectionChanged="NamesSelectionChanged" HorizontalAlignment="Left" Height="178" Margin="10,148,0,0" VerticalAlignment="Top" Width="322" Grid.RowSpan="2"/>
-        <Button Name="BatchGeneration_Button" Content="Batch Generate" HorizontalAlignment="Right" Height="21" Margin="0,424,795,0" VerticalAlignment="Top" Width="111" Click="Batch_Generate_NPCs" Grid.Row="1"/>
-        <TextBox Name="Generation_Quantity_TestBox" Margin="10,424,929,143" Grid.Row="1"/>
-        <Button Name="Generate_Button" Content="Generate" HorizontalAlignment="Left" Margin="10,62,0,0" VerticalAlignment="Top" Width="75" Click="Generate_Button_Click" RenderTransformOrigin="0.942,0.478" IsDefault="True"/>
-        <Label Name ="CurEthnicity_Label" Content="{Binding GeneratedResultMessage}" HorizontalAlignment="Left" Height="71" Margin="351,0,0,0" VerticalAlignment="Top" Width="228"/>
-        <Label Name ="CurWorld_Label" Content="{Binding CurrentWorld}" HorizontalAlignment="Left" Height="30" Margin="10,27,0,0" VerticalAlignment="Top" Width="234" BorderThickness="2" />
-        <DataGrid Name="NewNPC_DataGrid" CanUserSortColumns="False" HorizontalAlignment="Left" SelectedCellsChanged="NewNPC_DataGrid_TextSelection"  HeadersVisibility="None" Margin="10,172,0,0" VerticalAlignment="Top" Width="569" Height="247" Grid.Row="1"/>
-        <Button Name="Save_Button" Content="Save" HorizontalAlignment="Left" Margin="257,62,0,0" VerticalAlignment="Top" Width="75" Click="Save_Button_Click"/>
-        <Button Name="Cancel_Button" Content="Cancel" HorizontalAlignment="Left" Margin="257,107,0,0" VerticalAlignment="Top" Width="75" Click="CloseWindow" Height="22" IsCancel="True"/>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+            </Grid.RowDefinitions>
+            <ListBox Name="GeneratedNames_ListBox" SelectionChanged="NamesSelectionChanged"
+                     Margin="5,5,5,5"
+                     HorizontalAlignment="Stretch" VerticalAlignment="Top" MinHeight="180"/>
+            <DataGrid Name="NewNPC_DataGrid"
+                      Margin="5,5,5,5"
+                      CanUserSortColumns="False" HorizontalAlignment="Stretch" 
+                      SelectedCellsChanged="NewNPC_DataGrid_TextSelection"  HeadersVisibility="None" 
+                      VerticalAlignment="Top" Grid.Row="1"/>
+        </Grid>
+        <Grid Grid.Column="1" HorizontalAlignment="Left">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Label Name ="CurEthnicity_Label" Margin="5,5,5,5"
+                   Content="{Binding GeneratedResultMessage}" HorizontalAlignment="Stretch" 
+                   VerticalAlignment="Top"/>
+            <ComboBox Margin="5,5,5,5" Grid.Row="1" x:Name="Gender" VerticalAlignment="Top" HorizontalAlignment="Left"/>
+            <ListBox Name="PossibleNameEthnicities_ListBox" Grid.Row="2"
+                 HorizontalAlignment="Left" Margin="5,5,5,5"
+                 VerticalAlignment="Top" />
+            <DockPanel Grid.Row="3" Margin="5,5,5,5">
+                <Label>Batch generate:</Label>
+                <Expander>
+                    <DockPanel HorizontalAlignment="Left">
+                        <TextBox Name="Generation_Quantity_TestBox" 
+                                 MinWidth="120" Margin="5,5,5,5"/>
+                        <Button Name="BatchGeneration_Button" Content="Batch Generate" Margin="5,5,5,5"
+                        Width="111" Click="Batch_Generate_NPCs" />
+                    </DockPanel>
+                </Expander>
+            </DockPanel>
+        </Grid>
+        <DockPanel Grid.Row="1">
+            <Button Name="Generate_Button" Content="Generate" HorizontalAlignment="Left" 
+                    Margin="5,5,5,5"
+                    VerticalAlignment="Top" Width="75" Click="Generate_Button_Click"
+                    IsDefault="True"/>
+            <Button Name="Save_Button" Content="Save" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75"
+                    Margin="5,5,5,5"
+                        Click="Save_Button_Click"/>
+            <Button Name="Cancel_Button" 
+                Margin="5,5,5,5"
+                    Content="Cancel" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Click="CloseWindow" 
+                Height="22" IsCancel="True"/>
+        </DockPanel>
 
     </Grid>
 </NPCGenerator:NPCBaseWindow>
+
 
