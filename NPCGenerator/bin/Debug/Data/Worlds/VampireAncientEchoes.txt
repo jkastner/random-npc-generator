@@ -52,6 +52,9 @@ Striking Looks.txt
 Output File:
 VampireCreated.txt
 
+Registered Rollers:
+VampireBloodlineGenerator
+
 
 Output Order:
 Name	Note	Gender	Adjective	Clan	Wing	Blood Potency	Humanity	Current Age	Sexual Orientation	Striking Looks	Vice	Virtue	Area of Influence	Bloodline	Gender	Title	Siring Year	Secrets	Flaws	Arrival	Sire	Status	Location	Derangements	Apparent Age	Childer	Status (Clan)	Status (Covenant)	Status (City)	Favors	Player

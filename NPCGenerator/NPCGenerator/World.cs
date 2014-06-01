@@ -10,6 +10,7 @@ namespace NPCGenerator
         private List<String> _associatedTraits = new List<string>();
 
         private List<string> _outputOrder = new List<string>();
+        private List<string> _registeredRollers = new List<string>();
 
         public World(string worldName)
         {
@@ -24,6 +25,11 @@ namespace NPCGenerator
         {
             get { return _associatedTraits; }
             set { _associatedTraits = value; }
+        }
+        public List<String> RegisteredRollers
+        {
+            get { return _registeredRollers; }
+            set { _registeredRollers = value; }
         }
 
         public List<string> OutputOrder
@@ -42,6 +48,11 @@ namespace NPCGenerator
         internal void AddTrait(string line)
         {
             AssociatedTraits.Add(line);
+        }
+
+        internal void AddRegisteredRoller(string rollerName)
+        {
+            _registeredRollers.Add(rollerName);
         }
     }
 }

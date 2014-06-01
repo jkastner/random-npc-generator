@@ -93,6 +93,8 @@
     </Compile>
     <Compile Include="NPCBaseWindow.cs" />
     <Compile Include="Exceptions\DataNotFoundException.cs" />
+    <Compile Include="NPCGenerator\RegisteredRollers\BaseRegisteredRoller.cs" />
+    <Compile Include="NPCGenerator\RegisteredRollers\VampireBloodlineGenerator.cs" />
     <Compile Include="NPCGenerator\TraitLabelValue.cs" />
     <Compile Include="NPCGenerator\NameList.cs" />
     <Compile Include="NPCGenerator\BroadTrait.cs" />

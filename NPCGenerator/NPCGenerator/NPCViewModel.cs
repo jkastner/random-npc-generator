@@ -15,10 +15,14 @@ namespace NPCGenerator
         private const String TraitFiles = "Trait Files:";
         private const String OutputFile = "Output File:";
         private const String OutputOrder = "Output Order:";
+        private const String RegisteredRollers = "Registered Rollers:";
+        
         public static readonly Random Randomize = new Random();
         private readonly Dictionary<String, BroadTrait> _allTraits = new Dictionary<string, BroadTrait>();
         private readonly Dictionary<string, World> _allWorlds = new Dictionary<string, World>();
         private readonly Dictionary<String, NameList> _names = new Dictionary<string, NameList>();
+        private readonly Dictionary<String, BaseRegisteredRoller> _registeredRollers = new Dictionary<string, BaseRegisteredRoller>();
+        
         private NPC _curNPC;
         private String _generatedResultMessage = "";
         private String _currentWorld;
@@ -41,6 +45,7 @@ namespace NPCGenerator
             ReadNameFile();
             ProcessTraitFiles();
             ProcessWorldFiles();
+            ProcessRegisterRollers();
         }
 
         public NPC CurNPC
@@ -151,6 +156,11 @@ namespace NPCGenerator
             List<FileInfo> AllTraitFiles = new List<FileInfo>();
             GatherFiles(new DirectoryInfo(_traitDir), AllTraitFiles);
             ReadTraitFiles(AllTraitFiles);
+        }
+
+        private void ProcessRegisterRollers()
+        {
+            _registeredRollers.Add("VampireBloodlineGenerator", new VampireBloodlineGenerator());
         }
 
 
@@ -324,6 +334,9 @@ namespace NPCGenerator
                     case OutputOrder:
                         curReading = ReadingType.OutputOrder;
                         continue;
+                    case RegisteredRollers:
+                        curReading = ReadingType.RegisteredRollers;
+                        continue;
                 }
                 switch (curReading)
                 {
@@ -354,6 +367,9 @@ namespace NPCGenerator
                     case ReadingType.TraitFiles:
                         String traitWithoutExtension = line.Split('.')[0].Trim();
                         curWorld.AddTrait(traitWithoutExtension);
+                        break;
+                    case ReadingType.RegisteredRollers:
+                        curWorld.AddRegisteredRoller(line);
                         break;
                 }
             }
@@ -487,6 +503,7 @@ namespace NPCGenerator
                     NameList matchingList = _names[ethnicity];
                     PopulateRandomTraits(newNPC, worldName);
                     newNPC.SetValueForLabel("Gender", gender);
+                    RunRegisteredRollers(newNPC, worldName);
                     _curNPC = newNPC;
                 }
                 else
@@ -514,6 +531,19 @@ namespace NPCGenerator
                 }
             }
             return newNPC;
+        }
+
+        private void RunRegisteredRollers(NPC newNPC, string worldName)
+        {
+            var curWorld = _allWorlds[worldName];
+            foreach (var curRollerName in curWorld.RegisteredRollers)
+            {
+                if (_registeredRollers.ContainsKey(curRollerName))
+                {
+                    var curRoller = _registeredRollers[curRollerName];
+                    curRoller.Run(newNPC);
+                }
+            }
         }
 
          private void PopulateRandomTraits(NPC newNPC, String worldName)
@@ -702,7 +732,7 @@ namespace NPCGenerator
         /// <summary>
         /// Produces a number min and max. Min = 0, max = 100, could produce 0..14..99.
         /// </summary>
-        internal int RandomValue(int min, int max)
+        internal static int RandomValue(int min, int max)
         {
             return Randomize.Next(min, max);
         }
@@ -902,7 +932,8 @@ namespace NPCGenerator
             TraitFiles,
             RandomNameDistribution,
             OutputFile,
-            OutputOrder
+            OutputOrder,
+            RegisteredRollers
         };
 
         #endregion

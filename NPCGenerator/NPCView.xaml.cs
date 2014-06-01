@@ -117,7 +117,7 @@ namespace NPCGenerator
         {
             if (NPCList_ListBox.Items.Count > 0)
             {
-                int randomSelection =_npcViewModel.RandomValue(0, NPCList_ListBox.Items.Count);
+                int randomSelection =NPCViewModel.RandomValue(0, NPCList_ListBox.Items.Count);
                 NPCList_ListBox.ScrollIntoView(NPCList_ListBox.Items[randomSelection]);
                 NPCList_ListBox.SelectedIndex = randomSelection;
             }
