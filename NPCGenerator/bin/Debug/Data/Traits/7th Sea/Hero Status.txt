@@ -1,3 +1,0 @@
-Hero	1
-Scoundrel	1
-Villain	1

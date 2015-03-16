@@ -789,7 +789,10 @@ namespace NPCGenerator
             {
                 foreach (String curLabel in curWorld.OutputOrder)
                 {
-                    outInfo.Append(curNPC.GetValueForLabel(curLabel) + "\t");
+                    var curField = curNPC.GetValueForLabel(curLabel);
+                    curField = curField.Replace("\t", "{TAB}");
+                    curField = curField.Replace(Environment.NewLine, "{NEWLINE}");
+                    outInfo.Append(curField + "\t");
                 }
                 outInfo.Append("\n");
             }

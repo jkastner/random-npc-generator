@@ -1,3 +1,0 @@
-NotSanta	900
-Santa	100
-Superman	1

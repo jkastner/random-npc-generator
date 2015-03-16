@@ -35,10 +35,27 @@
         <ListBox Name="NPCList_ListBox" SelectionChanged="NPCList_SelectionChanged" 
                  Grid.Row="2" GotFocus="SearchBox_GotFocus" Margin="5,5,5,5" MinHeight ="50" 
                  VerticalAlignment="Top" MinWidth="144" HorizontalAlignment="Stretch"/>
-        <DataGrid Name="SingleNPC_DataGrid" Grid.Row="3" CanUserSortColumns="False"
-                  HorizontalAlignment="Stretch"  Margin="5,5,5,5" HeadersVisibility="None" 
-                  MinHeight="50"
-                  VerticalAlignment="Stretch"/>
+        <Grid Grid.Row="3" x:Name="NPCManagementGrid">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="5*"></ColumnDefinition>
+                <ColumnDefinition Width="5*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Label Grid.Row="0" Content="{Binding CharacterName}" FontSize="22" HorizontalAlignment="Center"></Label>
+            <DataGrid Name="SingleNPC_DataGrid" CanUserSortColumns="False" Grid.Row="1"
+                      HorizontalAlignment="Stretch"  Margin="5,5,5,5" HeadersVisibility="None" 
+                      MinHeight="50" 
+                      VerticalAlignment="Stretch">
+                      </DataGrid>
+            <TextBox Grid.RowSpan="2" Grid.Column="1" BorderBrush="Black" BorderThickness="1" TextWrapping="Wrap" 
+                     FontSize="14"
+                     AcceptsReturn="True" AcceptsTab="True"
+                     VerticalScrollBarVisibility="Auto"
+                     Text="{Binding NPCNote}" x:Name="SingleNPC_NoteBox"></TextBox>
+        </Grid>
         <DockPanel Grid.Row="4">
             <Button Name ="NewNPC_Button"  Content="New NPC" HorizontalAlignment="Left" 
                     VerticalAlignment="Top" Margin="5,5,0,5" Width="76" Click="NewNPC_Button_Click"/>

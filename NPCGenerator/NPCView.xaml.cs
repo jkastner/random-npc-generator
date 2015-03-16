@@ -28,9 +28,16 @@ namespace NPCGenerator
         {
             _npcViewModel.CurNPC = NPCList_ListBox.SelectedItem as NPC;
             if (_npcViewModel.CurNPC != null)
+            {
                 SingleNPC_DataGrid.ItemsSource = _npcViewModel.CurNPC.SortedDisplayTraits;
+                NPCManagementGrid.DataContext = _npcViewModel.CurNPC;
+                
+            }
             else
+            {
                 SingleNPC_DataGrid.SelectedItem = null;
+                NPCManagementGrid.DataContext = null;
+            }
         }
 
 

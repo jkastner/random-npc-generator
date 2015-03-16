@@ -1,3 +1,0 @@
-Not Fat	80	Santaness,-50
-Fat	10
-Insanely Fat	10	Santaness,Superman,50
