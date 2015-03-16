@@ -54,7 +54,7 @@
                      FontSize="14"
                      AcceptsReturn="True" AcceptsTab="True"
                      VerticalScrollBarVisibility="Auto"
-                     Text="{Binding NPCNote}" x:Name="SingleNPC_NoteBox"></TextBox>
+                     Text="{Binding NPCNote, UpdateSourceTrigger=PropertyChanged}" x:Name="SingleNPC_NoteBox"></TextBox>
         </Grid>
         <DockPanel Grid.Row="4">
             <Button Name ="NewNPC_Button"  Content="New NPC" HorizontalAlignment="Left" 
